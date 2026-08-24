@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>ðŸ§</text></svg>">
 <title>FrenzyPenguin Media â€” Defense is the best defense</title>
 <meta name="description" content="FrenzyPenguin Media â€” open-source security hardening, privacy tooling and media by neohiro / METAPOD.">
 <style>
@@ -144,7 +145,11 @@ section{padding:64px 0}
 footer{padding:46px 0 60px;text-align:center;color:var(--muted);font-size:13.5px}
 footer .heart{color:#ea4aaa}
 footer a{color:var(--teal);text-decoration:none}
-@media(max-width:640px){header{padding:64px 0 26px}.sec-title{margin-bottom:26px}}
+@media(max-width:640px){header{padding:64px 0 26px}.sec-title{margin-bottom:26px}.typedline{min-height:3.2em}}
+@media(prefers-reduced-motion:reduce){
+  .aurora,.grid,.kicker,.mascot,.caret,h1.glitch::before,h1.glitch::after,
+  h1.glitch.glitching,.card.selected,.card:hover::after{animation:none}
+  .card{opacity:1;transform:none;transition:none}}
 </style>
 </head>
 <body>
@@ -233,8 +238,9 @@ document.querySelectorAll('.card').forEach(card=>{
     const s=document.createElement('span');s.className='ripple';
     s.style.cssText=`width:${d}px;height:${d}px;left:${e.clientX-r.left}px;top:${e.clientY-r.top}px`;
     card.appendChild(s);setTimeout(()=>s.remove(),800);
+    if(card._selT)clearTimeout(card._selT);
     card.classList.remove('selected');void card.offsetWidth;card.classList.add('selected');
-    setTimeout(()=>card.classList.remove('selected'),650);
+    card._selT=setTimeout(()=>card.classList.remove('selected'),650);
   });
 });
 
@@ -249,9 +255,9 @@ const phrases=[
   'Defense is the best defense'
 ];
 const typed=document.getElementById('typed'),logo=document.getElementById('logo');
-let pi=0;
-function glitchLogo(){logo.classList.remove('glitching');void logo.offsetWidth;
-  logo.classList.add('glitching');setTimeout(()=>logo.classList.remove('glitching'),420)}
+let pi=0,gTimer=null;
+function glitchLogo(){if(gTimer)clearTimeout(gTimer);logo.classList.remove('glitching');void logo.offsetWidth;
+  logo.classList.add('glitching');gTimer=setTimeout(()=>logo.classList.remove('glitching'),420)}
 function typePhrase(txt,i){
   typed.textContent=txt.slice(0,i);
   if(i<txt.length){setTimeout(()=>typePhrase(txt,i+1),44+Math.random()*74)}
