@@ -137,6 +137,42 @@ section{padding:64px 0}
   background:linear-gradient(100deg,rgba(255,255,255,.05) 40%,rgba(255,255,255,.11) 50%,rgba(255,255,255,.05) 60%);
   background-size:200% 100%;animation:shimmer 1.4s linear infinite}
 @keyframes shimmer{to{background-position:-200% 0}}
+/* ---- per-repo detail overlay ---- */
+.stage{transition:transform .5s cubic-bezier(.2,.8,.2,1),filter .5s,opacity .5s}
+body.detail .stage{transform:scale(.94) translateY(-12px);filter:blur(7px) saturate(.75);opacity:.3;pointer-events:none}
+.overlay{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;
+  padding:22px;background:rgba(3,7,16,.62);backdrop-filter:blur(14px);
+  opacity:0;visibility:hidden;transition:opacity .4s,visibility 0s linear .4s}
+body.detail .overlay{opacity:1;visibility:visible;transition:opacity .4s}
+.panel{width:min(660px,94vw);max-height:86vh;overflow:auto;border-radius:24px;padding:30px 34px 32px;
+  position:relative;background:rgba(15,21,32,.92);border:1px solid rgba(43,226,149,.28);
+  box-shadow:0 40px 110px rgba(0,0,0,.7),0 0 80px rgba(43,226,149,.07);
+  transform:scale(.18);opacity:0;
+  transition:transform .55s cubic-bezier(.2,.9,.3,1.12),opacity .3s}
+body.detail .panel{transform:none;opacity:1}
+.panel::before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;
+  background:linear-gradient(130deg,rgba(43,226,149,.55),transparent 35%,transparent 65%,rgba(255,79,216,.5));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;opacity:.9;pointer-events:none}
+.backlink{color:var(--muted);font-size:12.5px;text-decoration:none;letter-spacing:.14em}
+.backlink:hover{color:var(--teal)}
+.panel h2{font-size:clamp(26px,4.6vw,38px);letter-spacing:-.01em;margin:16px 0 6px;display:inline-block}
+.panel h2.glitching{animation:hshake .18s steps(2) 2}
+.panel .meta{display:flex;gap:20px;flex-wrap:wrap;color:var(--muted);font-size:13.5px;margin-top:6px}
+.panel .meta b{color:var(--teal);font-weight:600}
+.panel .desc{color:var(--text);opacity:.85;line-height:1.7;font-size:15.5px;margin:14px 0 4px}
+.panel .tags{margin:18px 0 26px}
+.panel .actions{display:flex;gap:14px;flex-wrap:wrap}
+.btn.gh{background:linear-gradient(135deg,rgba(0,229,255,.13),rgba(124,77,255,.15));
+  color:var(--teal);border:1px solid rgba(43,226,149,.45)}
+.panel>*{opacity:0;transform:translateY(16px);transition:opacity .45s ease,transform .45s ease}
+body.detail .panel>*{opacity:1;transform:none}
+body.detail .panel>*:nth-child(1){transition-delay:.06s}
+body.detail .panel>*:nth-child(2){transition-delay:.12s}
+body.detail .panel>*:nth-child(3){transition-delay:.18s}
+body.detail .panel>*:nth-child(4){transition-delay:.24s}
+body.detail .panel>*:nth-child(5){transition-delay:.3s}
+body.detail .panel>*:nth-child(6){transition-delay:.36s}
 /* ---- support ---- */
 .support{text-align:center}
 .btnrow{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:8px}
@@ -153,13 +189,18 @@ footer a{color:var(--teal);text-decoration:none}
 @media(max-width:640px){header{padding:64px 0 26px}.sec-title{margin-bottom:26px}.typedline{min-height:3.2em}}
 @media(prefers-reduced-motion:reduce){
   .aurora,.grid,.kicker,.mascot,.caret,h1.glitch::before,h1.glitch::after,
-  h1.glitch.glitching,.card.selected,.card:hover::after,.skeleton::before{animation:none}
-  .card{opacity:1;transform:none;transition:none}}
+  h1.glitch.glitching,.card.selected,.card:hover::after,.skeleton::before,
+  .panel h2.glitching{animation:none}
+  .card{opacity:1;transform:none;transition:none}
+  .stage,body.detail .stage,.overlay,.panel,body.detail .panel,.panel>*{transition:none}
+  body.detail .stage{transform:none;filter:none;opacity:1}
+  body.detail .panel,.panel>*{transform:none}}
 </style>
 </head>
 <body>
 <div class="aurora"></div><div class="grid"></div>
 
+<div class="stage">
 <header class="wrap">
   <span class="kicker">ðŸ§ FRENZYPENGUIN MEDIA Â· BY METAPOD</span><br>
   <span class="mascot">ðŸ§</span>
@@ -210,6 +251,18 @@ footer a{color:var(--teal);text-decoration:none}
   <a href="https://github.com/frenzypenguin-media">FrenzyPenguin Media on GitHub</a> Â·
   <a href="https://neohiro.github.io">neohiro.github.io</a></p>
 </footer>
+</div>
+
+<div class="overlay" id="overlay" aria-hidden="true">
+  <article class="panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="pv-name">
+    <a class="backlink" href="#">â† ALL PROJECTS</a>
+    <h2 id="pv-name"></h2>
+    <div class="meta" id="pv-meta"></div>
+    <p class="desc" id="pv-desc"></p>
+    <div class="tags" id="pv-tags"></div>
+    <div class="actions"><a class="btn gh" id="pv-open" target="_blank" rel="noopener">Open repository â†—</a></div>
+  </article>
+</div>
 
 <script>
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
@@ -256,13 +309,26 @@ function erasePhrase(txt,i){
 typePhrase(phrases[0],0);
 (function randGlitch(){glitchLogo();setTimeout(randGlitch,2600+Math.random()*3400)})();
 
+/* ---- cached GitHub API (15-min sessionStorage TTL) ---- */
+const TTL=15*60*1000;
+function cachedJson(key,url){
+  try{
+    const c=JSON.parse(sessionStorage.getItem('gh:'+key)||'null');
+    if(c&&Date.now()-c.t<TTL)return Promise.resolve(c.d);
+  }catch(e){}
+  return fetch(url).then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json()})
+    .then(d=>{try{sessionStorage.setItem('gh:'+key,JSON.stringify({t:Date.now(),d:d}))}catch(e){}return d});
+}
+
 /* ---- dynamic projects feed: org + neohiro repos, stars live ---- */
 const fmt=n=>n>=1000?(n/1000).toFixed(1).replace(/\.0$/,'')+'k':String(n);
 const el=(t,c,txt)=>{const n=document.createElement(t);if(c)n.className=c;if(txt!=null)n.textContent=txt;return n};
 const grid=document.getElementById('projects');
+const REPOS={};let pendingName=null,dataDone=false,lastCardRect=null;
 function repoCard(r,i){
   const card=el('div','card');card.style.transitionDelay=(i%3*70)+'ms';
-  card.appendChild(el('a','fill')).href=r.html_url;
+  const a=card.appendChild(el('a','fill'));a.href='#/r/'+encodeURIComponent(r.name);
+  a.addEventListener('click',()=>{lastCardRect=card.getBoundingClientRect()});
   const h3=el('h3');h3.append(el('span',null,r.name),el('span','stars','â˜… '+fmt(r.stargazers_count)));
   card.appendChild(h3);
   card.appendChild(el('p',null,r.description||'No description yet.'));
@@ -273,8 +339,8 @@ function repoCard(r,i){
   return card;
 }
 Promise.all([
-  fetch('https://api.github.com/orgs/frenzypenguin-media/repos?per_page=100').then(r=>r.ok?r.json():[]),
-  fetch('https://api.github.com/users/neohiro/repos?per_page=100&sort=pushed').then(r=>r.ok?r.json():[])
+  cachedJson('fp-org','https://api.github.com/orgs/frenzypenguin-media/repos?per_page=100').catch(()=>[]),
+  cachedJson('neo-repos','https://api.github.com/users/neohiro/repos?per_page=100&sort=pushed').catch(()=>[])
 ]).then(lists=>{
   const seen=[],all=[];
   lists.flat().forEach(r=>{
@@ -285,7 +351,10 @@ Promise.all([
   all.sort((a,b)=>b.stargazers_count-a.stargazers_count||new Date(b.pushed_at)-new Date(a.pushed_at));
   if(!all.length)throw new Error('no repos');
   grid.innerHTML='';
-  all.slice(0,9).forEach((r,i)=>{const c=repoCard(r,i);grid.appendChild(c);attachSelect(c);io.observe(c)});
+  all.slice(0,9).forEach((r,i)=>{
+    REPOS[r.name.toLowerCase()]=r;
+    const c=repoCard(r,i);grid.appendChild(c);attachSelect(c);io.observe(c);
+  });
 }).catch(()=>{
   grid.innerHTML='';
   const c=el('div','card'),h3=el('h3'),p=el('p','',
@@ -293,7 +362,67 @@ Promise.all([
   h3.textContent='Browse all projects';a.href='https://github.com/neohiro?tab=repositories';
   a.textContent='github.com/neohiro';a.style.color='var(--teal)';a.style.textDecoration='none';
   c.append(h3,p,a);grid.appendChild(c);attachSelect(c);io.observe(c);
-});
+}).finally(()=>{dataDone=true;if(pendingName)routeHash()});
+
+/* ---- per-repo detail view (#/r/<name>) ---- */
+const overlay=document.getElementById('overlay'),panel=document.getElementById('panel'),
+  pvName=document.getElementById('pv-name'),pvDesc=document.getElementById('pv-desc'),
+  pvMeta=document.getElementById('pv-meta'),pvTags=document.getElementById('pv-tags'),
+  pvOpen=document.getElementById('pv-open');
+let shownRepo=null;
+function fillPanel(r){
+  pvName.textContent=r.name;
+  pvDesc.textContent=r.description||'No description yet.';
+  pvMeta.innerHTML='';
+  [[ 'â˜…', fmt(r.stargazers_count)+' stars' ],
+   [ 'â‘‚', fmt(r.forks_count)+' forks' ],
+   [ 'âŸ³', 'updated '+new Date(r.pushed_at).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'}) ]
+  ].forEach(m=>{const s=el('span');s.append(el('b',null,m[0]+' '),document.createTextNode(m[1]));pvMeta.appendChild(s)});
+  pvTags.innerHTML='';
+  [r.language].concat(r.topics||[]).filter(Boolean).slice(0,4).forEach(t=>pvTags.appendChild(el('span','tag',t)));
+  if(!pvTags.children.length)pvTags.appendChild(el('span','tag','repository'));
+  pvOpen.href=r.html_url;
+}
+function openDetail(r){
+  if(shownRepo===r.name)return;shownRepo=r.name;
+  const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(lastCardRect&&!rm){
+    const dx=(lastCardRect.left+lastCardRect.width/2)-innerWidth/2;
+    const dy=(lastCardRect.top+lastCardRect.height/2)-innerHeight/2;
+    panel.style.transform=`translate(${dx}px,${dy}px) scale(.18)`;
+    void panel.offsetWidth;
+  }
+  lastCardRect=null;
+  fillPanel(r);
+  document.body.classList.add('detail');
+  panel.style.transform='';
+  overlay.setAttribute('aria-hidden','false');
+  pvName.classList.remove('glitching');void pvName.offsetWidth;pvName.classList.add('glitching');
+}
+function showNotFound(name){
+  shownRepo='__notfound__';
+  pvName.textContent=name;
+  pvDesc.textContent='This repository is not in the live feed (it may be new, a fork, or filtered out). Browse everything on GitHub instead:';
+  pvMeta.innerHTML='';pvTags.innerHTML='';
+  pvOpen.href='https://github.com/neohiro?tab=repositories';
+  document.body.classList.add('detail');overlay.setAttribute('aria-hidden','false');
+}
+function closeDetail(){
+  if(!shownRepo)return;shownRepo=null;lastCardRect=null;
+  document.body.classList.remove('detail');overlay.setAttribute('aria-hidden','true');
+}
+function routeHash(){
+  const m=location.hash.match(/^#\/r\/([^/?#]+)/);
+  if(!m){closeDetail();return}
+  const key=decodeURIComponent(m[1]).toLowerCase();
+  const r=REPOS[key];
+  if(r)openDetail(r);
+  else if(dataDone)showNotFound(key);
+  else pendingName=key;
+}
+window.addEventListener('hashchange',routeHash);
+routeHash();
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&shownRepo)location.hash='#'});
 </script>
 </body>
 </html>
