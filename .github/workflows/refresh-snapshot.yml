@@ -31,8 +31,10 @@ jobs:
           $generated = [IO.File]::ReadAllText("./repos.json", [Text.Encoding]::UTF8)
           $existing = ""
           try {
-            $b64 = gh api "/repos/frenzypenguin-media/frenzypenguin-media.github.io/contents/repos.json" --jq ".content"
-            $existing = [Text.Encoding]::UTF8.GetString([Convert]::FromBase64String(($b64 -join "") -replace "\s", ""))
+            # gh --jq emits one array element per output LINE; must join before decoding
+            $b64Lines = @(gh api "/repos/frenzypenguin-media/frenzypenguin-media.github.io/contents/repos.json" --jq ".content")
+            $clean = ($b64Lines -join '') -replace '\s', ''
+            $existing = [Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($clean))
           } catch { Write-Host "no existing snapshot - will create" }
           if ($generated.Trim() -eq $existing.Trim()) {
             Write-Host "Snapshot unchanged - skipping commit"
