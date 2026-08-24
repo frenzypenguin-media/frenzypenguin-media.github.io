@@ -132,6 +132,11 @@ section{padding:64px 0}
   background:linear-gradient(180deg,transparent,rgba(43,226,149,.12),transparent);opacity:0}
 .card:hover::after{opacity:1;animation:scan 1.5s linear infinite}
 @keyframes scan{from{top:-45%}to{top:112%}}
+.skeleton{min-height:172px}
+.skeleton::before{content:"";position:absolute;inset:18px;border-radius:10px;
+  background:linear-gradient(100deg,rgba(255,255,255,.05) 40%,rgba(255,255,255,.11) 50%,rgba(255,255,255,.05) 60%);
+  background-size:200% 100%;animation:shimmer 1.4s linear infinite}
+@keyframes shimmer{to{background-position:-200% 0}}
 /* ---- support ---- */
 .support{text-align:center}
 .btnrow{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:8px}
@@ -148,7 +153,7 @@ footer a{color:var(--teal);text-decoration:none}
 @media(max-width:640px){header{padding:64px 0 26px}.sec-title{margin-bottom:26px}.typedline{min-height:3.2em}}
 @media(prefers-reduced-motion:reduce){
   .aurora,.grid,.kicker,.mascot,.caret,h1.glitch::before,h1.glitch::after,
-  h1.glitch.glitching,.card.selected,.card:hover::after{animation:none}
+  h1.glitch.glitching,.card.selected,.card:hover::after,.skeleton::before{animation:none}
   .card{opacity:1;transform:none;transition:none}}
 </style>
 </head>
@@ -183,31 +188,10 @@ footer a{color:var(--teal);text-decoration:none}
 
 <section class="wrap">
   <div class="sec-title">Featured Projects</div>
-  <div class="cards">
-    <div class="card"><a class="fill" href="https://github.com/neohiro/ExploitProtection"></a>
-      <h3>ExploitProtection <span class="stars">â˜… 85</span></h3>
-      <p>Windows Exploit Protection settings (Ultimate) GUI with a community-maintained mitigation catalog.</p>
-      <div class="tags"><span class="tag">Python</span><span class="tag">Hardening</span></div></div>
-    <div class="card"><a class="fill" href="https://github.com/neohiro/Cripple-NetStrip"></a>
-      <h3>Cripple-NetStrip <span class="stars">â˜… 3</span></h3>
-      <p>Network hardening suite: DNS sinkhole, firewall, domain filter and debloater on four platforms.</p>
-      <div class="tags"><span class="tag">Network</span><span class="tag">Firewall</span></div></div>
-    <div class="card"><a class="fill" href="https://github.com/neohiro/dnscrypt-proxy-gui"></a>
-      <h3>dnscrypt-proxy GUI <span class="stars">â˜… 26</span></h3>
-      <p>Cross-platform graphical front-end for dnscrypt-proxy â€” encrypted DNS made point-and-click.</p>
-      <div class="tags"><span class="tag">DNS</span><span class="tag">GUI</span></div></div>
-    <div class="card"><a class="fill" href="https://github.com/neohiro/HoneyScan"></a>
-      <h3>HoneyScan <span class="stars">â˜… 2</span></h3>
-      <p>Passive honeypot for home networks â€” watch port scanners and snoopers live.</p>
-      <div class="tags"><span class="tag">Honeypot</span><span class="tag">IDS</span></div></div>
-    <div class="card"><a class="fill" href="https://github.com/neohiro/SystemMonitor"></a>
-      <h3>SystemMonitor <span class="stars">â˜… 1</span></h3>
-      <p>Futuristic desktop-widget health monitor with deep sensor chain and true manufacturer metrics.</p>
-      <div class="tags"><span class="tag">psutil</span><span class="tag">Sensors</span></div></div>
-    <div class="card"><a class="fill" href="https://github.com/neohiro?tab=repositories"></a>
-      <h3>And moreâ€¦ <span class="stars">â†’</span></h3>
-      <p>The whole toolbox lives on the neohiro GitHub account â€” explore all repositories.</p>
-      <div class="tags"><span class="tag">GitHub</span><span class="tag">All repos</span></div></div>
+  <div class="cards" id="projects">
+    <div class="card skeleton"></div><div class="card skeleton"></div><div class="card skeleton"></div>
+    <noscript><p style="color:var(--muted)">Live project feed needs JavaScript â€”
+      browse everything at <a style="color:var(--teal)" href="https://github.com/neohiro?tab=repositories">github.com/neohiro</a>.</p></noscript>
   </div>
 </section>
 
@@ -232,7 +216,7 @@ const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.targ
 document.querySelectorAll('.card').forEach((el,i)=>{el.style.transitionDelay=(i%3*70)+'ms';io.observe(el)});
 
 /* ---- repo select burst: ripple + glitch flash ---- */
-document.querySelectorAll('.card').forEach(card=>{
+function attachSelect(card){
   card.addEventListener('pointerdown',e=>{
     const r=card.getBoundingClientRect(),d=Math.max(r.width,r.height)*2.3;
     const s=document.createElement('span');s.className='ripple';
@@ -242,7 +226,8 @@ document.querySelectorAll('.card').forEach(card=>{
     card.classList.remove('selected');void card.offsetWidth;card.classList.add('selected');
     card._selT=setTimeout(()=>card.classList.remove('selected'),650);
   });
-});
+}
+document.querySelectorAll('.card').forEach(attachSelect);
 
 /* ---- typewriter tagline ---- */
 const phrases=[
@@ -270,6 +255,45 @@ function erasePhrase(txt,i){
 }
 typePhrase(phrases[0],0);
 (function randGlitch(){glitchLogo();setTimeout(randGlitch,2600+Math.random()*3400)})();
+
+/* ---- dynamic projects feed: org + neohiro repos, stars live ---- */
+const fmt=n=>n>=1000?(n/1000).toFixed(1).replace(/\.0$/,'')+'k':String(n);
+const el=(t,c,txt)=>{const n=document.createElement(t);if(c)n.className=c;if(txt!=null)n.textContent=txt;return n};
+const grid=document.getElementById('projects');
+function repoCard(r,i){
+  const card=el('div','card');card.style.transitionDelay=(i%3*70)+'ms';
+  card.appendChild(el('a','fill')).href=r.html_url;
+  const h3=el('h3');h3.append(el('span',null,r.name),el('span','stars','â˜… '+fmt(r.stargazers_count)));
+  card.appendChild(h3);
+  card.appendChild(el('p',null,r.description||'No description yet.'));
+  const tags=el('div','tags');
+  [r.language].concat(r.topics||[]).filter(Boolean).slice(0,3).forEach(t=>tags.appendChild(el('span','tag',t)));
+  if(!tags.children.length)tags.appendChild(el('span','tag','repository'));
+  card.appendChild(tags);
+  return card;
+}
+Promise.all([
+  fetch('https://api.github.com/orgs/frenzypenguin-media/repos?per_page=100').then(r=>r.ok?r.json():[]),
+  fetch('https://api.github.com/users/neohiro/repos?per_page=100&sort=pushed').then(r=>r.ok?r.json():[])
+]).then(lists=>{
+  const seen=[],all=[];
+  lists.flat().forEach(r=>{
+    const k=r.name.toLowerCase();
+    if(seen.includes(k)||r.fork||/github\.io$/.test(r.name)||r.name==='.github')return;
+    seen.push(k);all.push(r);
+  });
+  all.sort((a,b)=>b.stargazers_count-a.stargazers_count||new Date(b.pushed_at)-new Date(a.pushed_at));
+  if(!all.length)throw new Error('no repos');
+  grid.innerHTML='';
+  all.slice(0,9).forEach((r,i)=>{const c=repoCard(r,i);grid.appendChild(c);attachSelect(c);io.observe(c)});
+}).catch(()=>{
+  grid.innerHTML='';
+  const c=el('div','card'),h3=el('h3'),p=el('p','',
+    'Live project feed is unavailable right now â€” browse the full toolbox instead:'),a=el('a');
+  h3.textContent='Browse all projects';a.href='https://github.com/neohiro?tab=repositories';
+  a.textContent='github.com/neohiro';a.style.color='var(--teal)';
+  c.append(h3,p,a);grid.appendChild(c);attachSelect(c);io.observe(c);
+});
 </script>
 </body>
 </html>
