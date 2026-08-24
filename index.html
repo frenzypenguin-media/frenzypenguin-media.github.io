@@ -291,7 +291,7 @@ Promise.all([
   const c=el('div','card'),h3=el('h3'),p=el('p','',
     'Live project feed is unavailable right now â€” browse the full toolbox instead:'),a=el('a');
   h3.textContent='Browse all projects';a.href='https://github.com/neohiro?tab=repositories';
-  a.textContent='github.com/neohiro';a.style.color='var(--teal)';
+  a.textContent='github.com/neohiro';a.style.color='var(--teal)';a.style.textDecoration='none';
   c.append(h3,p,a);grid.appendChild(c);attachSelect(c);io.observe(c);
 });
 </script>
