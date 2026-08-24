@@ -28,7 +28,7 @@
       "windows-defender",
       "xml"
     ],
-    "pushed_at": "2026-08-24T11:58:47Z"
+    "pushed_at": "08/24/2026 11:58:47"
   },
   {
     "name": "dnscrypt-proxy-gui",
@@ -46,7 +46,7 @@
       "gui",
       "proxy"
     ],
-    "pushed_at": "2026-08-24T23:35:19Z"
+    "pushed_at": "08/24/2026 23:36:19"
   },
   {
     "name": "BlackGlass",
@@ -64,7 +64,7 @@
       "second-life",
       "virtual-worlds"
     ],
-    "pushed_at": "2026-08-24T11:58:43Z"
+    "pushed_at": "08/24/2026 11:58:43"
   },
   {
     "name": "Cripple-NetStrip",
@@ -89,7 +89,7 @@
       "python",
       "windows"
     ],
-    "pushed_at": "2026-08-24T21:50:42Z"
+    "pushed_at": "08/24/2026 21:50:42"
   },
   {
     "name": "HoneyScan",
@@ -108,7 +108,7 @@
       "python",
       "security-tools"
     ],
-    "pushed_at": "2026-08-22T20:29:03Z"
+    "pushed_at": "08/22/2026 20:29:03"
   },
   {
     "name": "ubuntu",
@@ -122,7 +122,7 @@
       "terminal",
       "ubuntu"
     ],
-    "pushed_at": "2026-08-24T20:11:37Z"
+    "pushed_at": "08/24/2026 20:11:37"
   },
   {
     "name": "windows",
@@ -136,7 +136,7 @@
       "security",
       "windows"
     ],
-    "pushed_at": "2026-08-24T20:11:33Z"
+    "pushed_at": "08/24/2026 20:11:33"
   },
   {
     "name": "DNSLookup",
@@ -154,7 +154,7 @@
       "python",
       "reconnaissance"
     ],
-    "pushed_at": "2026-08-22T20:28:59Z"
+    "pushed_at": "08/22/2026 20:28:59"
   },
   {
     "name": "SecondLife",
@@ -167,7 +167,7 @@
       "lsl-scripts",
       "secondlife"
     ],
-    "pushed_at": "2026-08-22T04:32:54Z"
+    "pushed_at": "08/22/2026 04:32:54"
   },
   {
     "name": "auto-resume",
@@ -184,7 +184,7 @@
       "resilience",
       "retry"
     ],
-    "pushed_at": "2026-08-24T22:47:07Z"
+    "pushed_at": "08/24/2026 22:47:07"
   },
   {
     "name": "neohiro",
@@ -194,7 +194,7 @@
     "forks_count": 0,
     "language": "Python",
     "topics": [],
-    "pushed_at": "2026-08-24T10:47:45Z"
+    "pushed_at": "08/24/2026 10:47:45"
   },
   {
     "name": "NewsAggregator",
@@ -211,7 +211,7 @@
       "rss",
       "search"
     ],
-    "pushed_at": "2026-08-22T20:38:25Z"
+    "pushed_at": "08/22/2026 20:38:25"
   },
   {
     "name": "ZombieShoot",
@@ -228,7 +228,7 @@
       "windows",
       "zombie"
     ],
-    "pushed_at": "2026-08-22T20:29:59Z"
+    "pushed_at": "08/22/2026 20:29:59"
   },
   {
     "name": "TristarMania",
@@ -245,7 +245,7 @@
       "space",
       "windows"
     ],
-    "pushed_at": "2026-08-22T20:29:56Z"
+    "pushed_at": "08/22/2026 20:29:56"
   },
   {
     "name": "Tetris",
@@ -262,7 +262,7 @@
       "retro-games",
       "tetris"
     ],
-    "pushed_at": "2026-08-22T20:29:52Z"
+    "pushed_at": "08/22/2026 20:29:52"
   },
   {
     "name": "ShadowSocks",
@@ -279,7 +279,7 @@
       "shadowsocks",
       "socks5"
     ],
-    "pushed_at": "2026-08-22T20:29:49Z"
+    "pushed_at": "08/22/2026 20:29:49"
   },
   {
     "name": "NetMatrix",
@@ -296,7 +296,7 @@
       "security",
       "tcp"
     ],
-    "pushed_at": "2026-08-22T20:29:46Z"
+    "pushed_at": "08/22/2026 20:29:46"
   },
   {
     "name": "MusicPlay",
@@ -314,7 +314,7 @@
       "python",
       "tkinter"
     ],
-    "pushed_at": "2026-08-22T20:29:43Z"
+    "pushed_at": "08/22/2026 20:29:43"
   },
   {
     "name": "MoodTracker",
@@ -332,7 +332,7 @@
       "tkinter",
       "wellbeing"
     ],
-    "pushed_at": "2026-08-22T20:29:39Z"
+    "pushed_at": "08/22/2026 20:29:39"
   },
   {
     "name": "LANScan",
@@ -350,7 +350,7 @@
       "network-scanner",
       "python"
     ],
-    "pushed_at": "2026-08-22T20:29:36Z"
+    "pushed_at": "08/22/2026 20:29:36"
   },
   {
     "name": "GoogleCommand",
@@ -369,7 +369,7 @@
       "tts",
       "windows"
     ],
-    "pushed_at": "2026-08-22T20:29:33Z"
+    "pushed_at": "08/22/2026 20:29:33"
   },
   {
     "name": "GhostMaze",
@@ -385,7 +385,7 @@
       "rpg",
       "windows"
     ],
-    "pushed_at": "2026-08-22T20:29:30Z"
+    "pushed_at": "08/22/2026 20:29:30"
   },
   {
     "name": "ClockWidget",
@@ -402,7 +402,7 @@
       "tkinter",
       "widget"
     ],
-    "pushed_at": "2026-08-22T20:29:27Z"
+    "pushed_at": "08/22/2026 20:29:27"
   },
   {
     "name": "FileManager",
@@ -418,7 +418,7 @@
       "python",
       "tkinter"
     ],
-    "pushed_at": "2026-08-22T20:29:23Z"
+    "pushed_at": "08/22/2026 20:29:23"
   },
   {
     "name": "htmlinfo",
@@ -435,7 +435,7 @@
       "scraper",
       "web"
     ],
-    "pushed_at": "2026-08-22T20:29:20Z"
+    "pushed_at": "08/22/2026 20:29:20"
   },
   {
     "name": "metapod",
@@ -455,7 +455,7 @@
       "windows-11",
       "windows-hardening"
     ],
-    "pushed_at": "2026-08-22T20:29:15Z"
+    "pushed_at": "08/22/2026 20:29:15"
   },
   {
     "name": "Calculator",
@@ -471,7 +471,7 @@
       "python",
       "tkinter"
     ],
-    "pushed_at": "2026-08-22T20:29:06Z"
+    "pushed_at": "08/22/2026 20:29:06"
   },
   {
     "name": "Godmode",
@@ -488,7 +488,7 @@
       "utilities",
       "windows"
     ],
-    "pushed_at": "2026-08-22T20:28:56Z"
+    "pushed_at": "08/22/2026 20:28:56"
   },
   {
     "name": "SystemMonitor",
@@ -505,6 +505,6 @@
       "sensors",
       "system-monitor"
     ],
-    "pushed_at": "2026-08-22T20:28:50Z"
+    "pushed_at": "08/22/2026 20:28:50"
   }
 ]
