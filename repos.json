@@ -1,0 +1,512 @@
+[
+    {
+        "name":  "ExploitProtection",
+        "html_url":  "https://github.com/neohiro/ExploitProtection",
+        "description":  "Windows Exploit Protection Settings (Ultimate) GUI",
+        "stargazers_count":  85,
+        "forks_count":  11,
+        "language":  "Python",
+        "topics":  [
+                       "anonymous",
+                       "antibot",
+                       "antibotnet",
+                       "cyber",
+                       "cyberdefense",
+                       "cybersecurity",
+                       "debotnet",
+                       "defender",
+                       "endpoint-security",
+                       "exploit-protection",
+                       "hardening",
+                       "microsoft",
+                       "powershell",
+                       "privacy",
+                       "protection",
+                       "security",
+                       "windows",
+                       "windows-11",
+                       "windows-defender",
+                       "xml"
+                   ],
+        "pushed_at":  "2026-08-24T11:58:47Z"
+    },
+    {
+        "name":  "dnscrypt-proxy-gui",
+        "html_url":  "https://github.com/neohiro/dnscrypt-proxy-gui",
+        "description":  "Graphical user interface for dnscrypt-proxy",
+        "stargazers_count":  27,
+        "forks_count":  1,
+        "language":  "Python",
+        "topics":  [
+                       "anonymized-dns",
+                       "dns",
+                       "dnscrypt",
+                       "dnscrypt-proxy",
+                       "dnscrypt-proxy2",
+                       "gui",
+                       "proxy"
+                   ],
+        "pushed_at":  "2026-08-24T22:38:37Z"
+    },
+    {
+        "name":  "BlackGlass",
+        "html_url":  "https://github.com/neohiro/BlackGlass",
+        "description":  "Multi-client chat viewer for Second Life",
+        "stargazers_count":  9,
+        "forks_count":  2,
+        "language":  "Python",
+        "topics":  [
+                       "chat-viewer",
+                       "cross-platform",
+                       "gui",
+                       "messaging",
+                       "python",
+                       "second-life",
+                       "virtual-worlds"
+                   ],
+        "pushed_at":  "2026-08-24T11:58:43Z"
+    },
+    {
+        "name":  "Cripple-NetStrip",
+        "html_url":  "https://github.com/neohiro/Cripple-NetStrip",
+        "description":  "Next-gen Network Hardening \u0026 Debloater / DNS Sinkhole / Firewall / Domain filter",
+        "stargazers_count":  3,
+        "forks_count":  0,
+        "language":  "Python",
+        "topics":  [
+                       "android",
+                       "cybersecurity",
+                       "debloater",
+                       "deep-packet-inspection",
+                       "dns",
+                       "dnssinkhole",
+                       "firewall",
+                       "linux",
+                       "macos",
+                       "network-security",
+                       "network-tools",
+                       "online-security",
+                       "python",
+                       "windows"
+                   ],
+        "pushed_at":  "2026-08-24T21:50:42Z"
+    },
+    {
+        "name":  "HoneyScan",
+        "html_url":  "https://github.com/neohiro/HoneyScan",
+        "description":  "Passive Honeypot for Home Networks",
+        "stargazers_count":  2,
+        "forks_count":  0,
+        "language":  "Python",
+        "topics":  [
+                       "cybersecurity",
+                       "home-network",
+                       "honeypot",
+                       "ids",
+                       "intrusion-detection",
+                       "network-security",
+                       "python",
+                       "security-tools"
+                   ],
+        "pushed_at":  "2026-08-22T20:29:03Z"
+    },
+    {
+        "name":  "ubuntu",
+        "html_url":  "https://github.com/neohiro/ubuntu",
+        "description":  "Linux install commands (Dnscrypt, Tor, ShadowSocks...) - manual hardening (STIG)",
+        "stargazers_count":  1,
+        "forks_count":  0,
+        "language":  "Shell",
+        "topics":  [
+                       "linux",
+                       "terminal",
+                       "ubuntu"
+                   ],
+        "pushed_at":  "2026-08-24T20:11:37Z"
+    },
+    {
+        "name":  "windows",
+        "html_url":  "https://github.com/neohiro/windows",
+        "description":  "Windows new install - manual hardening (STIG)",
+        "stargazers_count":  1,
+        "forks_count":  0,
+        "language":  "Batchfile",
+        "topics":  [
+                       "install",
+                       "security",
+                       "windows"
+                   ],
+        "pushed_at":  "2026-08-24T20:11:33Z"
+    },
+    {
+        "name":  "DNSLookup",
+        "html_url":  "https://github.com/neohiro/DNSLookup",
+        "description":  "Advanced IPv4 \u0026 IPv6 DNS Lookup tool",
+        "stargazers_count":  1,
+        "forks_count":  0,
+        "language":  "Python",
+        "topics":  [
+                       "dns",
+                       "dns-lookup",
+                       "ipv4",
+                       "ipv6",
+                       "networking",
+                       "python",
+                       "reconnaissance"
+                   ],
+        "pushed_at":  "2026-08-22T20:28:59Z"
+    },
+    {
+        "name":  "SecondLife",
+        "html_url":  "https://github.com/neohiro/SecondLife",
+        "description":  "LSL code snippets",
+        "stargazers_count":  1,
+        "forks_count":  0,
+        "language":  "LSL",
+        "topics":  [
+                       "lsl-scripts",
+                       "secondlife"
+                   ],
+        "pushed_at":  "2026-08-22T04:32:54Z"
+    },
+    {
+        "name":  "auto-resume",
+        "html_url":  "https://github.com/neohiro/auto-resume",
+        "description":  "Self-healing OpenCode sessions: automatic retries, model rotation on quota/outages, permission autopilot \u0026 walk-away task autonomy",
+        "stargazers_count":  0,
+        "forks_count":  0,
+        "language":  "JavaScript",
+        "topics":  [
+                       "ai-agents",
+                       "autopilot",
+                       "opencode",
+                       "plugin",
+                       "resilience",
+                       "retry"
+                   ],
+        "pushed_at":  "2026-08-24T22:47:07Z"
+    },
+    {
+        "name":  "neohiro",
+        "html_url":  "https://github.com/neohiro/neohiro",
+        "description":  "Security hardening \u0026 privacy tools for Windows and Linux",
+        "stargazers_count":  0,
+        "forks_count":  0,
+        "language":  "Python",
+        "topics":  [
+
+                   ],
+        "pushed_at":  "2026-08-24T10:47:45Z"
+    },
+    {
+        "name":  "NewsAggregator",
+        "html_url":  "https://github.com/neohiro/NewsAggregator",
+        "description":  "Global News Feed with search (Windows/Linux)",
+        "stargazers_count":  0,
+        "forks_count":  0,
+        "language":  "Python",
+        "topics":  [
+                       "feed-reader",
+                       "news",
+                       "news-aggregator",
+                       "python",
+                       "rss",
+                       "search"
+                   ],
+        "pushed_at":  "2026-08-22T20:38:25Z"
+    },
+    {
+        "name":  "ZombieShoot",
+        "html_url":  "https://github.com/neohiro/ZombieShoot",
+        "description":  "Zombie Shooter for Linux/Windows",
+        "stargazers_count":  0,
+        "forks_count":  0,
+        "language":  "Python",
+        "topics":  [
+                       "game",
+                       "linux",
+                       "pygame",
+                       "shooter",
+                       "windows",
+                       "zombie"
+                   ],
+        "pushed_at":  "2026-08-22T20:29:59Z"
+    },
+    {
+        "name":  "TristarMania",
+        "html_url":  "https://github.com/neohiro/TristarMania",
+        "description":  "An addictive space shooter",
+        "stargazers_count":  0,
+        "forks_count":  0,
+        "language":  "Python",
+        "topics":  [
+                       "game",
+                       "linux",
+                       "pygame",
+                       "shooter",
+                       "space",
+                       "windows"
+                   ],
+        "pushed_at":  "2026-08-22T20:29:56Z"
+    },
+    {
+        "name":  "Tetris",
+        "html_url":  "https://github.com/neohiro/Tetris",
+        "description":  "A small retro game for Windows \u0026 Linux",
+        "stargazers_count":  0,
+        "forks_count":  1,
+        "language":  "Python",
+        "topics":  [
+                       "arcade",
+                       "game",
+                       "pygame",
+                       "python",
+                       "retro-games",
+                       "tetris"
+                   ],
+        "pushed_at":  "2026-08-22T20:29:52Z"
+    },
+    {
+        "name":  "ShadowSocks",
+        "html_url":  "https://github.com/neohiro/ShadowSocks",
+        "description":  "Simple Python ShadowSocks client for Windows \u0026 Linux",
+        "stargazers_count":  0,
+        "forks_count":  0,
+        "language":  "Python",
+        "topics":  [
+                       "censorship-circumvention",
+                       "privacy",
+                       "proxy",
+                       "python",
+                       "shadowsocks",
+                       "socks5"
+                   ],
+        "pushed_at":  "2026-08-22T20:29:49Z"
+    },
+    {
+        "name":  "NetMatrix",
+        "html_url":  "https://github.com/neohiro/NetMatrix",
+        "description":  "Connections monitor",
+        "stargazers_count":  0,
+        "forks_count":  0,
+        "language":  "Python",
+        "topics":  [
+                       "connections-monitor",
+                       "netstat",
+                       "network-monitor",
+                       "python",
+                       "security",
+                       "tcp"
+                   ],
+        "pushed_at":  "2026-08-22T20:29:46Z"
+    },
+    {
+        "name":  "MusicPlay",
+        "html_url":  "https://github.com/neohiro/MusicPlay",
+        "description":  "Simple cross-platform audio player (Windows/Linux)",
+        "stargazers_count":  0,
+        "forks_count":  0,
+        "language":  "Python",
+        "topics":  [
+                       "audio-player",
+                       "media-player",
+                       "music-player",
+                       "mutagen",
+                       "pygame",
+                       "python",
+                       "tkinter"
+                   ],
+        "pushed_at":  "2026-08-22T20:29:43Z"
+    },
+    {
+        "name":  "MoodTracker",
+        "html_url":  "https://github.com/neohiro/MoodTracker",
+        "description":  "A diary for your wellbeing",
+        "stargazers_count":  0,
+        "forks_count":  0,
+        "language":  "Python",
+        "topics":  [
+                       "diary",
+                       "journal",
+                       "mental-health",
+                       "mood-tracker",
+                       "python",
+                       "tkinter",
+                       "wellbeing"
+                   ],
+        "pushed_at":  "2026-08-22T20:29:39Z"
+    },
+    {
+        "name":  "LANScan",
+        "html_url":  "https://github.com/neohiro/LANScan",
+        "description":  "ARP / ICMP Passive \u0026 Active Network Scanner (Windows/Linux)",
+        "stargazers_count":  0,
+        "forks_count":  0,
+        "language":  "Python",
+        "topics":  [
+                       "arp",
+                       "cybersecurity",
+                       "icmp",
+                       "lan",
+                       "network-analysis",
+                       "network-scanner",
+                       "python"
+                   ],
+        "pushed_at":  "2026-08-22T20:29:36Z"
+    },
+    {
+        "name":  "GoogleCommand",
+        "html_url":  "https://github.com/neohiro/GoogleCommand",
+        "description":  "TTS Google Assistant Commands (Windows)",
+        "stargazers_count":  0,
+        "forks_count":  0,
+        "language":  "Python",
+        "topics":  [
+                       "automation",
+                       "google-assistant",
+                       "google-nest",
+                       "python",
+                       "smart-home",
+                       "text-to-speech",
+                       "tts",
+                       "windows"
+                   ],
+        "pushed_at":  "2026-08-22T20:29:33Z"
+    },
+    {
+        "name":  "GhostMaze",
+        "html_url":  "https://github.com/neohiro/GhostMaze",
+        "description":  "Ghost Maze - a small 2D RPG (Windows/Linux)",
+        "stargazers_count":  0,
+        "forks_count":  0,
+        "language":  "Python",
+        "topics":  [
+                       "game",
+                       "linux",
+                       "pygame",
+                       "rpg",
+                       "windows"
+                   ],
+        "pushed_at":  "2026-08-22T20:29:30Z"
+    },
+    {
+        "name":  "ClockWidget",
+        "html_url":  "https://github.com/neohiro/ClockWidget",
+        "description":  "A desktop clock widget",
+        "stargazers_count":  0,
+        "forks_count":  0,
+        "language":  "Python",
+        "topics":  [
+                       "clock",
+                       "desktop-widget",
+                       "python",
+                       "system-tray",
+                       "tkinter",
+                       "widget"
+                   ],
+        "pushed_at":  "2026-08-22T20:29:27Z"
+    },
+    {
+        "name":  "FileManager",
+        "html_url":  "https://github.com/neohiro/FileManager",
+        "description":  "File Manager in Python",
+        "stargazers_count":  0,
+        "forks_count":  0,
+        "language":  "Python",
+        "topics":  [
+                       "file-explorer",
+                       "file-manager",
+                       "gui",
+                       "python",
+                       "tkinter"
+                   ],
+        "pushed_at":  "2026-08-22T20:29:23Z"
+    },
+    {
+        "name":  "htmlinfo",
+        "html_url":  "https://github.com/neohiro/htmlinfo",
+        "description":  "HTML Info Scraper",
+        "stargazers_count":  0,
+        "forks_count":  0,
+        "language":  "HTML",
+        "topics":  [
+                       "browser-fingerprinting",
+                       "html",
+                       "http-headers",
+                       "privacy",
+                       "scraper",
+                       "web"
+                   ],
+        "pushed_at":  "2026-08-22T20:29:20Z"
+    },
+    {
+        "name":  "metapod",
+        "html_url":  "https://github.com/neohiro/metapod",
+        "description":  "Windows 10 \u0026 11 hardening tool - curated security \u0026 privacy tweaks from a simple GUI",
+        "stargazers_count":  0,
+        "forks_count":  0,
+        "language":  "Python",
+        "topics":  [
+                       "debloat",
+                       "hardening",
+                       "privacy",
+                       "python",
+                       "registry",
+                       "security",
+                       "windows-10",
+                       "windows-11",
+                       "windows-hardening"
+                   ],
+        "pushed_at":  "2026-08-22T20:29:15Z"
+    },
+    {
+        "name":  "Calculator",
+        "html_url":  "https://github.com/neohiro/Calculator",
+        "description":  "Advanced Python Calculator",
+        "stargazers_count":  0,
+        "forks_count":  0,
+        "language":  "Python",
+        "topics":  [
+                       "calculator",
+                       "gui",
+                       "mathematics",
+                       "python",
+                       "tkinter"
+                   ],
+        "pushed_at":  "2026-08-22T20:29:06Z"
+    },
+    {
+        "name":  "Godmode",
+        "html_url":  "https://github.com/neohiro/Godmode",
+        "description":  "One-click Windows God Mode folder activator",
+        "stargazers_count":  0,
+        "forks_count":  0,
+        "language":  "Python",
+        "topics":  [
+                       "control-panel",
+                       "god-mode",
+                       "python",
+                       "tweaks",
+                       "utilities",
+                       "windows"
+                   ],
+        "pushed_at":  "2026-08-22T20:28:56Z"
+    },
+    {
+        "name":  "SystemMonitor",
+        "html_url":  "https://github.com/neohiro/SystemMonitor",
+        "description":  "System Health Monitor",
+        "stargazers_count":  0,
+        "forks_count":  0,
+        "language":  "Python",
+        "topics":  [
+                       "cpu-usage",
+                       "dashboard",
+                       "psutil",
+                       "python",
+                       "sensors",
+                       "system-monitor"
+                   ],
+        "pushed_at":  "2026-08-22T20:28:50Z"
+    }
+]
