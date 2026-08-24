@@ -3,12 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>ðŸ§</text></svg>">
-<title>FrenzyPenguin Media â€” Defense is the best defense</title>
-<meta name="description" content="FrenzyPenguin Media â€” open-source security hardening, privacy tooling and media by neohiro / METAPOD.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐧</text></svg>">
+<link rel="preconnect" href="https://api.github.com" crossorigin>
+<title>FrenzyPenguin Media — Defense is the best defense</title>
+<meta name="description" content="FrenzyPenguin Media — open-source security hardening, privacy tooling and media by neohiro / METAPOD.">
 <style>
 :root{
-  --bg:#030710; --card:rgba(15,21,32,.72);
+  --bg:#030710; --card:rgba(15,21,32,.85);
   --teal:#2be295; --magenta:#ff4fd8; --violet:#7c4dff; --cyan:#00e5ff;
   --text:#eaf2f4; --muted:#8fa8b3; --line:rgba(43,226,149,.16);
 }
@@ -20,29 +21,31 @@ body{
   overflow-x:hidden; min-height:100vh;
 }
 /* ---- animated ice-aurora background ---- */
-.aurora{position:fixed;inset:-30%;z-index:-2;filter:blur(90px);opacity:.55;
+.aurora{position:fixed;inset:-20%;z-index:-2;filter:blur(64px);opacity:.55;will-change:transform;
   background:
     radial-gradient(38vw 38vw at 20% 22%, rgba(124,77,255,.34), transparent 60%),
     radial-gradient(34vw 34vw at 80% 16%, rgba(255,79,216,.22), transparent 62%),
     radial-gradient(40vw 40vw at 68% 84%, rgba(43,226,149,.24), transparent 64%);
   animation:drift 26s ease-in-out infinite alternate;}
 @keyframes drift{
-  0%{transform:translate(0,0) scale(1)}
-  50%{transform:translate(-4%,3%) scale(1.08)}
-  100%{transform:translate(3%,-3%) scale(.96)}}
-.grid{position:fixed;inset:0;z-index:-1;pointer-events:none;
+  0%{transform:translate3d(0,0,0) scale(1)}
+  50%{transform:translate3d(-4%,3%,0) scale(1.08)}
+  100%{transform:translate3d(3%,-3%,0) scale(.96)}}
+.grid{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;
+  mask-image:radial-gradient(ellipse at 50% 30%,#000 30%,transparent 75%);
+  -webkit-mask-image:radial-gradient(ellipse at 50% 30%,#000 30%,transparent 75%)}
+.grid::before{content:"";position:absolute;inset:-112px;will-change:transform;
   background-image:linear-gradient(var(--line) 1px,transparent 1px),
                    linear-gradient(90deg,var(--line) 1px,transparent 1px);
   background-size:56px 56px;
-  mask-image:radial-gradient(ellipse at 50% 30%,#000 30%,transparent 75%);
   animation:gridpan 40s linear infinite;}
-@keyframes gridpan{to{background-position:56px 112px}}
+@keyframes gridpan{to{transform:translate3d(56px,112px,0)}}
 /* ---- layout ---- */
 .wrap{max-width:1100px;margin:0 auto;padding:0 24px}
 header{padding:90px 0 40px;text-align:center}
 .kicker{display:inline-block;font-size:13px;letter-spacing:.35em;color:var(--teal);
   border:1px solid var(--line);padding:8px 18px;border-radius:999px;margin-bottom:28px;
-  backdrop-filter:blur(6px);animation:pulse 4s ease-in-out infinite}
+  animation:pulse 4s ease-in-out infinite}
 @keyframes pulse{50%{box-shadow:0 0 22px rgba(43,226,149,.28)}}
 .mascot{font-size:clamp(44px,7vw,72px);line-height:1;margin-bottom:14px;display:inline-block;
   animation:bob 3.4s ease-in-out infinite}
@@ -95,7 +98,7 @@ section{padding:64px 0}
 /* ---- cards ---- */
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px}
 .card{position:relative;border-radius:18px;padding:26px 26px 22px;background:var(--card);
-  border:1px solid rgba(255,255,255,.06);backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.06);
   transition:transform .35s cubic-bezier(.2,.8,.2,1),border-color .35s,box-shadow .35s;
   opacity:0;transform:translateY(26px);}
 .card.in{opacity:1;transform:none}
@@ -128,10 +131,10 @@ section{padding:64px 0}
   62%{filter:none;transform:translate(3px,1px) scale(.995)}
   80%{filter:saturate(1.4);transform:translate(-2px,0)}
   100%{filter:none;transform:none}}
-.card::after{content:"";position:absolute;left:0;right:0;top:-45%;height:38%;z-index:2;pointer-events:none;
+.card::after{content:"";position:absolute;left:0;top:0;width:100%;height:38%;z-index:2;pointer-events:none;
   background:linear-gradient(180deg,transparent,rgba(43,226,149,.12),transparent);opacity:0}
 .card:hover::after{opacity:1;animation:scan 1.5s linear infinite}
-@keyframes scan{from{top:-45%}to{top:112%}}
+@keyframes scan{from{transform:translateY(-110%)}to{transform:translateY(380%)}}
 .skeleton{min-height:172px}
 .skeleton::before{content:"";position:absolute;inset:18px;border-radius:10px;
   background:linear-gradient(100deg,rgba(255,255,255,.05) 40%,rgba(255,255,255,.11) 50%,rgba(255,255,255,.05) 60%);
@@ -150,6 +153,7 @@ body.detail .overlay{opacity:1;visibility:visible;transition:opacity .4s}
   transform:scale(.18);opacity:0;
   transition:transform .55s cubic-bezier(.2,.9,.3,1.12),opacity .3s}
 body.detail .panel{transform:none;opacity:1}
+.panel:focus{outline:none}
 .panel::before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;
   background:linear-gradient(130deg,rgba(43,226,149,.55),transparent 35%,transparent 65%,rgba(255,79,216,.5));
   -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
@@ -186,7 +190,7 @@ body.detail .panel>*:nth-child(6){transition-delay:.36s}
 footer{padding:46px 0 60px;text-align:center;color:var(--muted);font-size:13.5px}
 footer .heart{color:#ea4aaa}
 footer a{color:var(--teal);text-decoration:none}
-@media(max-width:640px){header{padding:64px 0 26px}.sec-title{margin-bottom:26px}.typedline{min-height:3.2em}}
+@media(max-width:640px){header{padding:64px 0 26px}.sec-title{margin-bottom:26px}.typedline{min-height:3.2em}.aurora{animation:none}}
 @media(prefers-reduced-motion:reduce){
   .aurora,.grid,.kicker,.mascot,.caret,h1.glitch::before,h1.glitch::after,
   h1.glitch.glitching,.card.selected,.card:hover::after,.skeleton::before,
@@ -202,8 +206,8 @@ footer a{color:var(--teal);text-decoration:none}
 
 <div class="stage">
 <header class="wrap">
-  <span class="kicker">ðŸ§ FRENZYPENGUIN MEDIA Â· BY METAPOD</span><br>
-  <span class="mascot">ðŸ§</span>
+  <span class="kicker">🐧 FRENZYPENGUIN MEDIA · BY METAPOD</span><br>
+  <span class="mascot">🐧</span>
   <h1 class="glitch" id="logo" data-t="FrenzyPenguin">FrenzyPenguin</h1>
   <p class="tagline"><b>Defense is the best defense.</b>
   <span class="typedline"><span id="typed"></span><span class="caret">&nbsp;</span></span></p>
@@ -213,15 +217,15 @@ footer a{color:var(--teal);text-decoration:none}
   <div class="sec-title">What We Do</div>
   <div class="cards">
     <div class="card">
-      <h3><span><span class="ico">ðŸ›¡ï¸</span>Security Tooling</span></h3>
-      <p>Open-source hardening suites â€” exploit-mitigation catalogs, network firewalls, DNS sinkholes and passive honeypots for Windows &amp; Linux.</p>
+      <h3><span><span class="ico">🛡️</span>Security Tooling</span></h3>
+      <p>Open-source hardening suites — exploit-mitigation catalogs, network firewalls, DNS sinkholes and passive honeypots for Windows &amp; Linux.</p>
       <div class="tags"><span class="tag">Hardening</span><span class="tag">Windows</span><span class="tag">Linux</span></div></div>
     <div class="card">
-      <h3><span><span class="ico">ðŸ”’</span>Privacy First</span></h3>
+      <h3><span><span class="ico">🔒</span>Privacy First</span></h3>
       <p>Encrypted-DNS front-ends, debloaters and zero-telemetry defaults. Privacy is the foundation, not a feature.</p>
       <div class="tags"><span class="tag">DNS</span><span class="tag">Privacy</span><span class="tag">Open Source</span></div></div>
     <div class="card">
-      <h3><span><span class="ico">ðŸ“º</span>Media &amp; Guides</span></h3>
+      <h3><span><span class="ico">📺</span>Media &amp; Guides</span></h3>
       <p>STIG-grade install checklists, walkthrough videos and community streams across Patreon and Linktree.</p>
       <div class="tags"><span class="tag">Guides</span><span class="tag">Video</span><span class="tag">Community</span></div></div>
   </div>
@@ -231,7 +235,7 @@ footer a{color:var(--teal);text-decoration:none}
   <div class="sec-title">Featured Projects</div>
   <div class="cards" id="projects">
     <div class="card skeleton"></div><div class="card skeleton"></div><div class="card skeleton"></div>
-    <noscript><p style="color:var(--muted)">Live project feed needs JavaScript â€”
+    <noscript><p style="color:var(--muted)">Live project feed needs JavaScript —
       browse everything at <a style="color:var(--teal)" href="https://github.com/neohiro?tab=repositories">github.com/neohiro</a>.</p></noscript>
   </div>
 </section>
@@ -239,33 +243,34 @@ footer a{color:var(--teal);text-decoration:none}
 <section class="wrap support">
   <div class="sec-title" style="justify-content:center">Support The Frenzy</div>
   <div class="btnrow">
-    <a class="btn sponsor" href="https://github.com/sponsors/neohiro">â¤ Sponsor on GitHub</a>
+    <a class="btn sponsor" href="https://github.com/sponsors/neohiro">❤ Sponsor on GitHub</a>
     <a class="btn patreon" href="https://www.patreon.com/frenzypenguin_media">Patreon</a>
-    <a class="btn linktree" href="https://linktr.ee/frenzypenguin.media">ðŸŒ frenzypenguin.media</a>
+    <a class="btn linktree" href="https://linktr.ee/frenzypenguin.media">🌐 frenzypenguin.media</a>
   </div>
 </section>
 
 <footer class="wrap">
-  <p>Made with <span class="heart">â™¥</span> by
-  <a href="https://github.com/neohiro">neohiro</a> Â·
-  <a href="https://github.com/frenzypenguin-media">FrenzyPenguin Media on GitHub</a> Â·
+  <p>Made with <span class="heart">♥</span> by
+  <a href="https://github.com/neohiro">neohiro</a> ·
+  <a href="https://github.com/frenzypenguin-media">FrenzyPenguin Media on GitHub</a> ·
   <a href="https://neohiro.github.io">neohiro.github.io</a></p>
 </footer>
 </div>
 
 <div class="overlay" id="overlay" aria-hidden="true">
-  <article class="panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="pv-name">
-    <a class="backlink" href="#">â† ALL PROJECTS</a>
+  <article class="panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="pv-name" tabindex="-1">
+    <a class="backlink" href="#">← ALL PROJECTS</a>
     <h2 id="pv-name"></h2>
     <div class="meta" id="pv-meta"></div>
     <p class="desc" id="pv-desc"></p>
     <div class="tags" id="pv-tags"></div>
-    <div class="actions"><a class="btn gh" id="pv-open" target="_blank" rel="noopener">Open repository â†—</a></div>
+    <div class="actions"><a class="btn gh" id="pv-open" target="_blank" rel="noopener">Open repository ↗</a></div>
   </article>
 </div>
 
 <script>
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);
+  const el=e.target;setTimeout(()=>{el.style.transitionDelay=''},800)}}),{threshold:.12});
 document.querySelectorAll('.card').forEach((el,i)=>{el.style.transitionDelay=(i%3*70)+'ms';io.observe(el)});
 
 /* ---- repo select burst: ripple + glitch flash ---- */
@@ -286,10 +291,13 @@ document.querySelectorAll('.card').forEach(attachSelect);
 const phrases=[
   'Security hardening & privacy tooling',
   'Exploit mitigations made simple',
+  'From ExploitProtection to HoneyScan',
   'Encrypted DNS for everyone',
-  'Firewalls Â· sinkholes Â· honeypots',
+  'Firewalls · sinkholes · honeypots',
   'Zero telemetry. Full transparency.',
+  'STIG-grade guides for fresh installs',
   'Guides, videos & community',
+  '29 open-source tools and counting',
   'Defense is the best defense'
 ];
 const typed=document.getElementById('typed'),logo=document.getElementById('logo');
@@ -298,13 +306,13 @@ function glitchLogo(){if(gTimer)clearTimeout(gTimer);logo.classList.remove('glit
   logo.classList.add('glitching');gTimer=setTimeout(()=>logo.classList.remove('glitching'),420)}
 function typePhrase(txt,i){
   typed.textContent=txt.slice(0,i);
-  if(i<txt.length){setTimeout(()=>typePhrase(txt,i+1),44+Math.random()*74)}
-  else{setTimeout(()=>{glitchLogo();erasePhrase(txt,txt.length)},2200)}
+  if(i<txt.length){setTimeout(()=>typePhrase(txt,i+1),16+Math.random()*34)}
+  else{setTimeout(()=>{glitchLogo();erasePhrase(txt,txt.length)},1500)}
 }
 function erasePhrase(txt,i){
   typed.textContent=txt.slice(0,i);
-  if(i>0){setTimeout(()=>erasePhrase(txt,i-1),22+Math.random()*28)}
-  else{pi=(pi+1)%phrases.length;setTimeout(()=>typePhrase(phrases[pi],0),430)}
+  if(i>0){setTimeout(()=>erasePhrase(txt,i-1),8+Math.random()*14)}
+  else{pi=(pi+1)%phrases.length;setTimeout(()=>typePhrase(phrases[pi],0),260)}
 }
 typePhrase(phrases[0],0);
 (function randGlitch(){glitchLogo();setTimeout(randGlitch,2600+Math.random()*3400)})();
@@ -329,7 +337,7 @@ function repoCard(r,i){
   const card=el('div','card');card.style.transitionDelay=(i%3*70)+'ms';
   const a=card.appendChild(el('a','fill'));a.href='#/r/'+encodeURIComponent(r.name);
   a.addEventListener('click',()=>{lastCardRect=card.getBoundingClientRect()});
-  const h3=el('h3');h3.append(el('span',null,r.name),el('span','stars','â˜… '+fmt(r.stargazers_count)));
+  const h3=el('h3');h3.append(el('span',null,r.name),el('span','stars','★ '+fmt(r.stargazers_count)));
   card.appendChild(h3);
   card.appendChild(el('p',null,r.description||'No description yet.'));
   const tags=el('div','tags');
@@ -358,7 +366,7 @@ Promise.all([
 }).catch(()=>{
   grid.innerHTML='';
   const c=el('div','card'),h3=el('h3'),p=el('p','',
-    'Live project feed is unavailable right now â€” browse the full toolbox instead:'),a=el('a');
+    'Live project feed is unavailable right now — browse the full toolbox instead:'),a=el('a');
   h3.textContent='Browse all projects';a.href='https://github.com/neohiro?tab=repositories';
   a.textContent='github.com/neohiro';a.style.color='var(--teal)';a.style.textDecoration='none';
   c.append(h3,p,a);grid.appendChild(c);attachSelect(c);io.observe(c);
@@ -369,22 +377,24 @@ const overlay=document.getElementById('overlay'),panel=document.getElementById('
   pvName=document.getElementById('pv-name'),pvDesc=document.getElementById('pv-desc'),
   pvMeta=document.getElementById('pv-meta'),pvTags=document.getElementById('pv-tags'),
   pvOpen=document.getElementById('pv-open');
-let shownRepo=null;
+let shownRepo=null,lastFocus=null;
 function fillPanel(r){
   pvName.textContent=r.name;
   pvDesc.textContent=r.description||'No description yet.';
   pvMeta.innerHTML='';
-  [[ 'â˜…', fmt(r.stargazers_count)+' stars' ],
-   [ 'â‘‚', fmt(r.forks_count)+' forks' ],
-   [ 'âŸ³', 'updated '+new Date(r.pushed_at).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'}) ]
+  [[ '★', fmt(r.stargazers_count)+' stars' ],
+   [ '⑂', fmt(r.forks_count)+' forks' ],
+   [ '⟳', 'updated '+new Date(r.pushed_at).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'}) ]
   ].forEach(m=>{const s=el('span');s.append(el('b',null,m[0]+' '),document.createTextNode(m[1]));pvMeta.appendChild(s)});
   pvTags.innerHTML='';
   [r.language].concat(r.topics||[]).filter(Boolean).slice(0,4).forEach(t=>pvTags.appendChild(el('span','tag',t)));
   if(!pvTags.children.length)pvTags.appendChild(el('span','tag','repository'));
-  pvOpen.href=r.html_url;
+  pvOpen.href=r.html_url;pvOpen.textContent='Open repository ↗';
 }
 function openDetail(r){
-  if(shownRepo===r.name)return;shownRepo=r.name;
+  if(shownRepo===r.name)return;
+  if(!shownRepo)lastFocus=document.activeElement;
+  shownRepo=r.name;
   const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
   if(lastCardRect&&!rm){
     const dx=(lastCardRect.left+lastCardRect.width/2)-innerWidth/2;
@@ -397,24 +407,30 @@ function openDetail(r){
   document.body.classList.add('detail');
   panel.style.transform='';
   overlay.setAttribute('aria-hidden','false');
+  panel.focus({preventScroll:true});
   pvName.classList.remove('glitching');void pvName.offsetWidth;pvName.classList.add('glitching');
 }
 function showNotFound(name){
+  if(!shownRepo)lastFocus=document.activeElement;
   shownRepo='__notfound__';
   pvName.textContent=name;
   pvDesc.textContent='This repository is not in the live feed (it may be new, a fork, or filtered out). Browse everything on GitHub instead:';
   pvMeta.innerHTML='';pvTags.innerHTML='';
-  pvOpen.href='https://github.com/neohiro?tab=repositories';
+  pvOpen.href='https://github.com/neohiro?tab=repositories';pvOpen.textContent='Browse repositories ↗';
   document.body.classList.add('detail');overlay.setAttribute('aria-hidden','false');
+  panel.focus({preventScroll:true});
 }
 function closeDetail(){
   if(!shownRepo)return;shownRepo=null;lastCardRect=null;
   document.body.classList.remove('detail');overlay.setAttribute('aria-hidden','true');
+  if(lastFocus&&lastFocus.focus){lastFocus.focus({preventScroll:true});lastFocus=null}
 }
 function routeHash(){
   const m=location.hash.match(/^#\/r\/([^/?#]+)/);
   if(!m){closeDetail();return}
-  const key=decodeURIComponent(m[1]).toLowerCase();
+  let key;
+  try{key=decodeURIComponent(m[1]).toLowerCase()}
+  catch(e){showNotFound(m[1]);return}
   const r=REPOS[key];
   if(r)openDetail(r);
   else if(dataDone)showNotFound(key);
