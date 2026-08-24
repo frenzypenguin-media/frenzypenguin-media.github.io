@@ -136,10 +136,10 @@ section{padding:64px 0}
 .card:hover::after{opacity:1;animation:scan 1.5s linear infinite}
 @keyframes scan{from{transform:translateY(-110%)}to{transform:translateY(380%)}}
 .skeleton{min-height:172px}
-.skeleton::before{content:"";position:absolute;inset:18px;border-radius:10px;
-  background:linear-gradient(100deg,rgba(255,255,255,.05) 40%,rgba(255,255,255,.11) 50%,rgba(255,255,255,.05) 60%);
-  background-size:200% 100%;animation:shimmer 1.4s linear infinite}
-@keyframes shimmer{to{background-position:-200% 0}}
+.skeleton::before{content:"";position:absolute;top:18px;bottom:18px;left:0;width:40%;border-radius:10px;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.11) 50%,transparent);
+  animation:shimmer 1.4s linear infinite}
+@keyframes shimmer{from{transform:translateX(-110%)}to{transform:translateX(350%)}}
 /* ---- per-repo detail overlay ---- */
 .stage{transition:transform .5s cubic-bezier(.2,.8,.2,1),filter .5s,opacity .5s}
 body.detail .stage{transform:scale(.94) translateY(-12px);filter:blur(7px) saturate(.75);opacity:.3;pointer-events:none}
@@ -269,26 +269,82 @@ footer a{color:var(--teal);text-decoration:none}
 </div>
 
 <script>
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);
-  const el=e.target;setTimeout(()=>{el.style.transitionDelay=''},800)}}),{threshold:.12});
-document.querySelectorAll('.card').forEach((el,i)=>{el.style.transitionDelay=(i%3*70)+'ms';io.observe(el)});
+/*__CORE_START__*/
+/* Shared site core - SINGLE SOURCE OF TRUTH.
+   Edits belong HERE; build-sites.ps1 injects this into each index.html
+   between __CORE_START__/__CORE_END__ markers. Never edit injected copies. */
+
+/* ---- cached GitHub API (15-min sessionStorage TTL) ---- */
+const TTL = 15 * 60 * 1000;
+function cachedJson(key, url) {
+  try {
+    const c = JSON.parse(sessionStorage.getItem('gh:' + key) || 'null');
+    if (c && Date.now() - c.t < TTL) return Promise.resolve(c.d);
+  } catch (e) {}
+  return fetch(url).then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+    .then(d => { try { sessionStorage.setItem('gh:' + key, JSON.stringify({ t: Date.now(), d: d })); } catch (e) {} return d; });
+}
+
+/* ---- tiny DOM + number helpers ---- */
+const fmt = n => n >= 1000 ? (n / 1000).toFixed(1).replace(/\.0$/, '') + 'k' : String(n);
+const el = (t, c, txt) => { const n = document.createElement(t); if (c) n.className = c; if (txt != null) n.textContent = txt; return n; };
+
+/* ---- reveal-on-scroll with stagger (clears delay after entry so hover feels instant) ---- */
+function initReveal(sel) {
+  const obs = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in');
+      obs.unobserve(e.target);
+      const t = e.target;
+      setTimeout(() => { t.style.transitionDelay = ''; }, 800);
+    }
+  }), { threshold: .12 });
+  document.querySelectorAll(sel).forEach((elm, i) => { elm.style.transitionDelay = (i % 3 * 70) + 'ms'; obs.observe(elm); });
+  return obs;
+}
 
 /* ---- repo select burst: ripple + glitch flash ---- */
-function attachSelect(card){
-  card.addEventListener('pointerdown',e=>{
-    const r=card.getBoundingClientRect(),d=Math.max(r.width,r.height)*2.3;
-    const s=document.createElement('span');s.className='ripple';
-    s.style.cssText=`width:${d}px;height:${d}px;left:${e.clientX-r.left}px;top:${e.clientY-r.top}px`;
-    card.appendChild(s);setTimeout(()=>s.remove(),800);
-    if(card._selT)clearTimeout(card._selT);
-    card.classList.remove('selected');void card.offsetWidth;card.classList.add('selected');
-    card._selT=setTimeout(()=>card.classList.remove('selected'),650);
+function attachSelect(card) {
+  card.addEventListener('pointerdown', e => {
+    const r = card.getBoundingClientRect(), d = Math.max(r.width, r.height) * 2.3;
+    const s = document.createElement('span'); s.className = 'ripple';
+    s.style.cssText = `width:${d}px;height:${d}px;left:${e.clientX - r.left}px;top:${e.clientY - r.top}px`;
+    card.appendChild(s); setTimeout(() => s.remove(), 800);
+    if (card._selT) clearTimeout(card._selT);
+    card.classList.remove('selected'); void card.offsetWidth; card.classList.add('selected');
+    card._selT = setTimeout(() => card.classList.remove('selected'), 650);
   });
 }
+
+/* ---- glitching logo + typewriter tagline ---- */
+const _logo = document.getElementById('logo'), _typed = document.getElementById('typed');
+let gTimer = null;
+function glitchLogo() {
+  if (gTimer) clearTimeout(gTimer);
+  _logo.classList.remove('glitching'); void _logo.offsetWidth; _logo.classList.add('glitching');
+  gTimer = setTimeout(() => _logo.classList.remove('glitching'), 420);
+}
+function startTypewriter(list) {
+  let pi = 0;
+  function typePhrase(txt, i) {
+    _typed.textContent = txt.slice(0, i);
+    if (i < txt.length) { setTimeout(() => typePhrase(txt, i + 1), 16 + Math.random() * 34); }
+    else { setTimeout(() => { glitchLogo(); erase(txt, txt.length); }, 1500); }
+  }
+  function erase(txt, i) {
+    _typed.textContent = txt.slice(0, i);
+    if (i > 0) { setTimeout(() => erase(txt, i - 1), 8 + Math.random() * 14); }
+    else { pi = (pi + 1) % list.length; setTimeout(() => typePhrase(list[pi], 0), 260); }
+  }
+  typePhrase(list[0], 0);
+}
+(function randGlitch(){ glitchLogo(); setTimeout(randGlitch, 2600 + Math.random() * 3400); })();
+/*__CORE_END__*/
+const io = initReveal('.card');
 document.querySelectorAll('.card').forEach(attachSelect);
 
 /* ---- typewriter tagline ---- */
-const phrases=[
+startTypewriter([
   'Security hardening & privacy tooling',
   'Exploit mitigations made simple',
   'From ExploitProtection to HoneyScan',
@@ -299,146 +355,137 @@ const phrases=[
   'Guides, videos & community',
   '29 open-source tools and counting',
   'Defense is the best defense'
-];
-const typed=document.getElementById('typed'),logo=document.getElementById('logo');
-let pi=0,gTimer=null;
-function glitchLogo(){if(gTimer)clearTimeout(gTimer);logo.classList.remove('glitching');void logo.offsetWidth;
-  logo.classList.add('glitching');gTimer=setTimeout(()=>logo.classList.remove('glitching'),420)}
-function typePhrase(txt,i){
-  typed.textContent=txt.slice(0,i);
-  if(i<txt.length){setTimeout(()=>typePhrase(txt,i+1),16+Math.random()*34)}
-  else{setTimeout(()=>{glitchLogo();erasePhrase(txt,txt.length)},1500)}
-}
-function erasePhrase(txt,i){
-  typed.textContent=txt.slice(0,i);
-  if(i>0){setTimeout(()=>erasePhrase(txt,i-1),8+Math.random()*14)}
-  else{pi=(pi+1)%phrases.length;setTimeout(()=>typePhrase(phrases[pi],0),260)}
-}
-typePhrase(phrases[0],0);
-(function randGlitch(){glitchLogo();setTimeout(randGlitch,2600+Math.random()*3400)})();
+]);
 
-/* ---- cached GitHub API (15-min sessionStorage TTL) ---- */
-const TTL=15*60*1000;
-function cachedJson(key,url){
-  try{
-    const c=JSON.parse(sessionStorage.getItem('gh:'+key)||'null');
-    if(c&&Date.now()-c.t<TTL)return Promise.resolve(c.d);
-  }catch(e){}
-  return fetch(url).then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json()})
-    .then(d=>{try{sessionStorage.setItem('gh:'+key,JSON.stringify({t:Date.now(),d:d}))}catch(e){}return d});
-}
+/* ---- dynamic projects feed: committed snapshot first, cached API refresh ---- */
+const grid = document.getElementById('projects');
+const REPOS = {};
+let pendingName = null, dataDone = false, liveLoaded = false, lastCardRect = null;
 
-/* ---- dynamic projects feed: org + neohiro repos, stars live ---- */
-const fmt=n=>n>=1000?(n/1000).toFixed(1).replace(/\.0$/,'')+'k':String(n);
-const el=(t,c,txt)=>{const n=document.createElement(t);if(c)n.className=c;if(txt!=null)n.textContent=txt;return n};
-const grid=document.getElementById('projects');
-const REPOS={};let pendingName=null,dataDone=false,lastCardRect=null;
-function repoCard(r,i){
-  const card=el('div','card');card.style.transitionDelay=(i%3*70)+'ms';
-  const a=card.appendChild(el('a','fill'));a.href='#/r/'+encodeURIComponent(r.name);
-  a.addEventListener('click',()=>{lastCardRect=card.getBoundingClientRect()});
-  const h3=el('h3');h3.append(el('span',null,r.name),el('span','stars','★ '+fmt(r.stargazers_count)));
+function repoCard(r, i) {
+  const card = el('div', 'card'); card.style.transitionDelay = (i % 3 * 70) + 'ms';
+  const a = card.appendChild(el('a', 'fill')); a.href = '#/r/' + encodeURIComponent(r.name);
+  a.addEventListener('click', () => { lastCardRect = card.getBoundingClientRect(); });
+  const h3 = el('h3'); h3.append(el('span', null, r.name), el('span', 'stars', '★ ' + fmt(r.stargazers_count)));
   card.appendChild(h3);
-  card.appendChild(el('p',null,r.description||'No description yet.'));
-  const tags=el('div','tags');
-  [r.language].concat(r.topics||[]).filter(Boolean).slice(0,3).forEach(t=>tags.appendChild(el('span','tag',t)));
-  if(!tags.children.length)tags.appendChild(el('span','tag','repository'));
+  card.appendChild(el('p', null, r.description || 'No description yet.'));
+  const tags = el('div', 'tags');
+  [r.language].concat(r.topics || []).filter(Boolean).slice(0, 3).forEach(t => tags.appendChild(el('span', 'tag', t)));
+  if (!tags.children.length) tags.appendChild(el('span', 'tag', 'repository'));
   card.appendChild(tags);
   return card;
 }
+function renderRepos(all) {
+  grid.innerHTML = '';
+  all.forEach((r, i) => {
+    REPOS[r.name.toLowerCase()] = r;
+    const c = repoCard(r, i); grid.appendChild(c); attachSelect(c); io.observe(c);
+  });
+}
+
+/* fast path: pre-rendered snapshot ships with the site */
+fetch('repos.json').then(r => r.ok ? r.json() : null).then(rows => {
+  if (liveLoaded || !rows || !rows.length) return;
+  renderRepos(rows); dataDone = true; if (pendingName) routeHash();
+}).catch(() => {});
+
+/* fresh path: live API via sessionStorage cache */
 Promise.all([
-  cachedJson('fp-org','https://api.github.com/orgs/frenzypenguin-media/repos?per_page=100').catch(()=>[]),
-  cachedJson('neo-repos','https://api.github.com/users/neohiro/repos?per_page=100&sort=pushed').catch(()=>[])
-]).then(lists=>{
-  const seen=[],all=[];
-  lists.flat().forEach(r=>{
-    const k=r.name.toLowerCase();
-    if(seen.includes(k)||r.fork||/github\.io$/.test(r.name)||r.name==='.github')return;
-    seen.push(k);all.push(r);
+  cachedJson('fp-org', 'https://api.github.com/orgs/frenzypenguin-media/repos?per_page=100').catch(() => []),
+  cachedJson('neo-repos', 'https://api.github.com/users/neohiro/repos?per_page=100&sort=pushed').catch(() => [])
+]).then(lists => {
+  const seen = [], all = [];
+  lists.flat().forEach(r => {
+    const k = r.name.toLowerCase();
+    if (seen.includes(k) || r.fork || /github\.io$/.test(r.name) || r.name === '.github') return;
+    seen.push(k); all.push(r);
   });
-  all.sort((a,b)=>b.stargazers_count-a.stargazers_count||new Date(b.pushed_at)-new Date(a.pushed_at));
-  if(!all.length)throw new Error('no repos');
-  grid.innerHTML='';
-  all.slice(0,9).forEach((r,i)=>{
-    REPOS[r.name.toLowerCase()]=r;
-    const c=repoCard(r,i);grid.appendChild(c);attachSelect(c);io.observe(c);
-  });
-}).catch(()=>{
-  grid.innerHTML='';
-  const c=el('div','card'),h3=el('h3'),p=el('p','',
-    'Live project feed is unavailable right now — browse the full toolbox instead:'),a=el('a');
-  h3.textContent='Browse all projects';a.href='https://github.com/neohiro?tab=repositories';
-  a.textContent='github.com/neohiro';a.style.color='var(--teal)';a.style.textDecoration='none';
-  c.append(h3,p,a);grid.appendChild(c);attachSelect(c);io.observe(c);
-}).finally(()=>{dataDone=true;if(pendingName)routeHash()});
+  all.sort((a, b) => b.stargazers_count - a.stargazers_count || new Date(b.pushed_at) - new Date(a.pushed_at));
+  if (!all.length) throw new Error('no repos');
+  liveLoaded = true;
+  renderRepos(all);
+  if (missingKey && REPOS[missingKey] && location.hash.indexOf('#/r/') === 0) { missingKey = null; routeHash(); }
+  dataDone = true; if (pendingName) routeHash();
+}).catch(() => {
+  if (!dataDone) {
+    grid.innerHTML = '';
+    const c = el('div', 'card'), h3 = el('h3'), p = el('p', '',
+      'Live project feed is unavailable right now — browse the full toolbox instead:'), a = el('a');
+    h3.textContent = 'Browse all projects'; a.href = 'https://github.com/neohiro?tab=repositories';
+    a.textContent = 'github.com/neohiro'; a.style.color = 'var(--teal)'; a.style.textDecoration = 'none';
+    c.append(h3, p, a); grid.appendChild(c); attachSelect(c); io.observe(c);
+    dataDone = true; if (pendingName) routeHash();
+  }
+});
 
 /* ---- per-repo detail view (#/r/<name>) ---- */
-const overlay=document.getElementById('overlay'),panel=document.getElementById('panel'),
-  pvName=document.getElementById('pv-name'),pvDesc=document.getElementById('pv-desc'),
-  pvMeta=document.getElementById('pv-meta'),pvTags=document.getElementById('pv-tags'),
-  pvOpen=document.getElementById('pv-open');
-let shownRepo=null,lastFocus=null;
-function fillPanel(r){
-  pvName.textContent=r.name;
-  pvDesc.textContent=r.description||'No description yet.';
-  pvMeta.innerHTML='';
-  [[ '★', fmt(r.stargazers_count)+' stars' ],
-   [ '⑂', fmt(r.forks_count)+' forks' ],
-   [ '⟳', 'updated '+new Date(r.pushed_at).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'}) ]
-  ].forEach(m=>{const s=el('span');s.append(el('b',null,m[0]+' '),document.createTextNode(m[1]));pvMeta.appendChild(s)});
-  pvTags.innerHTML='';
-  [r.language].concat(r.topics||[]).filter(Boolean).slice(0,4).forEach(t=>pvTags.appendChild(el('span','tag',t)));
-  if(!pvTags.children.length)pvTags.appendChild(el('span','tag','repository'));
-  pvOpen.href=r.html_url;pvOpen.textContent='Open repository ↗';
+const overlay = document.getElementById('overlay'), panel = document.getElementById('panel'),
+  pvName = document.getElementById('pv-name'), pvDesc = document.getElementById('pv-desc'),
+  pvMeta = document.getElementById('pv-meta'), pvTags = document.getElementById('pv-tags'),
+  pvOpen = document.getElementById('pv-open');
+let shownRepo = null, lastFocus = null, missingKey = null;
+
+function fillPanel(r) {
+  pvName.textContent = r.name;
+  pvDesc.textContent = r.description || 'No description yet.';
+  pvMeta.innerHTML = '';
+  [['★', fmt(r.stargazers_count) + ' stars'],
+   ['⑂', fmt(r.forks_count) + ' forks'],
+   ['⟳', 'updated ' + new Date(r.pushed_at).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })]
+  ].forEach(m => { const s = el('span'); s.append(el('b', null, m[0] + ' '), document.createTextNode(m[1])); pvMeta.appendChild(s); });
+  pvTags.innerHTML = '';
+  [r.language].concat(r.topics || []).filter(Boolean).slice(0, 4).forEach(t => pvTags.appendChild(el('span', 'tag', t)));
+  if (!pvTags.children.length) pvTags.appendChild(el('span', 'tag', 'repository'));
+  pvOpen.href = r.html_url; pvOpen.textContent = 'Open repository ↗';
 }
-function openDetail(r){
-  if(shownRepo===r.name)return;
-  if(!shownRepo)lastFocus=document.activeElement;
-  shownRepo=r.name;
-  const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if(lastCardRect&&!rm){
-    const dx=(lastCardRect.left+lastCardRect.width/2)-innerWidth/2;
-    const dy=(lastCardRect.top+lastCardRect.height/2)-innerHeight/2;
-    panel.style.transform=`translate(${dx}px,${dy}px) scale(.18)`;
+function openDetail(r) {
+  if (shownRepo === r.name) return;
+  if (!shownRepo) lastFocus = document.activeElement;
+  shownRepo = r.name; missingKey = null;
+  const rm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (lastCardRect && !rm) {
+    const dx = (lastCardRect.left + lastCardRect.width / 2) - innerWidth / 2;
+    const dy = (lastCardRect.top + lastCardRect.height / 2) - innerHeight / 2;
+    panel.style.transform = `translate(${dx}px,${dy}px) scale(.18)`;
     void panel.offsetWidth;
   }
-  lastCardRect=null;
+  lastCardRect = null;
   fillPanel(r);
   document.body.classList.add('detail');
-  panel.style.transform='';
-  overlay.setAttribute('aria-hidden','false');
-  panel.focus({preventScroll:true});
-  pvName.classList.remove('glitching');void pvName.offsetWidth;pvName.classList.add('glitching');
+  panel.style.transform = '';
+  overlay.setAttribute('aria-hidden', 'false');
+  panel.focus({ preventScroll: true });
+  pvName.classList.remove('glitching'); void pvName.offsetWidth; pvName.classList.add('glitching');
 }
-function showNotFound(name){
-  if(!shownRepo)lastFocus=document.activeElement;
-  shownRepo='__notfound__';
-  pvName.textContent=name;
-  pvDesc.textContent='This repository is not in the live feed (it may be new, a fork, or filtered out). Browse everything on GitHub instead:';
-  pvMeta.innerHTML='';pvTags.innerHTML='';
-  pvOpen.href='https://github.com/neohiro?tab=repositories';pvOpen.textContent='Browse repositories ↗';
-  document.body.classList.add('detail');overlay.setAttribute('aria-hidden','false');
-  panel.focus({preventScroll:true});
+function showNotFound(name) {
+  if (!shownRepo) lastFocus = document.activeElement;
+  shownRepo = '__notfound__';
+  pvName.textContent = name;
+  pvDesc.textContent = 'This repository is not in the live feed (it may be new, a fork, or filtered out). Browse everything on GitHub instead:';
+  pvMeta.innerHTML = ''; pvTags.innerHTML = '';
+  pvOpen.href = 'https://github.com/neohiro?tab=repositories'; pvOpen.textContent = 'Browse repositories ↗';
+  document.body.classList.add('detail'); overlay.setAttribute('aria-hidden', 'false');
+  panel.focus({ preventScroll: true });
 }
-function closeDetail(){
-  if(!shownRepo)return;shownRepo=null;lastCardRect=null;
-  document.body.classList.remove('detail');overlay.setAttribute('aria-hidden','true');
-  if(lastFocus&&lastFocus.focus){lastFocus.focus({preventScroll:true});lastFocus=null}
+function closeDetail() {
+  if (!shownRepo) return; shownRepo = null; lastCardRect = null; missingKey = null;
+  document.body.classList.remove('detail'); overlay.setAttribute('aria-hidden', 'true');
+  if (lastFocus && lastFocus.focus) { lastFocus.focus({ preventScroll: true }); lastFocus = null; }
 }
-function routeHash(){
-  const m=location.hash.match(/^#\/r\/([^/?#]+)/);
-  if(!m){closeDetail();return}
+function routeHash() {
+  const m = location.hash.match(/^#\/r\/([^/?#]+)/);
+  if (!m) { closeDetail(); return; }
   let key;
-  try{key=decodeURIComponent(m[1]).toLowerCase()}
-  catch(e){showNotFound(m[1]);return}
-  const r=REPOS[key];
-  if(r)openDetail(r);
-  else if(dataDone)showNotFound(key);
-  else pendingName=key;
+  try { key = decodeURIComponent(m[1]).toLowerCase(); }
+  catch (e) { showNotFound(m[1]); return; }
+  const r = REPOS[key];
+  if (r) openDetail(r);
+  else if (dataDone) { missingKey = key; showNotFound(key); }
+  else pendingName = key;
 }
-window.addEventListener('hashchange',routeHash);
+window.addEventListener('hashchange', routeHash);
 routeHash();
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&shownRepo)location.hash='#'});
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && shownRepo) location.hash = '#'; });
 </script>
 </body>
 </html>
