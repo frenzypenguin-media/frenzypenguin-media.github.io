@@ -30,7 +30,9 @@ $all = @($org) + @($usr) |
             forks_count      = $_.forks_count
             language         = $_.language
             topics           = @($_.topics)
-            pushed_at        = $_.pushed_at
+            # date-only: GitHub's pushed_at wobbles across edge caches, which would
+            # make CI change-detection noisy; the site only displays the date anyway
+            pushed_at        = ($_.pushed_at -replace 'T.*$', '')
         }
     }
 
