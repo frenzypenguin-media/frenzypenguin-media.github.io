@@ -29,6 +29,9 @@ $usr = Get-GhJson "/users/neohiro/repos?per_page=100&sort=pushed"
 
 $all = @($org) + @($usr) |
     Where-Object { -not $_.fork -and $_.name -notmatch 'github\.io$' -and $_.name -ne '.github' } |
+    # Note: PowerShell's Sort-Object places $null keys at the end (PS 5.1) or start (PS 7+).
+    # We only run this on the Windows host where PS 5.1 is the runtime, so the order is
+    # stable. If PS version diversity ever matters, pre-filter repos with $null pushed_at.
     Sort-Object @{e = 'stargazers_count'; Descending = $true }, @{e = 'pushed_at'; Descending = $true } |
     ForEach-Object {
         # never-pushed repos return $null for pushed_at; preserve null rather than blowing up

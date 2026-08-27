@@ -10,7 +10,12 @@ function Commit-Files {
         [switch]$NoOcTag,
         [switch]$NoAgentIdentity
     )
-    $tmp = "$env:TEMP\opencode\ghapi.json"
+    $tmpDir = Join-Path $env:TEMP "opencode"
+    if (-not (Test-Path -LiteralPath $tmpDir)) { New-Item -ItemType Directory -Force -Path $tmpDir | Out-Null }
+    # Unique per-call: this function is not safe to run concurrently for the same Owner/Repo
+    # (the shared temp file is the bottleneck). The PID+random suffix keeps parallel calls
+    # from clobbering each other's JSON bodies.
+    $tmp = Join-Path $tmpDir ("ghapi-$PID-" + [guid]::NewGuid().ToString("N") + ".json")
 
     # Transient = worth retrying. Everything else fails fast.
     function Test-Transient([string]$err) {
