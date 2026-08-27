@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐧</text></svg>">
-<link rel="preconnect" href="https://api.github.com" crossorigin>
 <title>FrenzyPenguin Media — Defense is the best defense</title>
 <meta name="description" content="FrenzyPenguin Media — open-source security hardening, privacy tooling and media by neohiro / METAPOD.">
 <style>
@@ -243,9 +242,9 @@ footer a{color:var(--teal);text-decoration:none}
 <section class="wrap support">
   <div class="sec-title" style="justify-content:center">Support The Frenzy</div>
   <div class="btnrow">
-    <a class="btn sponsor" href="https://github.com/sponsors/neohiro">❤ Sponsor on GitHub</a>
-    <a class="btn patreon" href="https://www.patreon.com/frenzypenguin_media">Patreon</a>
-    <a class="btn linktree" href="https://linktr.ee/frenzypenguin.media">🌐 frenzypenguin.media</a>
+    <a class="btn sponsor" rel="noopener noreferrer nofollow no-referrer" href="https://github.com/sponsors/neohiro">❤ Sponsor on GitHub</a>
+    <a class="btn patreon" rel="noopener noreferrer nofollow no-referrer" href="https://www.patreon.com/frenzypenguin_media">Patreon</a>
+    <a class="btn linktree" rel="noopener noreferrer nofollow no-referrer" href="https://linktr.ee/frenzypenguin.media">🌐 frenzypenguin.media</a>
   </div>
 </section>
 
@@ -274,15 +273,9 @@ footer a{color:var(--teal);text-decoration:none}
    Edits belong HERE; build-sites.ps1 injects this into each index.html
    between __CORE_START__/__CORE_END__ markers. Never edit injected copies. */
 
-/* ---- cached GitHub API (15-min sessionStorage TTL) ---- */
-const TTL = 15 * 60 * 1000;
+/* ---- fetch helper (no client-side cache) ---- */
 function cachedJson(key, url) {
-  try {
-    const c = JSON.parse(sessionStorage.getItem('gh:' + key) || 'null');
-    if (c && Date.now() - c.t < TTL) return Promise.resolve(c.d);
-  } catch (e) {}
-  return fetch(url).then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
-    .then(d => { try { sessionStorage.setItem('gh:' + key, JSON.stringify({ t: Date.now(), d: d })); } catch (e) {} return d; });
+  return fetch(url).then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); });
 }
 
 /* ---- tiny DOM + number helpers ---- */
@@ -389,35 +382,7 @@ fetch('repos.json').then(r => r.ok ? r.json() : null).then(rows => {
   renderRepos(rows); dataDone = true; if (pendingName) routeHash();
 }).catch(() => {});
 
-/* fresh path: live API via sessionStorage cache */
-Promise.all([
-  cachedJson('fp-org', 'https://api.github.com/orgs/frenzypenguin-media/repos?per_page=100').catch(() => []),
-  cachedJson('neo-repos', 'https://api.github.com/users/neohiro/repos?per_page=100&sort=pushed').catch(() => [])
-]).then(lists => {
-  const seen = [], all = [];
-  lists.flat().forEach(r => {
-    const k = r.name.toLowerCase();
-    if (seen.includes(k) || r.fork || /github\.io$/.test(r.name) || r.name === '.github') return;
-    seen.push(k); all.push(r);
-  });
-  all.sort((a, b) => b.stargazers_count - a.stargazers_count || new Date(b.pushed_at) - new Date(a.pushed_at));
-  if (!all.length) throw new Error('no repos');
-  liveLoaded = true;
-  renderRepos(all);
-  if (missingKey && REPOS[missingKey] && location.hash.indexOf('#/r/') === 0) { missingKey = null; routeHash(); }
-  dataDone = true; if (pendingName) routeHash();
-}).catch(() => {
-  if (!dataDone) {
-    grid.innerHTML = '';
-    const c = el('div', 'card'), h3 = el('h3'), p = el('p', '',
-      'Live project feed is unavailable right now — browse the full toolbox instead:'), a = el('a');
-    h3.textContent = 'Browse all projects'; a.href = 'https://github.com/neohiro?tab=repositories';
-    a.textContent = 'github.com/neohiro'; a.style.color = 'var(--teal)'; a.style.textDecoration = 'none';
-    c.append(h3, p, a); grid.appendChild(c); attachSelect(c); io.observe(c);
-    dataDone = true; if (pendingName) routeHash();
-  }
-});
-
+/* live fresh path removed - committed repos.json is the only data source */
 /* ---- per-repo detail view (#/r/<name>) ---- */
 const overlay = document.getElementById('overlay'), panel = document.getElementById('panel'),
   pvName = document.getElementById('pv-name'), pvDesc = document.getElementById('pv-desc'),
