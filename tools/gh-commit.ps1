@@ -12,10 +12,14 @@ function Commit-Files {
     )
     $tmpDir = Join-Path $env:TEMP "opencode"
     if (-not (Test-Path -LiteralPath $tmpDir)) { New-Item -ItemType Directory -Force -Path $tmpDir | Out-Null }
-    # Unique per-call: this function is not safe to run concurrently for the same Owner/Repo
-    # (the shared temp file is the bottleneck). The PID+random suffix keeps parallel calls
-    # from clobbering each other's JSON bodies.
     $tmp = Join-Path $tmpDir ("ghapi-$PID-" + [guid]::NewGuid().ToString("N") + ".json")
+
+    function Cleanup {
+        if ($tmp -and (Test-Path -LiteralPath $tmp)) {
+            Remove-Item -LiteralPath $tmp -Force -ErrorAction SilentlyContinue
+        }
+    }
+    try {
 
     # Transient = worth retrying. Everything else fails fast.
     function Test-Transient([string]$err) {
@@ -63,6 +67,13 @@ function Commit-Files {
     # 1. current branch head
     $ref = Invoke-GhApi @("/repos/$Owner/$Repo/git/ref/heads/$Branch") | ConvertFrom-Json
     $commitSha = $ref.object.sha
+    # Defensive: if the ref points to a tag (type "tag") rather than a commit, follow it.
+    # This cannot happen with a normal main branch on GitHub Pages but guards against
+    # a non-standard setup or a tag being mistakenly used as the default branch.
+    if ($ref.object.type -eq 'tag') {
+        $tagObj = Invoke-GhApi @("/repos/$Owner/$Repo/git/tags/$commitSha") | ConvertFrom-Json
+        $commitSha = $tagObj.object.sha
+    }
     $commitObj = Invoke-GhApi @("/repos/$Owner/$Repo/git/commits/$commitSha") | ConvertFrom-Json
     $baseTree = $commitObj.tree.sha
 
@@ -85,7 +96,7 @@ function Commit-Files {
     }
     if (-not $entries) { throw "No changes supplied for ${Owner}/${Repo}" }
 
-    $treeResp = ApiIn "POST" "git/trees" (@{ base_tree = $baseTree; tree = $entries } | ConvertTo-Json -Depth 6)
+    $treeResp = ApiIn "POST" "git/trees" (@{ base_tree = $baseTree; tree = $entries } | ConvertTo-Json -Depth 2)
     $newTree = ($treeResp | ConvertFrom-Json).sha
     if (-not $newTree) { throw "Tree creation failed for ${Repo}: $treeResp" }
 
@@ -104,4 +115,5 @@ function Commit-Files {
 
     Invoke-GhApi @("-X", "PATCH", "/repos/$Owner/$Repo/git/refs/heads/$Branch", "-f", "sha=$newCommit") | Out-Null
     Write-Output "COMMITTED ${Owner}/${Repo} -> $newCommit ($($entries.Count) files)"
+    } finally { Cleanup }
 }

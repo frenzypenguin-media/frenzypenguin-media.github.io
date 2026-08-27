@@ -15,17 +15,18 @@ param(
 )
 $ErrorActionPreference = "Stop"
 
-function Get-GhJson {
-    param([string]$Endpoint)
-    $out = gh api $Endpoint 2>&1
+# Paginate via gh's native flag so we don't silently cap at 100 repos (any
+# account that crosses 100 would otherwise produce an incomplete snapshot).
+function Invoke-GhJson([string]$Endpoint) {
+    $out = gh api --paginate $Endpoint 2>&1
     if ($LASTEXITCODE -ne 0) {
         throw "gh api failed (exit $LASTEXITCODE) for $Endpoint`: $($out -join ' ')"
     }
     return $out | ConvertFrom-Json
 }
 
-$org = Get-GhJson "/orgs/frenzypenguin-media/repos?per_page=100"
-$usr = Get-GhJson "/users/neohiro/repos?per_page=100&sort=pushed"
+$org = Invoke-GhJson "/orgs/frenzypenguin-media/repos?per_page=100"
+$usr = Invoke-GhJson "/users/neohiro/repos?per_page=100&sort=pushed"
 
 $all = @($org) + @($usr) |
     Where-Object { -not $_.fork -and $_.name -notmatch 'github\.io$' -and $_.name -ne '.github' } |
