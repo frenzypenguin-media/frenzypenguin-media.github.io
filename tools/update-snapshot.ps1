@@ -15,13 +15,24 @@ param(
 )
 $ErrorActionPreference = "Stop"
 
-$org = gh api "/orgs/frenzypenguin-media/repos?per_page=100" | ConvertFrom-Json
-$usr = gh api "/users/neohiro/repos?per_page=100&sort=pushed" | ConvertFrom-Json
+function Get-GhJson {
+    param([string]$Endpoint)
+    $out = gh api $Endpoint 2>&1
+    if ($LASTEXITCODE -ne 0) {
+        throw "gh api failed (exit $LASTEXITCODE) for $Endpoint`: $($out -join ' ')"
+    }
+    return $out | ConvertFrom-Json
+}
+
+$org = Get-GhJson "/orgs/frenzypenguin-media/repos?per_page=100"
+$usr = Get-GhJson "/users/neohiro/repos?per_page=100&sort=pushed"
 
 $all = @($org) + @($usr) |
     Where-Object { -not $_.fork -and $_.name -notmatch 'github\.io$' -and $_.name -ne '.github' } |
     Sort-Object @{e = 'stargazers_count'; Descending = $true }, @{e = 'pushed_at'; Descending = $true } |
     ForEach-Object {
+        # never-pushed repos return $null for pushed_at; preserve null rather than blowing up
+        $pushed = if ($_.pushed_at) { ($_.pushed_at -replace 'T.*$', '') } else { $null }
         [ordered]@{
             name             = $_.name
             html_url         = $_.html_url
@@ -32,7 +43,7 @@ $all = @($org) + @($usr) |
             topics           = @($_.topics)
             # date-only: GitHub's pushed_at wobbles across edge caches, which would
             # make CI change-detection noisy; the site only displays the date anyway
-            pushed_at        = ($_.pushed_at -replace 'T.*$', '')
+            pushed_at        = $pushed
         }
     }
 
