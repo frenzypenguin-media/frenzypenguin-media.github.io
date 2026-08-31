@@ -30,8 +30,7 @@ icon: |
 ## Quick Start
 
 ```bash
-# Run as root
-curl -fsSL https://raw.githubusercontent.com/neohiro/linux/main/harden.sh | bash
+curl -fsSL https://raw.githubusercontent.com/neohiro/linux/main/linuxinstall.sh | sudo bash -s --
 ```
 
 Or clone and run locally:
@@ -39,7 +38,7 @@ Or clone and run locally:
 ```bash
 git clone https://github.com/neohiro/linux.git
 cd linux
-sudo ./harden.sh
+sudo ./linuxinstall.sh
 ```
 
 ## Modules
