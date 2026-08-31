@@ -1,4 +1,4 @@
----
+﻿---
 title: ZombieShoot
 tagline: "Top-down zombie shooter — procedural levels, permadeath, moddable (Windows/Linux)"
 platform: Windows / Linux
@@ -93,5 +93,5 @@ Complete runs to unlock:
 
 ## Related
 
-- [TristarMania](https://github.com/neohiro/TristarMania) — Space shooter
+- [TristarMania](https://github.com/frenzypenguin-media/tristar-mania) — Space shooter
 - [GhostMaze](https://github.com/neohiro/GhostMaze) — 2D RPG

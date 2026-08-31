@@ -1089,10 +1089,10 @@ Got it — I can help you with that. To give you the most useful answer, tell me
       if (window.AuthBar && typeof window.AuthBar.selectTab === 'function') {
         window.AuthBar.selectTab('login');
       } else {
-        // Fallback: try to open the GitHub auth-bar drawer
-        const authTab = document.getElementById('auth-bar__tab--login');
+        // Fallback: try to open the bottom AI dock login tab
+        const authTab = document.getElementById('ai-dock__tab--login');
         if (authTab) authTab.click();
-        else showToast('Sign in: open the Login tab in the floating panel (top right).');
+        else showToast('Sign in: open the Login tab in the AI dock (bottom of the page).');
       }
     });
     frag.appendChild(login);

@@ -1,4 +1,4 @@
----
+﻿---
 title: Tetris
 tagline: "Classic Tetris — guideline-compliant, T-spin detection, replay system, vs AI"
 platform: Windows / Linux / macOS / Web
@@ -97,5 +97,5 @@ icon: |
 
 ## Related
 
-- [TristarMania](https://github.com/neohiro/TristarMania) — Space shooter
+- [TristarMania](https://github.com/frenzypenguin-media/tristar-mania) — Space shooter
 - [GhostMaze](https://github.com/neohiro/GhostMaze) — 2D RPG

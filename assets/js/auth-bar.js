@@ -1,29 +1,29 @@
 /**
- * Shared auth bar — cross-site GitHub OAuth + private assistant contact.
+ * Shared AI dock — bottom bar with persistent sway + GitHub OAuth.
+ * SSOT: template-shared/assets/js/auth-bar.js
  *
- * Flow (simplest possible, matches the user's "gh auth only" spec):
- *   1. User clicks Login tab.
- *   2. Browser is redirected to github.com/login/oauth/authorize with
- *      client_id + redirect_uri + state. No tokens stored client-side.
- *   3. GitHub redirects back to /auth/callback?code=...&state=...
- *   4. The site's server (functions/api/auth.js) exchanges the code for
- *      a token, uses the host's `gh` CLI credentials to verify org
- *      membership, and returns a session_id derived from the role.
- *   5. Auth bar reads #session= from the URL, stores session_id in
- *      localStorage as the only client-side artifact, then displays
- *      the role-aware UI.
+ * Flow (simplest possible):
+ *   1. User clicks AI/Login/Contact/Dashboard/User tab in the bottom rail.
+ *   2. The corresponding panel slides up from the dock with a sway animation.
+ *   3. For Login: browser is redirected to github.com/login/oauth/authorize.
+ *   4. GitHub redirects back to /auth/callback?code=...&state=...
+ *   5. Server (functions/api/auth.js) exchanges code → session_id + role.
+ *   6. Auth bar reads #session= from URL, stores in localStorage, displays UI.
  *
  * Required:
- *   - auth-bar.html (markup)
- *   - auth-bar.css  (styles)
+ *   - auth-bar.html (markup, with id="ai-dock"...)
+ *   - auth-bar.css  (styles, .ai-dock...)
  *   - functions/api/auth.js (server endpoint) reachable from this origin
  *
  * Optional globals:
- *   window.OAUTH_CLIENT_ID  — required; configure per host
- *   window.Auth             — legacy dashboard Auth object (overrides)
- *   window.AUTH_CALLBACK    — override callback path (default: /auth/callback)
+ *   window.OAUTH_CLIENT_ID       — required; configure per host
+ *   window.OAUTH_REDIRECT_ORIGIN — override auth callback origin (default: window.location.origin)
+ *   window.AUTH_CALLBACK         — override callback path (default: /auth/callback)
+ *   window.AUTH_STATE_ENDPOINT   — override state endpoint (default: /auth/state)
+ *   window.Auth                  — legacy dashboard Auth object (overrides)
+ *
+ * Backwards-compat: exposes window.AuthBar.open(panelId) for older callers.
  */
-
 (function () {
   'use strict';
 
@@ -41,40 +41,54 @@
   function qa(sel, ctx) { return Array.from((ctx || document).querySelectorAll(sel)); }
 
   function show(panel) {
-    if (panel) { panel.hidden = false; panel.removeAttribute('hidden'); }
+    if (!panel) return;
+    panel.hidden = false;
+    panel.removeAttribute('hidden');
+    panel.removeAttribute('data-closing');
   }
   function hide(panel) {
-    if (panel) { panel.hidden = true; panel.setAttribute('hidden', ''); }
+    if (!panel) return;
+    panel.hidden = true;
+    panel.setAttribute('hidden', '');
+    panel.removeAttribute('data-closing');
   }
 
   function closeAll() {
-    qa('.auth-bar__panel').forEach(hide);
-    qa('.auth-bar__tab').forEach(t => {
+    qa('.ai-dock__panel').forEach(hide);
+    qa('.ai-dock__tab').forEach(t => {
       t.setAttribute('aria-selected', 'false');
       t.classList.remove('active');
     });
-    hide($('auth-bar__overlay'));
+    hide($('ai-dock__backdrop'));
     state.activeTab = null;
   }
 
   function selectTab(tabId) {
     if (!tabId) { closeAll(); return; }
-    qa('.auth-bar__panel').forEach(hide);
-    qa('.auth-bar__tab').forEach(t => {
+    qa('.ai-dock__panel').forEach(hide);
+    qa('.ai-dock__tab').forEach(t => {
       t.setAttribute('aria-selected', 'false');
       t.classList.remove('active');
     });
-    const tab = $(`auth-bar__tab--${tabId}`);
-    const panel = $(`auth-bar__panel--${tabId}`);
+    const tab = $(`ai-dock__tab--${tabId}`);
+    const panel = $(`ai-dock__panel--${tabId}`);
     if (!tab || !panel) return;
     tab.setAttribute('aria-selected', 'true');
     tab.classList.add('active');
     show(panel);
     state.activeTab = tabId;
-    const overlay = $('auth-bar__overlay');
-    if (tabId === 'contact' || tabId === 'login') show(overlay); else hide(overlay);
+
+    const backdrop = $('ai-dock__backdrop');
+    if (tabId === 'contact' || tabId === 'login' || tabId === 'ai') {
+      if (backdrop) backdrop.hidden = false;
+    } else {
+      if (backdrop) backdrop.hidden = true;
+    }
+
     if (tabId === 'contact') {
-      setTimeout(() => { const input = $('auth-bar__contact-input'); if (input) input.focus(); }, 350);
+      setTimeout(() => { const input = $('ai-dock__contact-input'); if (input) input.focus(); }, 350);
+    } else if (tabId === 'ai') {
+      setTimeout(() => { const input = $('ai-dock__chat-input'); if (input) input.focus(); }, 350);
     }
   }
 
@@ -136,23 +150,23 @@
   }
 
   function setUser(session) {
-    const loginTab = $('auth-bar__tab--login');
-    const dashboardTab = $('auth-bar__tab--dashboard');
-    const userTab = $('auth-bar__tab--user');
-    const dashboardLink = $('auth-bar__dashboard-link');
-    const userDashboardLink = $('auth-bar__user-dashboard-link');
+    const loginTab = $('ai-dock__tab--login');
+    const dashboardTab = $('ai-dock__tab--dashboard');
+    const userTab = $('ai-dock__tab--user');
+    const dashboardLink = $('ai-dock__dashboard-link');
+    const userDashboardLink = $('ai-dock__user-dashboard-link');
 
     if (session && session.login) {
       if (loginTab) loginTab.classList.add('hidden');
       if (dashboardTab) dashboardTab.classList.remove('hidden');
       if (userTab) userTab.classList.remove('hidden');
 
-      const avatar = $('auth-bar__avatar');
-      const avatarLg = $('auth-bar__user-avatar-lg');
-      const username = $('auth-bar__username');
-      const userName = $('auth-bar__user-name');
-      const userLogin = $('auth-bar__user-login');
-      const role = $('auth-bar__role');
+      const avatar = $('ai-dock__avatar');
+      const avatarLg = $('ai-dock__user-avatar-lg');
+      const username = $('ai-dock__username');
+      const userName = $('ai-dock__user-name');
+      const userLogin = $('ai-dock__user-login');
+      const role = $('ai-dock__role');
 
       if (avatar) avatar.src = appendSize(session.avatar_url, 40);
       if (avatarLg) avatarLg.src = appendSize(session.avatar_url, 72);
@@ -162,31 +176,70 @@
       if (role) {
         const r = session.role || (session.login === GH_USER ? 'godadmin' : 'user');
         role.textContent = r;
-        role.className = 'auth-bar__role-badge auth-bar__role-badge--' + r;
+        role.className = 'ai-dock__role-badge ai-dock__role-badge--' + r;
       }
+
       const dash = `https://neohiro.github.io/dashboard/?user=${encodeURIComponent(session.login)}`;
       if (dashboardLink) dashboardLink.href = dash;
       if (userDashboardLink) userDashboardLink.href = dash;
+
+      syncNavLoginSlot(session);
     } else {
       if (loginTab) loginTab.classList.remove('hidden');
       if (dashboardTab) dashboardTab.classList.add('hidden');
       if (userTab) userTab.classList.add('hidden');
+      syncNavLoginSlot(null);
     }
+  }
+
+  /**
+   * Reflect session into any in-page nav LOGIN slot
+   * (.nav-login-slot). The slot accepts either an <a> (when signed out)
+   * or a <button>+<span> (when signed in) injected by Jekyll.
+   *
+   * We never overwrite site-defined nav content — only toggle hidden state
+   * and update text labels.
+   */
+  function syncNavLoginSlot(session) {
+    qa('.nav-login-slot').forEach(slot => {
+      const out = slot.querySelector('[data-mode="out"]');
+      const inn = slot.querySelector('[data-mode="in"]');
+      if (session && session.login) {
+        if (out) out.hidden = true;
+        if (inn) {
+          inn.hidden = false;
+          const nameEl = inn.querySelector('[data-bind="login"]');
+          const roleEl = inn.querySelector('[data-bind="role"]');
+          const avatarEl = inn.querySelector('[data-bind="avatar"]');
+          if (nameEl) nameEl.textContent = session.login;
+          if (roleEl) {
+            const r = session.role || (session.login === GH_USER ? 'godadmin' : 'user');
+            roleEl.textContent = r;
+            roleEl.className = 'nav-login-role nav-login-role--' + r;
+          }
+          if (avatarEl && session.avatar_url) avatarEl.src = appendSize(session.avatar_url, 32);
+        }
+      } else {
+        if (out) out.hidden = false;
+        if (inn) inn.hidden = true;
+      }
+    });
   }
 
   async function startOAuth() {
     const clientId = (typeof window !== 'undefined' && window.OAUTH_CLIENT_ID) || '';
     if (!clientId) {
-      console.warn('[auth-bar] OAUTH_CLIENT_ID not set — login unavailable on this host');
+      console.warn('[ai-dock] OAUTH_CLIENT_ID not set — login unavailable on this host');
       return;
     }
     const stateVal = await fetchState();
     if (!stateVal) {
-      console.warn('[auth-bar] failed to fetch OAuth state from server');
+      console.warn('[ai-dock] failed to fetch OAuth state from server');
       return;
     }
     sessionStorage.setItem(OAUTH_STATE_KEY, stateVal);
-    const redirect = encodeURIComponent(location.origin + AUTH_CALLBACK);
+    const origin = (typeof window !== 'undefined' && window.OAUTH_REDIRECT_ORIGIN) || window.location.origin;
+    const redirect = encodeURIComponent(origin + AUTH_CALLBACK);
     const returnTo = encodeURIComponent(location.pathname + location.search);
     const url =
       `https://github.com/login/oauth/authorize?client_id=${encodeURIComponent(clientId)}` +
@@ -218,11 +271,11 @@
   }
 
   async function sendContact() {
-    const form = $('auth-bar__contact-form');
-    const success = $('auth-bar__contact-success');
-    const error = $('auth-bar__contact-error');
-    const errorMsg = $('auth-bar__contact-error-msg');
-    const input = $('auth-bar__contact-input');
+    const form = $('ai-dock__contact-form');
+    const success = $('ai-dock__contact-success');
+    const error = $('ai-dock__contact-error');
+    const errorMsg = $('ai-dock__contact-error-msg');
+    const input = $('ai-dock__contact-input');
     const submitBtn = form ? form.querySelector('[type=submit]') : null;
 
     if (!input || !input.value.trim()) return;
@@ -259,9 +312,9 @@
   }
 
   function initContactForm() {
-    const form = $('auth-bar__contact-form');
-    const input = $('auth-bar__contact-input');
-    const charCount = $('auth-bar__char-count');
+    const form = $('ai-dock__contact-form');
+    const input = $('ai-dock__contact-input');
+    const charCount = $('ai-dock__char-count');
     if (input && charCount) {
       input.addEventListener('input', () => {
         const len = input.value.length;
@@ -272,32 +325,39 @@
     if (form) form.addEventListener('submit', (e) => { e.preventDefault(); sendContact(); });
   }
 
-  function initOverlay() {
-    const overlay = $('auth-bar__overlay');
-    if (overlay) overlay.addEventListener('click', () => selectTab(null));
+  function initBackdrop() {
+    const backdrop = $('ai-dock__backdrop');
+    if (backdrop) backdrop.addEventListener('click', () => selectTab(null));
+  }
+
+  function initEscClose() {
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && state.activeTab) selectTab(null);
+    });
   }
 
   async function init() {
     await consumeCallback();
 
-    qa('.auth-bar__tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        const id = tab.id.replace('auth-bar__tab--', '');
+    qa('.ai-dock__tab').forEach(tab => {
+      tab.addEventListener('click', (e) => {
+        // Anchor tabs (dashboard) should still navigate
+        if (tab.tagName === 'A' && tab.getAttribute('href')) return;
+        e.preventDefault();
+        const id = tab.id.replace('ai-dock__tab--', '');
         selectTab(id === state.activeTab ? null : id);
       });
     });
 
-    const ghBtn = $('auth-bar__gh-btn');
+    const ghBtn = $('ai-dock__gh-btn');
     if (ghBtn) ghBtn.addEventListener('click', startOAuth);
 
-    const logoutDashboard = $('auth-bar__logout-btn');
-    const logoutUser = $('auth-bar__user-logout');
-    [logoutDashboard, logoutUser].forEach(btn => {
-      if (btn) btn.addEventListener('click', () => { clearSession(); setUser(null); });
-    });
+    const logoutUser = $('ai-dock__user-logout');
+    if (logoutUser) logoutUser.addEventListener('click', () => { clearSession(); setUser(null); closeAll(); });
 
     initContactForm();
-    initOverlay();
+    initBackdrop();
+    initEscClose();
     setUser(readStoredSession());
   }
 
