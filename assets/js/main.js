@@ -17,7 +17,6 @@
       this.columns = 0;
       this.drops = [];
       this.running = false;
-      this.hero = document.querySelector('.hero');
       this.init();
     }
 
@@ -29,11 +28,10 @@
     }
 
     resize() {
-      // Constrain to hero area height instead of full viewport
-      const heroHeight = this.hero ? this.hero.getBoundingClientRect().height : window.innerHeight;
-      const heroWidth = window.innerWidth;
-      this.canvas.width = heroWidth;
-      this.canvas.height = Math.max(heroHeight, 400); // minimum 400px
+      // Canvas is absolute-positioned inside .hero, so its layout size matches hero
+      const rect = this.canvas.getBoundingClientRect();
+      this.canvas.width = rect.width;
+      this.canvas.height = Math.max(rect.height, 400);
       this.columns = Math.floor(this.canvas.width / this.fontSize);
       this.drops = Array(this.columns).fill(1);
     }

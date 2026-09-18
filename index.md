@@ -5,6 +5,7 @@ description: "Security hardening & privacy tools for Windows and Linux. Defense 
 ---
 
 <div class="hero" id="home">
+  <canvas id="matrix-canvas" aria-hidden="true"></canvas>
   <div class="container">
     <div class="hero-content">
       <img class="hero-avatar"
