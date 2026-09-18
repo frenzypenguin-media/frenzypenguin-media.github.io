@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐧</text></svg>">
-<title>FrenzyPenguin Media — Defense is the best defense</title>
-<meta name="description" content="FrenzyPenguin Media — open-source security hardening, privacy tooling and media by neohiro / METAPOD.">
+<title>FrenzyPenguin Media — Games, Game Dev & Coding</title>
+<meta name="description" content="FrenzyPenguin Media — retro & indie games, game development, coding projects and media by neohiro / METAPOD.">
 <style>
 :root{
   --bg:#030710; --card:rgba(15,21,32,.85);
@@ -185,6 +185,7 @@ body.detail .panel>*:nth-child(6){transition-delay:.36s}
 .btn:hover{transform:translateY(-3px)}
 .btn.sponsor{background:linear-gradient(135deg,#ea4aaa,#c2185b);color:#fff;box-shadow:0 8px 28px rgba(234,74,170,.35)}
 .btn.patreon{background:linear-gradient(135deg,#f96854,#e64c37);color:#fff;box-shadow:0 8px 28px rgba(249,104,84,.32)}
+.btn.youtube{background:linear-gradient(135deg,#ff0033,#c4302b);color:#fff;box-shadow:0 8px 28px rgba(255,0,51,.35)}
 .btn.linktree{background:rgba(43,226,149,.12);color:var(--teal);border:1px solid rgba(43,226,149,.4)}
 footer{padding:46px 0 60px;text-align:center;color:var(--muted);font-size:13.5px}
 footer .heart{color:#ea4aaa}
@@ -205,10 +206,10 @@ footer a{color:var(--teal);text-decoration:none}
 
 <div class="stage">
 <header class="wrap">
-  <span class="kicker">🐧 FRENZYPENGUIN MEDIA · BY METAPOD</span><br>
+  <span class="kicker">🎮 FRENZYPENGUIN MEDIA · GAMES · GAME DEV · CODING · MEDIA</span><br>
   <span class="mascot">🐧</span>
   <h1 class="glitch" id="logo" data-t="FrenzyPenguin">FrenzyPenguin</h1>
-  <p class="tagline"><b>Defense is the best defense.</b>
+  <p class="tagline"><b>Press start to play, build &amp; code.</b>
   <span class="typedline"><span id="typed"></span><span class="caret">&nbsp;</span></span></p>
 </header>
 
@@ -216,22 +217,26 @@ footer a{color:var(--teal);text-decoration:none}
   <div class="sec-title">What We Do</div>
   <div class="cards">
     <div class="card">
-      <h3><span><span class="ico">🛡️</span>Security Tooling</span></h3>
-      <p>Open-source hardening suites — exploit-mitigation catalogs, network firewalls, DNS sinkholes and passive honeypots for Windows &amp; Linux.</p>
-      <div class="tags"><span class="tag">Hardening</span><span class="tag">Windows</span><span class="tag">Linux</span></div></div>
+      <h3><span><span class="ico">🎮</span>Game Development</span></h3>
+      <p>Retro &amp; indie games built from scratch with Python &amp; pygame — arcade shooters, 2D RPGs, and classics reimagined for Windows &amp; Linux.</p>
+      <div class="tags"><span class="tag">pygame</span><span class="tag">Python</span><span class="tag">Indie</span></div></div>
     <div class="card">
-      <h3><span><span class="ico">🔒</span>Privacy First</span></h3>
-      <p>Encrypted-DNS front-ends, debloaters and zero-telemetry defaults. Privacy is the foundation, not a feature.</p>
-      <div class="tags"><span class="tag">DNS</span><span class="tag">Privacy</span><span class="tag">Open Source</span></div></div>
+      <h3><span><span class="ico">🕹️</span>Gaming</span></h3>
+      <p>Pick-up-and-play arcade games — Tetris, GhostMaze, TristarMania, ZombieShoot. No telemetry, no launchers, just retro fun.</p>
+      <div class="tags"><span class="tag">Arcade</span><span class="tag">Retro</span><span class="tag">Cross-platform</span></div></div>
     <div class="card">
-      <h3><span><span class="ico">📺</span>Media &amp; Guides</span></h3>
-      <p>STIG-grade install checklists, walkthrough videos and community streams across Patreon and Linktree.</p>
-      <div class="tags"><span class="tag">Guides</span><span class="tag">Video</span><span class="tag">Community</span></div></div>
+      <h3><span><span class="ico">💻</span>Coding</span></h3>
+      <p>Open-source tools and apps — media players, system monitors, DNS utilities, and everyday desktop apps, all on GitHub.</p>
+      <div class="tags"><span class="tag">Open Source</span><span class="tag">Python</span><span class="tag">Tools</span></div></div>
+    <div class="card">
+      <h3><span><span class="ico">📺</span>Media</span></h3>
+      <p>Video deep-dives, dev logs and guides on YouTube &amp; Patreon — behind-the-scenes of every game, tool and build.</p>
+      <div class="tags"><span class="tag">YouTube</span><span class="tag">Devlogs</span><span class="tag">Guides</span></div></div>
   </div>
 </section>
 
 <section class="wrap">
-  <div class="sec-title">Featured Projects</div>
+  <div class="sec-title">Featured Projects &amp; Games</div>
   <div class="cards" id="projects">
     <div class="card skeleton"></div><div class="card skeleton"></div><div class="card skeleton"></div>
     <noscript><p style="color:var(--muted)">Live project feed needs JavaScript —
@@ -240,11 +245,18 @@ footer a{color:var(--teal);text-decoration:none}
 </section>
 
 <section class="wrap support">
+  <div class="sec-title" style="justify-content:center">Tune In · Media &amp; Community</div>
+  <div class="btnrow">
+    <a class="btn youtube" rel="noopener noreferrer nofollow no-referrer" href="https://www.youtube.com/FrenzyPenguinMedia?sub_confirmation=1">▶ Subscribe on YouTube</a>
+    <a class="btn linktree" rel="noopener noreferrer nofollow no-referrer" href="https://linktr.ee/frenzypenguin.media">🌐 frenzypenguin.media</a>
+  </div>
+</section>
+
+<section class="wrap support">
   <div class="sec-title" style="justify-content:center">Support The Frenzy</div>
   <div class="btnrow">
-    <a class="btn sponsor" rel="noopener noreferrer nofollow" href="https://github.com/sponsors/neohiro">❤ Sponsor on GitHub</a>
-    <a class="btn patreon" rel="noopener noreferrer nofollow" href="https://www.patreon.com/frenzypenguin_media">Patreon</a>
-    <a class="btn linktree" rel="noopener noreferrer nofollow" href="https://linktr.ee/frenzypenguin.media">🌐 frenzypenguin.media</a>
+    <a class="btn sponsor" rel="noopener noreferrer nofollow no-referrer" href="https://github.com/sponsors/neohiro">❤ Sponsor on GitHub</a>
+    <a class="btn patreon" rel="noopener noreferrer nofollow no-referrer" href="https://www.patreon.com/frenzypenguin_media">Patreon</a>
   </div>
 </section>
 
@@ -343,16 +355,16 @@ document.querySelectorAll('.card').forEach(attachSelect);
 
 /* ---- typewriter tagline ---- */
 startTypewriter([
-  'Security hardening & privacy tooling',
-  'Exploit mitigations made simple',
-  'From ExploitProtection to HoneyScan',
-  'Encrypted DNS for everyone',
-  'Firewalls · sinkholes · honeypots',
-  'Zero telemetry. Full transparency.',
-  'STIG-grade guides for fresh installs',
-  'Guides, videos & community',
-  '29 open-source tools and counting',
-  'Defense is the best defense'
+  'Game development in Python & pygame',
+  'Retro arcade games for Windows & Linux',
+  'Tetris · GhostMaze · TristarMania · ZombieShoot',
+  'Coding, media & open-source fun',
+  'From sandbox to shipped game',
+  'Pixel by pixel, build by build',
+  'Games with zero telemetry & no launchers',
+  'Music, videos & devlogs',
+  'Open-source tools, 100% free',
+  'Press start to play'
 ]);
 
 /* ---- dynamic projects feed: committed snapshot first, cached API refresh ---- */
@@ -375,7 +387,14 @@ function repoCard(r, i) {
 }
 function renderRepos(all) {
   grid.innerHTML = '';
-  all.forEach((r, i) => {
+  const rank = r => {
+    const lw = (r.name + ' ' + (r.description || '') + ' ' + (r.topics || []).join(' ')).toLowerCase();
+    if (/(game|arcade|tetris|pygame|shooter|rpg|player|media|music)/.test(lw)) return 0;
+    if (/(hardening|security|firewall|dns|honeypot|exploit)/.test(lw)) return 2;
+    return 1;
+  };
+  all.slice().sort((a, b) => rank(a) - rank(b) || (b.stargazers_count || 0) - (a.stargazers_count || 0))
+    .forEach((r, i) => {
     REPOS[r.name.toLowerCase()] = r;
     const c = repoCard(r, i); grid.appendChild(c); attachSelect(c); io.observe(c);
   });
