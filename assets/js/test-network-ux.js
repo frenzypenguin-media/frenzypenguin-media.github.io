@@ -507,20 +507,21 @@ for (var s = 0; s < SITES.length; s++) {
   ok(/<main[^>]*\btabindex="-1"[^>]*>/.test(layout), ss + ' -- <main> has tabindex="-1" for skip-link focus');
 }
 
-// --- Layout: counter script defer (where present) ---
-section('Layout: counter script non-blocking (all sites)');
+// --- Layout: visitor counter badge present (where expected) ---
+// Counter embeds are visitor-badge images (no JS; GitHub/Camo safe). The
+// badge must appear in _layouts/default.html; sibling scan below ensures no
+// freevisitorcounters promo/leak regressions.
+section('Layout: visitor counter badge (all sites)');
 for (var t = 0; t < SITES.length; t++) {
   var ts = SITES[t];
   var tlayoutFile = PATH.join(REPO, ts, '_layouts', 'default.html');
   if (!FS.existsSync(tlayoutFile)) continue;
   var tlayout = FS.readFileSync(tlayoutFile, 'utf8');
-  // If the counter script is present, it must be defer/async; otherwise
-  // it's a render blocker and delays the whole page.
-  var hasCounter = /freevisitorcounters\.com\/en\/home\/counter/.test(tlayout);
-  if (hasCounter) {
-    ok(/freevisitorcounters\.com[^>]*\sdefer\b/.test(tlayout) || /freevisitorcounters\.com[^>]*\sasync\b/.test(tlayout), ts + ' -- counter script is defer/async (not render-blocking)');
+  var hasBadge = /visitorbadge\.io/.test(tlayout);
+  if (hasBadge) {
+    ok(/api\.visitorbadge\.io\/api\/visitors\?path=/.test(tlayout), ts + ' -- visitor-badge counter image present');
   } else {
-    ok(true, ts + ' -- no counter script (n/a)');
+    ok(true, ts + ' -- no counter embed (n/a)');
   }
 }
 
