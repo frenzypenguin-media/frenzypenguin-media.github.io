@@ -7,6 +7,11 @@ description: "Security hardening & privacy tools for Windows and Linux. Defense 
 <div class="hero" id="home">
   <div class="container">
     <div class="hero-content">
+      <img class="hero-avatar"
+           src="{{ '/assets/profile.png' | relative_url }}"
+           alt="FrenzyPenguin Media avatar"
+           width="92" height="92"
+           fetchpriority="high">
       <div class="hero-badges" aria-label="Affiliations">
         <span class="badge badge-metapod">METAPOD</span>
         <span class="badge badge-fpm">FrenzyPenguin Media</span>
@@ -125,7 +130,7 @@ description: "Security hardening & privacy tools for Windows and Linux. Defense 
         </div>
         <h3>Linux Post-Install Hardening</h3>
         <p>Firewall, encrypted DNS, Tor, auditd, AppArmor — automated.</p>
-        <a href="https://github.com/neohiro/ubuntu" class="guide-link" target="_blank" rel="noopener">
+        <a href="https://github.com/neohiro/linux" class="guide-link" target="_blank" rel="noopener">
           View Guide <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
       </article>

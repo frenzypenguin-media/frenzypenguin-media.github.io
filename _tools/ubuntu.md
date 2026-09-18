@@ -4,7 +4,7 @@ tagline: "Ubuntu post-install hardening — firewall, encrypted DNS, Tor, AppArm
 platform: Ubuntu 20.04 / 22.04 / 24.04
 language: Shell / Python
 category: Security Guides
-repo_url: https://github.com/neohiro/ubuntu
+repo_url: https://github.com/neohiro/linux
 featured: false
 weight: 11
 icon: |
@@ -29,7 +29,7 @@ icon: |
 ## Quick Start
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/neohiro/ubuntu/main/install.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/neohiro/linux/main/linuxinstall.sh | sudo bash -s --
 ```
 
 ## Profiles

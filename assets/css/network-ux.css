@@ -343,22 +343,17 @@ body > .ambient-orb {
   .prev-btn .prev-host { display: none; }
 }
 
-/* ── AI Assistant input bar (full width) ───────────────────────────── */
+/* ── AI Assistant input bar (hero-centered) ────────────────────────── */
 .ai-bar {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 90;
-  padding: 14px 16px 18px;
-  background: linear-gradient(180deg, transparent 0%, var(--bg, #0b0e12) 35%, var(--bg, #0b0e12) 100%);
+  margin: 32px auto 0;
+  max-width: 1120px;
   pointer-events: none;
   display: flex;
   justify-content: center;
 }
 .ai-bar__inner {
   pointer-events: auto;
-  width: min(100%, 1120px);
+  width: 100%;
   position: relative;
 }
 .ai-bar__form {
@@ -792,6 +787,28 @@ body > .ambient-orb {
   color: var(--accent, #7c4dff);
   flex-shrink: 0;
   margin-top: 2px;
+  position: relative;
+  overflow: hidden;
+}
+/* Org-avatar image fills the assistant avatar slot; the fallback glyph
+   (✦ / 🤖) stays underneath and re-appears if the image can't load. */
+.ai-conv__avatar .ai-avatar-img,
+.ai-dock__chat-avatar .ai-avatar-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.ai-conv__brand-avatar {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  outline: 1px solid var(--accent, #7c4dff);
+  outline-offset: 1px;
 }
 .ai-conv__bubble {
   max-width: 75%;
@@ -939,4 +956,19 @@ body > .ambient-orb {
     width: auto;
   }
   .ai-conv__bubble { max-width: 88%; }
+}
+
+/* ── Hero avatar (org identity on landing heroes) ──────────────────── */
+.hero-avatar {
+  display: block;
+  width: 92px;
+  height: 92px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--accent, #7c4dff);
+  box-shadow: 0 0 0 5px rgba(124, 77, 255, 0.18), 0 14px 34px rgba(0, 0, 0, 0.45);
+}
+@media (max-width: 560px) {
+  .hero-avatar { width: 72px; height: 72px; margin-bottom: 14px; }
 }

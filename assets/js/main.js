@@ -5,7 +5,7 @@
   'use strict';
 
   // ============================================
-  // MATRIX RAIN BACKGROUND
+  // MATRIX RAIN BACKGROUND (constrained to hero area)
   // ============================================
   class MatrixRain {
     constructor() {
@@ -17,6 +17,7 @@
       this.columns = 0;
       this.drops = [];
       this.running = false;
+      this.hero = document.querySelector('.hero');
       this.init();
     }
 
@@ -28,8 +29,11 @@
     }
 
     resize() {
-      this.canvas.width = window.innerWidth;
-      this.canvas.height = window.innerHeight;
+      // Constrain to hero area height instead of full viewport
+      const heroHeight = this.hero ? this.hero.getBoundingClientRect().height : window.innerHeight;
+      const heroWidth = window.innerWidth;
+      this.canvas.width = heroWidth;
+      this.canvas.height = Math.max(heroHeight, 400); // minimum 400px
       this.columns = Math.floor(this.canvas.width / this.fontSize);
       this.drops = Array(this.columns).fill(1);
     }

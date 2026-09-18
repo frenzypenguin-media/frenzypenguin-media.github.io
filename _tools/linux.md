@@ -70,6 +70,5 @@ Edit `config.local` before running to:
 
 ## Related
 
-- [ubuntu](https://github.com/neohiro/ubuntu) — Ubuntu-specific hardening with GUI options
 - [windows](https://github.com/neohiro/windows) — Windows equivalent
 - [Cripple-NetStrip](https://github.com/neohiro/Cripple-NetStrip) — Network-level hardening

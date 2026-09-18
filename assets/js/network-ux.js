@@ -29,6 +29,7 @@
     mountPreviousButton();
     mountConversationModal();
     mountAssistantBar();
+    fillAvatarSlots(document.body); // ai-dock chat avatar (site identity)
     injectNavAuth();
     detectStranger();
     wireInteractions();
@@ -202,6 +203,49 @@
     return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   }
 
+  /* ── Org avatar (site identity) ───────────────────────────────────
+   * Every site in the neohiro network shows its own avatar in the
+   * assistant conversation and the AI dock. The self-hosted profile.png
+   * is preferred where it exists (neohiro/frenzypenguin enforce
+   * `img-src 'self'`), otherwise the GitHub org avatar URL is used
+   * (transhumanists/openstageisland allow https:). */
+  var SITE_AVATAR = (function () {
+    var host = (location.hostname || '').toLowerCase();
+    if (host.indexOf('frenzypenguin') === 0)    return '/assets/profile.png';
+    if (host.indexOf('transhumanists') === 0)   return 'https://github.com/transhumanists.png';
+    if (host.indexOf('openstageisland') === 0)  return 'https://github.com/openstageisland.png';
+    if (host.indexOf('neohiro') === 0)          return '/assets/profile.png';
+    return '/assets/profile.png';
+  })();
+
+  function buildAvatarImg(cls) {
+    var img = document.createElement('img');
+    img.className = cls || 'ai-avatar-img';
+    img.src = SITE_AVATAR;
+    img.alt = '';
+    img.loading = 'lazy';
+    img.decoding = 'async';
+    img.setAttribute('aria-hidden', 'true');
+    img.onerror = function () { if (img.parentNode) img.parentNode.removeChild(img); };
+    return img;
+  }
+
+  // Injects the org avatar into every assistant avatar slot + the
+  // conversation header brand. The slot's existing glyph (✦ / 🤖) stays
+  // underneath as a graceful offline fallback: if the image errors out it
+  // is removed and the glyph + tinted circle remain.
+  function fillAvatarSlots(root) {
+    if (!root || typeof root.querySelectorAll !== 'function') return;
+    Array.prototype.forEach.call(root.querySelectorAll('.ai-conv__avatar, .ai-dock__chat-avatar'), function (slot) {
+      if (!slot || slot.querySelector('img')) return;
+      slot.appendChild(buildAvatarImg());
+    });
+    Array.prototype.forEach.call(root.querySelectorAll('.ai-conv__brand'), function (brand) {
+      if (brand.querySelector('.ai-conv__brand-avatar')) return;
+      brand.insertBefore(buildAvatarImg('ai-conv__brand-avatar ai-avatar-img'), brand.firstChild);
+    });
+  }
+
   function showToast(msg, duration) {
     if (document.getElementById('neohiro-toast')) return;
     var el = document.createElement('div');
@@ -291,6 +335,7 @@
       </div>
     `;
     document.body.appendChild(modal);
+    fillAvatarSlots(modal); // org avatar in conversation header + welcome bubble
     // Close handlers
     document.getElementById('ai-conv__close').addEventListener('click', hideConversationModal);
     // Esc to close (handler is page-singleton; no leak)
@@ -394,6 +439,7 @@
       `;
     }
     box.appendChild(row);
+    fillAvatarSlots(row); // org avatar on assistant replies
     box.scrollTop = box.scrollHeight;
   }
 
@@ -780,12 +826,13 @@ function renderSafeHtml(html) {
         <div class="ai-bar__counter" id="ai-bar__counter" aria-live="off" aria-atomic="true">0 / 600</div>
       </div>
     `;
-    document.body.appendChild(wrap);
 
-    // Add bottom padding so the bar doesn't cover content (idempotent)
-    if (!document.documentElement.style.getPropertyValue('--ai-bar-pad')) {
-      document.documentElement.style.setProperty('--ai-bar-pad', '110px');
-      document.documentElement.style.paddingBottom = 'var(--ai-bar-pad)';
+    // Insert into hero-content if present (hero middle), otherwise fall back to body
+    const heroContent = document.querySelector('.hero-content');
+    if (heroContent) {
+      heroContent.appendChild(wrap);
+    } else {
+      document.body.appendChild(wrap);
     }
 
     const form = document.getElementById('ai-bar__form');
@@ -1089,10 +1136,10 @@ Got it — I can help you with that. To give you the most useful answer, tell me
       if (window.AuthBar && typeof window.AuthBar.selectTab === 'function') {
         window.AuthBar.selectTab('login');
       } else {
-        // Fallback: try to open the bottom AI dock login tab
-        const authTab = document.getElementById('ai-dock__tab--login');
+        // Fallback: try to open the GitHub auth-bar drawer
+        const authTab = document.getElementById('auth-bar__tab--login');
         if (authTab) authTab.click();
-        else showToast('Sign in: open the Login tab in the AI dock (bottom of the page).');
+        else showToast('Sign in: open the Login tab in the floating panel (top right).');
       }
     });
     frag.appendChild(login);
