@@ -82,3 +82,5 @@ For security vulnerabilities, see [SECURITY.md](SECURITY.md) for private disclos
 ## License
 
 GPL-3.0 — see [LICENSE](LICENSE) and [SECURITY.md](SECURITY.md).
+
+[![Visitors](https://api.visitorbadge.io/api/visitors?path=github.com%2Fneohiro%2Ffrenzypenguin-media&label=Visitors&countColor=%23263759)](https://visitorbadge.io/status?path=github.com%2Fneohiro%2Ffrenzypenguin-media)
