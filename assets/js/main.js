@@ -18,7 +18,7 @@
   // REVEAL ON SCROLL (CARDS)
   // ============================================
   function initReveal() {
-    const cards = $$('.card');
+    const cards = $$('.card:not([data-revealed])');
     if (!cards.length) return;
 
     const obs = new IntersectionObserver((entries, observer) => {
@@ -26,13 +26,13 @@
         if (entry.isIntersecting) {
           entry.target.classList.add('in');
           observer.unobserve(entry.target);
-          // Clear transition delay after entry so hover feels instant
           setTimeout(() => { entry.target.style.transitionDelay = ''; }, 800);
         }
       });
     }, { threshold: 0.12, rootMargin: '0px 0px -10% 0px' });
 
     cards.forEach((card, i) => {
+      card.dataset.revealed = '';
       card.style.transitionDelay = (i % 3 * 70) + 'ms';
       obs.observe(card);
     });
@@ -164,6 +164,7 @@
         grid.appendChild(c);
         attachSelect(c);
       });
+    initReveal();
   }
 
   // Fast path: pre-rendered snapshot
