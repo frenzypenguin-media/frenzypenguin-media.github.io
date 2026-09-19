@@ -99,11 +99,7 @@
     typePhrase(list[0], 0);
   }
 
-  // Random glitch interval
-  (function randGlitch() {
-    glitchLogo();
-    setTimeout(randGlitch, 2600 + Math.random() * 3400);
-  })();
+  // Random glitch interval (single timer — DOMContentLoaded also starts one)
 
   // Typewriter phrases
   startTypewriter([
@@ -124,7 +120,7 @@
   // ============================================
   const grid = $('#projects');
   const REPOS = {};
-  let _pendingName = null, _dataDone = false, _liveLoaded = false, _lastCardRect = null;
+  let _pendingName = null, _dataDone = false, _lastCardRect = null;
 
   function repoCard(r, i) {
     const card = el('div', 'card');
@@ -173,7 +169,7 @@
 
   // Fast path: pre-rendered snapshot
   fetch('repos.json').then(r => r.ok ? r.json() : null).then(rows => {
-    if (_liveLoaded || !rows || !rows.length) return;
+    if (!rows || !rows.length) return;
     renderRepos(rows);
     _dataDone = true;
     if (_pendingName) routeHash();
@@ -232,8 +228,7 @@
     overlay.setAttribute('aria-hidden', 'false');
     panel.focus({ preventScroll: true });
 
-    const pv = $('#pv-name');
-    if (pv) { pv.classList.remove('glitching'); void pv.offsetWidth; pv.classList.add('glitching'); }
+    if (pvName) { pvName.classList.remove('glitching'); void pvName.offsetWidth; pvName.classList.add('glitching'); }
   }
 
   function showNotFound(name) {
@@ -284,11 +279,11 @@
   document.addEventListener('DOMContentLoaded', () => {
     initReveal();
     $$('.card').forEach(attachSelect);
-
-    // Random glitch logo
-    (function randGlitch() {
-      glitchLogo();
-      setTimeout(randGlitch, 2600 + Math.random() * 3400);
-    })();
   });
+
+  // Random glitch interval
+  (function randGlitch() {
+    glitchLogo();
+    setTimeout(randGlitch, 2600 + Math.random() * 3400);
+  })();
 })();

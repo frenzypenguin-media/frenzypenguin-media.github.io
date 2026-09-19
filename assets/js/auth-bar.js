@@ -53,7 +53,7 @@
       t.setAttribute('aria-selected', 'false');
       t.classList.remove('active');
     });
-    hide($('auth-bar__overlay'));
+    hide($('auth-bar__backdrop'));
     state.activeTab = null;
   }
 
@@ -71,8 +71,8 @@
     tab.classList.add('active');
     show(panel);
     state.activeTab = tabId;
-    const overlay = $('auth-bar__overlay');
-    if (tabId === 'contact' || tabId === 'login') show(overlay); else hide(overlay);
+    const backdrop = $('auth-bar__backdrop');
+    if (tabId === 'contact' || tabId === 'login') show(backdrop); else hide(backdrop);
     if (tabId === 'contact') {
       setTimeout(() => { const input = $('auth-bar__contact-input'); if (input) input.focus(); }, 350);
     }
@@ -226,6 +226,7 @@
     const submitBtn = form ? form.querySelector('[type=submit]') : null;
 
     if (!input || !input.value.trim()) return;
+    if (input.value.length > 1000) return;
     if (submitBtn) submitBtn.disabled = true;
     hide(success); hide(error);
 
@@ -273,8 +274,8 @@
   }
 
   function initOverlay() {
-    const overlay = $('auth-bar__overlay');
-    if (overlay) overlay.addEventListener('click', () => selectTab(null));
+    const backdrop = $('auth-bar__backdrop');
+    if (backdrop) backdrop.addEventListener('click', () => selectTab(null));
   }
 
   async function init() {
@@ -289,6 +290,16 @@
 
     const ghBtn = $('auth-bar__gh-btn');
     if (ghBtn) ghBtn.addEventListener('click', startOAuth);
+
+    const closeBtn = $('auth-bar__close');
+    if (closeBtn) closeBtn.addEventListener('click', () => selectTab(null));
+
+    const triggerBtn = $('auth-bar__trigger');
+    if (triggerBtn) triggerBtn.addEventListener('click', () => {
+      const bar = $('auth-bar');
+      if (bar) bar.classList.remove('hidden');
+      selectTab(state.activeTab ? null : 'login');
+    });
 
     const logoutDashboard = $('auth-bar__logout-btn');
     const logoutUser = $('auth-bar__user-logout');

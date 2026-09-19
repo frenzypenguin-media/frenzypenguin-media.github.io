@@ -17,6 +17,7 @@
 }
 
 .auth-bar.hidden { display: none !important; }
+.auth-bar.hidden .auth-bar__trigger { display: flex !important; }
 
 .auth-bar__chrome {
   background: var(--ab-bg);
