@@ -1,0 +1,316 @@
+/* ============================================
+   FRENZYPENGUIN MEDIA — AUTH BAR
+   Floating auth panel with Login / Contact tabs
+   ============================================ */
+
+.auth-bar {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+  font-family: var(--font-ui, 'Space Grotesk', system-ui, sans-serif);
+  --ab-bg: rgba(15, 21, 32, 0.92);
+  --ab-border: rgba(43, 226, 149, 0.28);
+  --ab-accent: #2be295;
+  --ab-accent-dim: rgba(43, 226, 149, 0.15);
+  --ab-accent-strong: #7c4dff;
+}
+
+.auth-bar.hidden { display: none !important; }
+
+.auth-bar__chrome {
+  background: var(--ab-bg);
+  border: 1px solid var(--ab-border);
+  border-radius: 18px;
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(43, 226, 149, 0.12),
+    0 0 40px rgba(43, 226, 149, 0.08);
+  max-width: 360px;
+  overflow: hidden;
+  backdrop-filter: blur(12px);
+}
+
+.auth-bar__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(43, 226, 149, 0.12);
+}
+
+.auth-bar__header h3 {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+.auth-bar__close {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  color: var(--muted);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.auth-bar__close:hover {
+  background: rgba(43, 226, 149, 0.1);
+  color: var(--teal);
+}
+
+.auth-bar__tabs {
+  display: flex;
+  padding: 4px;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.auth-bar__tab {
+  flex: 1;
+  padding: 10px 12px;
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted);
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.auth-bar__tab:hover {
+  color: var(--text);
+  background: rgba(43, 226, 149, 0.08);
+}
+
+.auth-bar__tab--active {
+  color: var(--bg);
+  background: var(--teal);
+  font-weight: 700;
+}
+
+.auth-bar__panels {
+  padding: 16px;
+}
+
+.auth-bar__panels > div[hidden] { display: none !important; }
+
+.auth-bar__panels p {
+  margin: 0 0 16px;
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.auth-bar__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: 999px;
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  border: none;
+}
+
+.auth-bar__btn:hover {
+  transform: translateY(-1px);
+}
+
+.auth-bar__btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.auth-bar__btn--github {
+  width: 100%;
+  justify-content: center;
+  background: #24292e;
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(36, 41, 46, 0.3);
+}
+
+.auth-bar__btn--github:hover {
+  box-shadow: 0 6px 24px rgba(36, 41, 46, 0.4);
+}
+
+.auth-bar__btn--primary {
+  background: linear-gradient(135deg, var(--teal) 0%, #00c476 100%);
+  color: #030710;
+  box-shadow: 0 4px 16px rgba(43, 226, 149, 0.3);
+}
+
+.auth-bar__btn--primary:hover {
+  box-shadow: 0 6px 24px rgba(43, 226, 149, 0.4);
+}
+
+.auth-bar__btn--ghost {
+  background: transparent;
+  color: var(--teal);
+  border: 1px solid var(--teal);
+}
+
+.auth-bar__btn--ghost:hover {
+  background: rgba(43, 226, 149, 0.1);
+}
+
+.auth-bar__note {
+  margin: 12px 0 0 !important;
+  font-size: 0.7rem !important;
+  color: var(--fg-subtle);
+  text-align: center;
+}
+
+.auth-bar__contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.auth-bar__contact-form textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid var(--ab-border);
+  background: rgba(0, 0, 0, 0.25);
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  resize: vertical;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.auth-bar__contact-form textarea:focus {
+  outline: none;
+  border-color: var(--teal);
+  box-shadow: 0 0 0 2px rgba(43, 226, 149, 0.2);
+}
+
+.auth-bar__contact-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.auth-bar__char-count {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.7rem;
+  color: var(--fg-subtle);
+}
+
+.auth-bar__contact-success,
+.auth-bar__contact-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.auth-bar__contact-success {
+  background: rgba(76, 175, 80, 0.15);
+  border: 1px solid rgba(76, 175, 80, 0.3);
+  color: #4caf50;
+}
+
+.auth-bar__contact-error {
+  background: rgba(239, 83, 80, 0.15);
+  border: 1px solid rgba(239, 83, 80, 0.3);
+  color: #ef5350;
+}
+
+.auth-bar__backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  z-index: 999;
+}
+
+.auth-bar__backdrop[hidden] { display: none !important; }
+
+.auth-bar__trigger {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--teal) 0%, #00c476 100%);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow:
+    0 8px 28px rgba(43, 226, 149, 0.35),
+    0 0 0 1px rgba(43, 226, 149, 0.2);
+  transition: transform 0.2s, box-shadow 0.2s;
+  color: #030710;
+}
+
+.auth-bar__trigger:hover {
+  transform: scale(1.05);
+  box-shadow:
+    0 12px 36px rgba(43, 226, 149, 0.45),
+    0 0 0 1px rgba(43, 226, 149, 0.3);
+}
+
+.auth-bar__trigger:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
+}
+
+.auth-bar__trigger-label {
+  position: absolute;
+  right: 100%;
+  margin-right: 10px;
+  padding: 4px 8px;
+  white-space: nowrap;
+  background: rgba(3, 7, 16, 0.9);
+  color: var(--text);
+  font-size: 0.7rem;
+  font-weight: 600;
+  border-radius: 4px;
+  border: 1px solid var(--line);
+  opacity: 0;
+  transform: translateX(8px);
+  transition: opacity 0.2s, transform 0.2s;
+  pointer-events: none;
+}
+
+.auth-bar__trigger:hover .auth-bar__trigger-label {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+@media (max-width: 640px) {
+  .auth-bar__chrome {
+    max-width: calc(100vw - 32px);
+  }
+  .auth-bar__trigger {
+    bottom: 16px;
+    right: 16px;
+    width: 48px;
+    height: 48px;
+  }
+}
