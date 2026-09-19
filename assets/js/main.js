@@ -275,7 +275,6 @@
   // ============================================
   document.addEventListener('DOMContentLoaded', () => {
     initReveal();
-    $$('.card').forEach(attachSelect);
   });
 
   // Random glitch interval

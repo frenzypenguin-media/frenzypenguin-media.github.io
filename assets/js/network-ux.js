@@ -20,8 +20,8 @@
   };
 
   function init() {
+    if (document.readyState !== 'loading') { boot(); return; }
     document.addEventListener('DOMContentLoaded', boot);
-    if (document.readyState !== 'loading') boot();
   }
 
   function boot() {
