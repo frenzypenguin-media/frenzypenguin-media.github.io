@@ -59,6 +59,8 @@
 
   function selectTab(tabId) {
     if (!tabId) { closeAll(); return; }
+    const bar = $('auth-bar');
+    if (bar) bar.classList.remove('hidden');
     qa('.auth-bar__panel').forEach(hide);
     qa('.auth-bar__tab').forEach(t => {
       t.setAttribute('aria-selected', 'false');
