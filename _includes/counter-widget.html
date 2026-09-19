@@ -1,0 +1,24 @@
+{% comment %}
+counter-widget.html — unified visitor counter partial for the neohiro/FPM/OSI/H+ Jekyll sites.
+   Include with:   {% include counter-widget.html %}
+   Reads the visitor path from site config (preferred) or a local override:
+     - site.counter_id (set in _config.yml) — auto-populated for all sites
+     - include counter_id="1234567"          — manual override (rare)
+   The embed:
+     - Uses a visitor-badge image (no JS; Camo/GitHub-safe)
+     - Wraps in <div align="center"> for visual consistency
+     - IDs are loaded from links-secret / visitor-counters.spec.yaml (SSOT)
+     - ARCHITECTURAL GUARANTEE: this partial is the ONLY approved embed site.
+       Multiple includes per page are an anti-pattern; the validator flags it.
+   Architecture (per AGENTS.md §template-shared):
+     1. Authoritative source: template-shared/_includes/counter-widget.html
+     2. Synced to 4 sites via template-shared/sync-shared.sh
+     3. Sites expose counter_id via _config.yml (site.counter_id)
+     3. Validator + CI ensure no other embed pattern ships.
+{% endcomment %}
+
+<div align="center">
+  <a href="https://visitorbadge.io/status?path=github.com%2F{{ site.github_repo }}" rel="noopener noreferrer nofollow">
+    <img src="https://api.visitorbadge.io/api/visitors?path=github.com%2F{{ site.github_repo }}&label=Visitors&countColor=%23263759" alt="Visitors" />
+  </a>
+</div>

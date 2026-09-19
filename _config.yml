@@ -1,0 +1,45 @@
+title: FrenzyPenguin Media
+description: "Retro & indie games, game development, coding projects and media by neohiro / METAPOD."
+url: "https://frenzypenguin-media.github.io"
+baseurl: ""
+github_username: neohiro
+github_repo: frenzypenguin-media.github.io
+
+# Visitor counter (SSOT: links-secret/counter-surfaces.spec.yaml)
+# Rendered via _includes/counter-widget.html in _layouts/default.html.
+counter_id: "1631181"
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+collections:
+  projects:
+    output: true
+    permalink: /projects/:name/
+
+defaults:
+  - scope:
+      path: ""
+      type: "projects"
+    values:
+      layout: "project"
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - .github
+  - README.md
+  - LICENSE
+  - scripts
+  - "*.ps1"
+  - "*.sh"
+  - repos.json
