@@ -99,7 +99,7 @@
     typePhrase(list[0], 0);
   }
 
-  // Random glitch interval (single timer — DOMContentLoaded also starts one)
+  // Random glitch interval
 
   // Typewriter phrases
   startTypewriter([
@@ -146,6 +146,7 @@
   }
 
   function fmt(n) {
+    n = n || 0;
     return n >= 1000 ? (n / 1000).toFixed(1).replace(/\.0$/, '') + 'k' : String(n);
   }
 
@@ -234,12 +235,10 @@
   function showNotFound(name) {
     if (!_shownRepo) _lastFocus = document.activeElement;
     _shownRepo = '__notfound__';
-    const pn = $('#pv-name');
-    const pd = $('#pv-desc');
-    if (pn) pn.textContent = name;
-    if (pd) pd.textContent = 'This repository is not in the live feed (it may be new, a fork, or filtered out). Browse everything on GitHub instead:';
-    if (document.getElementById('pv-meta')) document.getElementById('pv-meta').innerHTML = '';
-    if (document.getElementById('pv-tags')) document.getElementById('pv-tags').innerHTML = '';
+    if (pvName) pvName.textContent = name;
+    if (pvDesc) pvDesc.textContent = 'This repository is not in the live feed (it may be new, a fork, or filtered out). Browse everything on GitHub instead:';
+    if (pvMeta) pvMeta.innerHTML = '';
+    if (pvTags) pvTags.innerHTML = '';
     if (pvOpen) { pvOpen.href = 'https://github.com/neohiro?tab=repositories'; pvOpen.textContent = 'Browse repositories →'; }
     document.body.classList.add('detail');
     overlay.setAttribute('aria-hidden', 'false');
