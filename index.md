@@ -2,8 +2,6 @@
 layout: default
 title: FrenzyPenguin Media
 description: "Retro & indie games, game development, coding projects and media by neohiro / METAPOD."
-hero: |
-  {% include hero.html %}
 ---
 
 {% comment %}
