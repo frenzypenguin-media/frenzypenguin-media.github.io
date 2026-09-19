@@ -99,8 +99,6 @@
     typePhrase(list[0], 0);
   }
 
-  // Random glitch interval
-
   // Typewriter phrases
   startTypewriter([
     'Game development in Python & pygame',
@@ -152,7 +150,7 @@
 
   function renderRepos(all) {
     if (!grid) return;
-    grid.innerHTML = '';
+    grid.replaceChildren();
     const rank = r => {
       const lw = (r.name + ' ' + (r.description || '') + ' ' + (r.topics || []).join(' ')).toLowerCase();
       if (/(game|arcade|tetris|pygame|shooter|rpg|player|media|music)/.test(lw)) return 0;
@@ -191,7 +189,7 @@
   function fillPanel(r) {
     pvName.textContent = r.name;
     pvDesc.textContent = r.description || 'No description yet.';
-    pvMeta.innerHTML = '';
+    pvMeta.replaceChildren();
     [['⭐', fmt(r.stargazers_count) + ' stars'],
      ['🍴', fmt(r.forks_count) + ' forks'],
      ['🕒', 'updated ' + new Date(r.pushed_at).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })]
@@ -200,7 +198,7 @@
       s.append(el('b', null, m[0] + ' '), document.createTextNode(m[1]));
       pvMeta.appendChild(s);
     });
-    pvTags.innerHTML = '';
+    pvTags.replaceChildren();
     [r.language].concat(r.topics || []).filter(Boolean).slice(0, 4).forEach(t =>
       pvTags.appendChild(el('span', 'tag', t))
     );
@@ -237,8 +235,8 @@
     _shownRepo = '__notfound__';
     if (pvName) pvName.textContent = name;
     if (pvDesc) pvDesc.textContent = 'This repository is not in the live feed (it may be new, a fork, or filtered out). Browse everything on GitHub instead:';
-    if (pvMeta) pvMeta.innerHTML = '';
-    if (pvTags) pvTags.innerHTML = '';
+    if (pvMeta) pvMeta.replaceChildren();
+    if (pvTags) pvTags.replaceChildren();
     if (pvOpen) { pvOpen.href = 'https://github.com/neohiro?tab=repositories'; pvOpen.textContent = 'Browse repositories →'; }
     document.body.classList.add('detail');
     overlay.setAttribute('aria-hidden', 'false');
