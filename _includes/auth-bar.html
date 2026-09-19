@@ -29,12 +29,16 @@ auth-bar.html — GitHub OAuth sign-in flow + session management.
       <div role="tabpanel" id="auth-bar__panel--contact" hidden>
         <p>Send a message or request access to the private assistant.</p>
         <form id="auth-bar__contact-form" novalidate>
-          <textarea name="message" placeholder="What do you need? (e.g. 'request access', 'help with repo X', 'schedule a briefing')." rows="3" maxlength="1000" required></textarea>
+          <textarea id="auth-bar__contact-input" name="message" placeholder="What do you need? (e.g. 'request access', 'help with repo X', 'schedule a briefing')." rows="3" maxlength="1000" required></textarea>
           <div class="auth-bar__contact-footer">
-            <span class="auth-bar__char-count">0 / 1000</span>
+            <span id="auth-bar__char-count" class="auth-bar__char-count">0 / 1000</span>
             <button type="submit" class="auth-bar__btn auth-bar__btn--primary">Send</button>
           </div>
         </form>
+        <div id="auth-bar__contact-success" class="auth-bar__contact-success" hidden>Message sent. You'll hear back shortly.</div>
+        <div id="auth-bar__contact-error" class="auth-bar__contact-error" hidden>
+          <span id="auth-bar__contact-error-msg">Something went wrong. Try again.</span>
+        </div>
       </div>
     </div>
   </div>
