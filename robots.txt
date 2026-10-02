@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://frenzypenguin-media.github.io/sitemap.xml
+Sitemap: https://frenzypenguin.media/sitemap.xml
