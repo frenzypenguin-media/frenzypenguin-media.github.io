@@ -102,6 +102,11 @@ for (var si = 0; si < SITES.length; si++) {
   var labelFor = runFn(src, 'labelFor');
   eq(labelFor('neohiro.github.io'), 'neohiro', 'neohiro');
   eq(labelFor('frenzypenguin-media.github.io'), 'FrenzyPenguin Media', 'frenzypenguin');
+  // frenzypenguin.media is the live apex for this site. labelFor matches on
+  // the "frenzypenguin" prefix, so the custom domain must keep resolving to
+  // the same label or the cross-site "Back to ..." button mislabels itself.
+  eq(labelFor('frenzypenguin.media'), 'FrenzyPenguin Media', 'frenzypenguin.media apex');
+  eq(labelFor('www.frenzypenguin.media'), 'FrenzyPenguin Media', 'frenzypenguin.media www');
   eq(labelFor('transhumanists.github.io'), 'transhumanists', 'transhumanists');
   eq(labelFor('openstageisland.github.io'), 'Open Stage Island', 'openstageisland');
   eq(labelFor('unknown.github.io'), 'neohiro', 'unknown -> default');

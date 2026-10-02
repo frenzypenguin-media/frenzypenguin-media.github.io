@@ -193,9 +193,16 @@
   }
   function hostOf(url) { try { return new URL(url).hostname; } catch (_) { return ''; } }
   function labelFor(host) {
-    if (host.startsWith('transhumanists')) return 'transhumanists';
-    if (host.startsWith('frenzypenguin'))   return 'FrenzyPenguin Media';
-    if (host.startsWith('openstageisland')) return 'Open Stage Island';
+    // Normalise before matching. Network sites answer on more than one
+    // hostname: a custom apex (frenzypenguin.media) as well as *.github.io,
+    // and www.<domain> as a separate name. A bare startsWith() check made
+    // www.frenzypenguin.media fall through to the 'neohiro' default, which
+    // mislabelled the cross-site "Back to ..." button. Null-safe too, since
+    // this used to throw on an undefined host.
+    var h = String(host == null ? '' : host).toLowerCase().replace(/^www\./, '');
+    if (h.startsWith('transhumanists')) return 'transhumanists';
+    if (h.startsWith('frenzypenguin'))   return 'FrenzyPenguin Media';
+    if (h.startsWith('openstageisland')) return 'Open Stage Island';
     return 'neohiro';
   }
   function escapeHtml(s) {
