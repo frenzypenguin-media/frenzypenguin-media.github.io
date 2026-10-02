@@ -1,13 +1,9 @@
 title: FrenzyPenguin Media
-description: "Retro & indie games, game development, coding projects and media by neohiro / METAPOD."
+description: "Security hardening & privacy tools for Windows and Linux."
 url: "https://frenzypenguin.media"
 baseurl: ""
 github_username: neohiro
-github_repo: frenzypenguin-media.github.io
-
-# Visitor counter (SSOT: links-secret/counter-surfaces.spec.yaml)
-# Rendered via _includes/counter-widget.html in _layouts/default.html.
-counter_id: "1631181"
+github_repo: frenzypenguin-media
 
 plugins:
   - jekyll-feed
@@ -20,16 +16,16 @@ kramdown:
   syntax_highlighter: rouge
 
 collections:
-  projects:
+  tools:
     output: true
-    permalink: /projects/:name/
+    permalink: /tools/:name/
 
 defaults:
   - scope:
       path: ""
-      type: "projects"
+      type: "tools"
     values:
-      layout: "project"
+      layout: "tool"
 
 exclude:
   - Gemfile
@@ -42,3 +38,10 @@ exclude:
   - scripts
   - "*.ps1"
   - "*.sh"
+  - "github-social/"
+
+# Jekyll silently drops any file whose name starts with "_", so _headers was
+# never reaching _site and none of the security headers below were actually
+# being served. This is what puts them on the wire.
+include:
+  - _headers

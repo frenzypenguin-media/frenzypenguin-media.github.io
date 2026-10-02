@@ -1,35 +1,33 @@
-# Response headers for frenzypenguin.media (GitHub Pages custom domain).
+# Security headers for frenzypenguin.media
 #
-# Transport security
-# ------------------
-# Enforce HTTPS is enabled in repo Settings -> Pages, so http:// is already
-# 301-redirected. HSTS is what stops a browser from being downgraded on the
-# *first* request, before the redirect happens (SSL-stripping).
-#
-# `includeSubDomains` and `preload` are deliberately NOT set:
-#   - www.frenzypenguin.media still resolves to Namecheap's parking IP
-#     (192.64.119.143) over plain HTTP, so `includeSubDomains` would hard-fail
-#     www for anyone who typed it.
-#   - `preload` additionally requires includeSubDomains, a >=2 year max-age,
-#     and registration at hstspreload.org.
-# Both should be added in the same change that repairs the www DNS record.
-Strict-Transport-Security: max-age=31536000
+# NOTE: this file only reaches the wire because _config.yml has
+#   include:
+#     - _headers
+# Jekyll drops any file whose name starts with "_" during build, so without
+# that include every header below was silently discarded and never sent.
 
-# Stop MIME-type sniffing turning a user-supplied file into script.
-X-Content-Type-Options: nosniff
+/*
+  # Transport security. Enforce HTTPS is on in repo Settings -> Pages, so
+  # http:// is already 301'd; HSTS is what protects that *first* request.
+  #
+  # includeSubDomains / preload are deliberately omitted: www.frenzypenguin.media
+  # still resolves to Namecheap's parking IP over plain HTTP, so
+  # includeSubDomains would hard-fail www. Add both in the same change that
+  # repairs the www DNS record.
+  Strict-Transport-Security: max-age=31536000
 
-# Don't leak full paths to third parties (visitor badge, GitHub API); send
-# only the origin on cross-origin requests.
-Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: accelerometer=(), autoplay=(), camera=(), display-capture=(), encrypted-media=(), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), usb=()
+  X-Permitted-Cross-Domain-Policies: none
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
 
-# The site is not meant to be framed. Network sites link to each other rather
-# than embedding each other, so this costs nothing.
-X-Frame-Options: DENY
-
-# The assistant bar is text-only (verified: no getUserMedia/SpeechRecognition/
-# geolocation in assets/), so no browser capabilities are needed at all.
-Permissions-Policy: accelerometer=(), autoplay=(), camera=(), display-capture=(), encrypted-media=(), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), usb=()
-
-# Content-Security-Policy is intentionally absent here: it is already declared
-# as a <meta http-equiv> in _layouts/default.html. Duplicating it as a real
-# header would risk silently breaking pages the meta tag was tuned for.
+  # www.freevisitorcounters.com is the visitor-counter script hardcoded in
+  # _layouts/default.html. It is listed in script-src/img-src/connect-src
+  # because dropping it would break the counter on every layout-rendered page.
+  # It is a third-party tracker on a privacy-focused site - removing it and
+  # deleting the <script> from _layouts/default.html would let this policy go
+  # back to 'self' only.
+  Content-Security-Policy: default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://www.freevisitorcounters.com; img-src 'self' data: https://www.freevisitorcounters.com; connect-src 'self' https://www.freevisitorcounters.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'

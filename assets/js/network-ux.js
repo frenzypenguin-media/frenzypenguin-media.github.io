@@ -1,15 +1,15 @@
-﻿/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+/* ─────────────────────────────────────────────────────────────────────
  * neohiro-network :: Universal cross-site UX module
  *   - AI assistant input bar (full width, dynamic cursor, typing indicator)
  *   - Conversation modal (sway-down, user/assistant bubbles, typing indicator)
  *   - Previous-button (cross-domain navigation back to last visited site)
- *   - Universal top-nav auth tabs (Login / Dashboard) â€” render-only hook
+ *   - Universal top-nav auth tabs (Login / Dashboard) — render-only hook
  *   - Starfield parallax background
  *   - Heart/Mouth heartbeat detection (API fetch with local classify fallback)
  *   - Stranger tracking (localStorage + neohiro:stranger event)
  *
  * Loaded by every site in the neohiro network. Self-contained.
- * â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+ * ───────────────────────────────────────────────────────────────────── */
 (function () {
   'use strict';
 
@@ -20,8 +20,8 @@
   };
 
   function init() {
-    if (document.readyState !== 'loading') { boot(); return; }
     document.addEventListener('DOMContentLoaded', boot);
+    if (document.readyState !== 'loading') boot();
   }
 
   function boot() {
@@ -29,14 +29,13 @@
     mountPreviousButton();
     mountConversationModal();
     mountAssistantBar();
-    fillAvatarSlots(document.body); // ai-dock chat avatar (site identity)
     injectNavAuth();
     detectStranger();
     wireInteractions();
     runDiagnostics();
   }
 
-  /* â”€â”€ Universal interaction wiring (ripples, tilt, reveal) â”€â”€â”€ */
+  /* ── Universal interaction wiring (ripples, tilt, reveal) ─── */
   function wireInteractions() {
     // Click ripple on any element with [data-ripple] or .btn-primary, .btn-secondary, .btn
     document.addEventListener('click', function (e) {
@@ -50,7 +49,7 @@
       ripple.style.width = ripple.style.height = size + 'px';
       ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
       ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
-      // Make sure target is positioned â€” avoid getComputedStyle (forces layout)
+      // Make sure target is positioned — avoid getComputedStyle (forces layout)
       // Check inline style first; only fall back to computed if needed.
       if (!target.style.position || target.style.position === 'static') {
         target.style.position = 'relative';
@@ -100,7 +99,7 @@
     } catch (_) {}
   }
 
-  /* â”€â”€ Starfield (parallax deep-space, 3 layers) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── Starfield (parallax deep-space, 3 layers) ───────────── */
   function mountStarfield() {
     if (document.getElementById('starfield')) return;
     const s = document.createElement('div');
@@ -136,7 +135,7 @@
       });
     });
 
-    // Third ambient orb (pinky) â€” additive
+    // Third ambient orb (pinky) — additive
     if (!document.querySelector('.ambient-orb')) {
       const orb = document.createElement('div');
       orb.className = 'ambient-orb';
@@ -145,7 +144,7 @@
     }
   }
 
-  /* â”€â”€ Cross-domain Previous button â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── Cross-domain Previous button ─────────────────────────────── */
   function mountPreviousButton() {
     if (sessionStorage.getItem('neohiro.prev.skip') === '1') return;
     const last = readLast();
@@ -203,55 +202,6 @@
     return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   }
 
-  /* â”€â”€ Org avatar (site identity) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-   * Every site in the neohiro network shows its own avatar in the
-   * assistant conversation and the AI dock. The self-hosted profile.png
-   * is preferred where it exists (neohiro/frenzypenguin enforce
-   * `img-src 'self'`), otherwise the GitHub org avatar URL is used
-   * (transhumanists/openstageisland allow https:). */
-  var SITE_AVATAR = (function () {
-    var host = (location.hostname || '').toLowerCase();
-    // Exact hostname match to prevent subdomain spoofing (e.g. frenzypenguin-attacker.com)
-    var exact = {
-      'neohiro.github.io':           '/assets/profile.png',
-      'frenzypenguin-media.github.io': '/assets/profile.png',
-      'transhumanists.github.io':    'https://github.com/transhumanists.png',
-      'openstageisland.github.io':   'https://github.com/openstageisland.png',
-    };
-    if (exact[host]) return exact[host];
-    // Fallback: known subdomains of neohiro org
-    if (host.endsWith('.neohiro.github.io') || host === 'neohiro.github.io') return '/assets/profile.png';
-    return '/assets/profile.png';
-  })();
-
-  function buildAvatarImg(cls) {
-    var img = document.createElement('img');
-    img.className = cls || 'ai-avatar-img';
-    img.src = SITE_AVATAR;
-    img.alt = '';
-    img.loading = 'lazy';
-    img.decoding = 'async';
-    img.setAttribute('aria-hidden', 'true');
-    img.onerror = function () { if (img.parentNode) img.parentNode.removeChild(img); };
-    return img;
-  }
-
-  // Injects the org avatar into every assistant avatar slot + the
-  // conversation header brand. The slot's existing glyph (âœ¦ / ðŸ¤–) stays
-  // underneath as a graceful offline fallback: if the image errors out it
-  // is removed and the glyph + tinted circle remain.
-  function fillAvatarSlots(root) {
-    if (!root || typeof root.querySelectorAll !== 'function') return;
-    Array.prototype.forEach.call(root.querySelectorAll('.ai-conv__avatar, .ai-dock__chat-avatar'), function (slot) {
-      if (!slot || slot.querySelector('img')) return;
-      slot.appendChild(buildAvatarImg());
-    });
-    Array.prototype.forEach.call(root.querySelectorAll('.ai-conv__brand'), function (brand) {
-      if (brand.querySelector('.ai-conv__brand-avatar')) return;
-      brand.insertBefore(buildAvatarImg('ai-conv__brand-avatar ai-avatar-img'), brand.firstChild);
-    });
-  }
-
   function showToast(msg, duration) {
     if (document.getElementById('neohiro-toast')) return;
     var el = document.createElement('div');
@@ -289,7 +239,7 @@
     }, { once: true });
   }
 
-  /* â”€â”€ Conversation modal (sway-down, bubbles, typing indicator) â”€â”€ */
+  /* ── Conversation modal (sway-down, bubbles, typing indicator) ── */
   // Built hidden on first AI-bar mount; activated on submit.
   // Animates down from the AI bar, displays the user's query as a bubble,
   // then a typing indicator while Heart/Mouth is queried for a reply.
@@ -310,7 +260,7 @@
           </span>
           <span class="ai-conv__heart" id="ai-conv__heart" aria-live="polite" title="Heart status">
             <span class="ai-conv__heart-dot" aria-hidden="true"></span>
-            <span id="ai-conv__heart-text">connectingâ€¦</span>
+            <span id="ai-conv__heart-text">connecting…</span>
           </span>
           <button type="button" class="ai-conv__close" id="ai-conv__close" aria-label="Close conversation">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" aria-hidden="true">
@@ -320,18 +270,18 @@
         </div>
         <div class="ai-conv__messages" id="ai-conv__messages" role="log" aria-live="polite">
           <div class="ai-conv__msg ai-conv__msg--assistant">
-            <div class="ai-conv__avatar" aria-hidden="true">âœ¦</div>
+            <div class="ai-conv__avatar" aria-hidden="true">✦</div>
             <div class="ai-conv__bubble">
-              Hey â€” I'm the neohiro assistant. I run across all 4 network sites and
+              Hey — I'm the neohiro assistant. I run across all 4 network sites and
               learn more about what you ask, so I can route you faster next time.
             </div>
           </div>
         </div>
         <div class="ai-conv__typing hidden" id="ai-conv__typing" role="status" aria-live="polite">
-          <div class="ai-conv__avatar" aria-hidden="true">âœ¦</div>
+          <div class="ai-conv__avatar" aria-hidden="true">✦</div>
           <div class="ai-conv__bubble ai-conv__bubble--typing">
             <span class="ai-conv__dots" aria-hidden="true"><span></span><span></span><span></span></span>
-            <span id="ai-conv__typing-text">Mouth is composing your replyâ€¦</span>
+            <span id="ai-conv__typing-text">Mouth is composing your reply…</span>
           </div>
         </div>
         <div class="ai-conv__footer">
@@ -341,7 +291,6 @@
       </div>
     `;
     document.body.appendChild(modal);
-    fillAvatarSlots(modal); // org avatar in conversation header + welcome bubble
     // Close handlers
     document.getElementById('ai-conv__close').addEventListener('click', hideConversationModal);
     // Esc to close (handler is page-singleton; no leak)
@@ -421,17 +370,17 @@
   function appendConvMessage(role, md) {
     const box = document.getElementById('ai-conv__messages');
     if (!box) return;
-    // Validate role â€” only 'user' or 'assistant' allowed to prevent CSS injection via className
+    // Validate role — only 'user' or 'assistant' allowed to prevent CSS injection via className
     var safeRole = (role === 'user' || role === 'assistant') ? role : 'assistant';
     const row = document.createElement('div');
     row.className = 'ai-conv__msg ai-conv__msg--' + (safeRole === 'user' ? 'user' : 'assistant');
     if (safeRole === 'user') {
-      // User text is always escaped â€” no markdown/HTML allowed.
+      // User text is always escaped — no markdown/HTML allowed.
       const safe = escapeHtml(String(md));
       row.innerHTML = `<div class="ai-conv__bubble">${safe}</div>`;
     } else {
       // Assistant markdown comes from classify() (trusted) or Mouth API (future).
-      // Render via safe markdownâ†’DOM (no HTML passthrough). For Mouth API responses
+      // Render via safe markdown→DOM (no HTML passthrough). For Mouth API responses
       // that might contain raw HTML, fall back to renderSafeHtml.
       var safeHtml;
       if (typeof md === 'string' && /[#*_`\[\]]/.test(md)) {
@@ -440,21 +389,20 @@
         safeHtml = renderSafeHtml(md);
       }
       row.innerHTML = `
-        <div class="ai-conv__avatar" aria-hidden="true">âœ¦</div>
+        <div class="ai-conv__avatar" aria-hidden="true">✦</div>
         <div class="ai-conv__bubble">${safeHtml}</div>
       `;
     }
     box.appendChild(row);
-    fillAvatarSlots(row); // org avatar on assistant replies
     box.scrollTop = box.scrollHeight;
   }
 
-  // â”€â”€ Safe HTML renderer â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Safe HTML renderer ──────────────────────────────────────────
   // Parses `html` with DOMParser (safe, no execution), then walks the
   // tree and returns a sanitized string. Strips:
   //   - All tags except: p b i a div span br strong em ul ol li
   //   - All attributes except: href (whitelisted scheme), target (whitelisted), class (allowlisted prefixes)
-  //   - All on* event handlers (onerror, onclick, onload â€¦)
+  //   - All on* event handlers (onerror, onclick, onload …)
   //   - javascript:, data:, vbscript: URL schemes (with leading whitespace
   //     and HTML-encoded prefixes to defeat obfuscation)
   //   - id attributes (would collide with page IDs and CSS)
@@ -493,7 +441,7 @@
     return /^(https?:|mailto:|\/|#|\?)/i.test(t) || /^[a-z0-9._~!$&'()*+,;=:@\/?%#-]+$/i.test(t);
   }
 
-  // â”€â”€ Markdown â†’ DOM renderer (safe, no HTML passthrough) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Markdown → DOM renderer (safe, no HTML passthrough) ────────────────
 // Renders a trusted markdown subset used by classify() and Mouth.
 // Supported: paragraphs, **bold**, *italic*, `code`, [links](url),
 // unordered lists (- item), ordered lists (1. item), step blocks
@@ -688,7 +636,7 @@ function renderSafeHtml(html) {
       tmp.appendChild(frag);
       return tmp.innerHTML;
     } catch (_) {
-      // DOMParser unavailable (unlikely) â€” fall back to escaping all HTML.
+      // DOMParser unavailable (unlikely) — fall back to escaping all HTML.
       return escapeHtml(str);
     }
   }
@@ -710,7 +658,7 @@ function renderSafeHtml(html) {
     const dot  = wrap && wrap.querySelector('.ai-conv__heart-dot');
     const span = document.getElementById('ai-conv__heart-text');
     if (!wrap) return;
-    // Validate state â€” only known states allowed to prevent arbitrary class injection
+    // Validate state — only known states allowed to prevent arbitrary class injection
     var validStates = ['ai-conv__heart--up', 'ai-conv__heart--down', 'ai-conv__heart--probe'];
     var safeState = (state && validStates.indexOf(state) !== -1) ? state : '';
     wrap.classList.remove('ai-conv__heart--up', 'ai-conv__heart--down', 'ai-conv__heart--probe');
@@ -718,7 +666,7 @@ function renderSafeHtml(html) {
     if (span && text) span.textContent = text;
   }
 
-  /* â”€â”€ Heart/Mouth heartbeat detection â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── Heart/Mouth heartbeat detection ─────────────────────────── */
   // Probes a well-known heart-endpoint to decide whether the body is online.
   // Falls back to local classify() if Heart is unreachable. This is the
   // "goes through heartbeat detection" wire you asked for.
@@ -741,7 +689,7 @@ function renderSafeHtml(html) {
   function probeHeart() {
     if (_heartProbed) return Promise.resolve(_heartUp);
     _heartProbed = true;
-    setConvHeart('ai-conv__heart--probe', 'probing heartâ€¦');
+    setConvHeart('ai-conv__heart--probe', 'probing heart…');
     // Try each endpoint in sequence until one succeeds
     return HEART_ENDPOINTS.reduce(function (promise, url) {
       return promise.catch(function () {
@@ -789,8 +737,8 @@ function renderSafeHtml(html) {
     } catch (_) { /* private mode etc. */ }
   }
 
-  /* â”€â”€ AI assistant input bar (full width) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
-function mountAssistantBar() {
+  /* ── AI assistant input bar (full width) ──────────────────────── */
+  function mountAssistantBar() {
     if (document.getElementById('ai-bar')) return;
 
     recordCurrent(); // register this page for the cross-domain back button
@@ -832,18 +780,12 @@ function mountAssistantBar() {
         <div class="ai-bar__counter" id="ai-bar__counter" aria-live="off" aria-atomic="true">0 / 600</div>
       </div>
     `;
+    document.body.appendChild(wrap);
 
-    // Insert into hero, above the typewriter (live signal) section
-    const typewriterWrap = document.querySelector('.typewriter-wrap');
-    if (typewriterWrap) {
-      typewriterWrap.parentNode.insertBefore(wrap, typewriterWrap);
-    } else {
-      const heroContent = document.querySelector('.hero-content');
-      if (heroContent) {
-        heroContent.appendChild(wrap);
-      } else {
-        document.body.appendChild(wrap);
-      }
+    // Add bottom padding so the bar doesn't cover content (idempotent)
+    if (!document.documentElement.style.getPropertyValue('--ai-bar-pad')) {
+      document.documentElement.style.setProperty('--ai-bar-pad', '110px');
+      document.documentElement.style.paddingBottom = 'var(--ai-bar-pad)';
     }
 
     const form = document.getElementById('ai-bar__form');
@@ -852,23 +794,22 @@ function mountAssistantBar() {
     form.addEventListener('submit', onAsk);
     // Live char counter: shows how much is left so users self-correct
     // before hitting the 600-char cap and getting a silent truncation.
-function updateCounter() {
-        var n = input.value.length;
-        counter.textContent = n + ' / 600';
-        counter.classList.toggle('ai-bar__counter--near', n >= 540);
-        counter.classList.toggle('ai-bar__counter--over', n > 600);
-        form.classList.toggle('has-content', n > 0);
-      }
+    function updateCounter() {
+      var n = input.value.length;
+      counter.textContent = n + ' / 600';
+      counter.classList.toggle('ai-bar__counter--near', n >= 540);
+      counter.classList.toggle('ai-bar__counter--over', n > 600);
+    }
     input.addEventListener('input', updateCounter);
     updateCounter();
     // Cute dynamic cursor: shift placeholder text on focus/blur
     const placeholders = [
-      'Ask the neohiro assistant â€” find a repo, report a bug, get a guide, or describe what you needâ€¦',
-      'Try: â€œharden my Windows laptop in 5 minutesâ€',
-      'Try: â€œshow me encryption toolsâ€',
-      'Try: â€œreport a bug in Cripple-NetStripâ€',
-      'Try: â€œtake me to the world map dashboardâ€',
-      'Try: â€œhow do I file a security advisory?â€'
+      'Ask the neohiro assistant — find a repo, report a bug, get a guide, or describe what you need…',
+      'Try: “harden my Windows laptop in 5 minutes”',
+      'Try: “show me encryption tools”',
+      'Try: “report a bug in Cripple-NetStrip”',
+      'Try: “take me to the world map dashboard”',
+      'Try: “how do I file a security advisory?”'
     ];
     let pIdx = 0;
     input.addEventListener('focus', () => {
@@ -879,7 +820,7 @@ function updateCounter() {
     });
   }
 
-  // â”€â”€ In-flight state (singleton guards) â”€â”€
+  // ── In-flight state (singleton guards) ──
   let _inFlightInt = null;
   let _inFlightTO  = null;
   let _inFlightVer = 0;
@@ -907,7 +848,7 @@ function updateCounter() {
     const q = raw.replace(/[\u0000-\u001F\u007F-\u009F\u200B-\u200F\u202A-\u202E\u2066-\u2069]+/g, ' ').replace(/\s+/g, ' ').trim();
     if (!q) { input.focus(); return; }
     if (q.length > 600) {
-      // Truncate â€” the live counter already warned at 540+ (amber) and 600+ (red).
+      // Truncate — the live counter already warned at 540+ (amber) and 600+ (red).
       // No toast needed; user self-corrects before submit.
       input.value = q.slice(0, 600);
       input.focus();
@@ -922,7 +863,7 @@ function updateCounter() {
     input.setAttribute('aria-busy', 'true');
     input.disabled = true;
 
-    // â”€â”€ Step 1: show the conversation modal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── Step 1: show the conversation modal ─────────────────────
     showConversationModal();
     appendConvMessage('user', q);
     input.value = '';
@@ -931,14 +872,14 @@ function updateCounter() {
     var ctr = document.getElementById('ai-bar__counter');
     if (ctr) { ctr.textContent = '0 / 600'; ctr.className = 'ai-bar__counter'; }
 
-    // â”€â”€ Step 2: probe Heart while typing indicator starts â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── Step 2: probe Heart while typing indicator starts ─────────
     probeHeart();
 
     const cycle = [
-      'Mouth is reading your questionâ€¦',
-      'Triage: identifying who you are and what you needâ€¦',
-      'Pulling the right repo / docs / step-by-stepâ€¦',
-      'Composing a helpful replyâ€¦'
+      'Mouth is reading your question…',
+      'Triage: identifying who you are and what you need…',
+      'Pulling the right repo / docs / step-by-step…',
+      'Composing a helpful reply…'
     ];
     const myVer = ++_inFlightVer;
     let c = 0;
@@ -949,7 +890,7 @@ function updateCounter() {
       setConvTyping(true, cycle[c]);
     }, 900);
 
-    // â”€â”€ Step 3: fetch from Heart/Mouth â†’ fall back to local classify â”€
+    // ── Step 3: fetch from Heart/Mouth → fall back to local classify ─
     const delay = 1500 + Math.random() * 600;
     _inFlightTO = setTimeout(() => {
       _inFlightInt && clearInterval(_inFlightInt);
@@ -976,9 +917,9 @@ function updateCounter() {
   function classify(q) {
     const t = q.toLowerCase();
     // Word-boundary anchored patterns to avoid false positives like
-    //   "I have a security issue"  â†’ NOT harden
-    //   "stream of consciousness"  â†’ NOT media hub
-    //   "world map" css layout     â†’ still matches dashboard
+    //   "I have a security issue"  → NOT harden
+    //   "stream of consciousness"  → NOT media hub
+    //   "world map" css layout     → still matches dashboard
     // Each branch is ordered by specificity (most specific first).
     const isBugSec = /(security\s+(vuln|issue|advisory|advisories|disclosure|bug)|cve|advisory|vulnerability|exploit|disclosure)/.test(t);
     const isBug    = /(\bbug|\bissue|\bcrash|\bbroken\b|broken\s*link|not\s*working|stopped\s*working|throws?\s+an?\s+error|\berror\s+when)/.test(t);
@@ -1005,16 +946,16 @@ function updateCounter() {
     }
     if (isDash) {
       return `
-**Dashboard** â€” live ops, world map, and metrics are at the central neohiro dashboard.
+**Dashboard** — live ops, world map, and metrics are at the central neohiro dashboard.
 
 :::step
-**Step 1** â€” [Open the dashboard](https://neohiro.github.io/dashboard/)
+**Step 1** — [Open the dashboard](https://neohiro.github.io/dashboard/)
 :::
 :::step
-**Step 2** â€” switch to the World Map panel
+**Step 2** — switch to the World Map panel
 :::
 :::step
-**Step 3** â€” pin the categories you care about
+**Step 3** — pin the categories you care about
 :::
 
 If you want to see heartbeats for the org, open [/heartbeats/](https://neohiro.github.io/heartbeats/) (public/authed/godadmin tiers).
@@ -1022,14 +963,14 @@ If you want to see heartbeats for the org, open [/heartbeats/](https://neohiro.g
     }
     if (isMedia) {
       return `
-**Media hub:** [FrenzyPenguin Media](https://neohiro.github.io/media/) â€” video deep-dives on hardening, exploit mitigation, and privacy engineering.
+**Media hub:** [FrenzyPenguin Media](https://neohiro.github.io/media/) — video deep-dives on hardening, exploit mitigation, and privacy engineering.
 
 **YouTube:** [@FrenzyPenguinMedia](https://www.youtube.com/FrenzyPenguinMedia?sub_confirmation=1)
       `.trim();
     }
     if (isSponsor) {
       return `
-Thanks for considering support â€” every bit keeps the tools free and telemetry-free.
+Thanks for considering support — every bit keeps the tools free and telemetry-free.
 
 - [Sponsor on GitHub](https://github.com/sponsors/neohiro)
 - [Patreon](https://www.patreon.com/frenzypenguin_media)
@@ -1041,51 +982,51 @@ Thanks for considering support â€” every bit keeps the tools free and telem
     }
     // Default helpful response
     return `
-Got it â€” I can help you with that. To give you the most useful answer, tell me one of these:
+Got it — I can help you with that. To give you the most useful answer, tell me one of these:
 
 :::step
-**1** â€” *"I'm looking for a tool toâ€¦"* â€” e.g. harden Windows, encrypt DNS, monitor a server. I'll match you to the right repo.
+**1** — *"I'm looking for a tool to…"* — e.g. harden Windows, encrypt DNS, monitor a server. I'll match you to the right repo.
 :::
 :::step
-**2** â€” *"I found a bug / want to report a security issue"* â€” I'll walk you to the right repo and pre-fill the issue template.
+**2** — *"I found a bug / want to report a security issue"* — I'll walk you to the right repo and pre-fill the issue template.
 :::
 :::step
-**3** â€” *"Take me to the dashboard / world map / media hub / sponsors"* â€” instant cross-site navigation.
+**3** — *"Take me to the dashboard / world map / media hub / sponsors"* — instant cross-site navigation.
 :::
     `.trim();
   }
 
   function stepsForBug() {
     return `
-**Bug / Issue report** â€” I'll route you to the right repo and pre-fill diagnostics. Pick the project below:
+**Bug / Issue report** — I'll route you to the right repo and pre-fill diagnostics. Pick the project below:
 
 :::step
-**1** â€” **Identify the project.** Browse [all repositories](https://neohiro.github.io/repositories/) with filter/sort. If unsure, I'll suggest based on keywords.
+**1** — **Identify the project.** Browse [all repositories](https://neohiro.github.io/repositories/) with filter/sort. If unsure, I'll suggest based on keywords.
 :::
 :::step
-**2** â€” **Security vulnerability?** Use the repo's *Security* tab (private disclosure) â€” not the public issue tracker. [Open neohiro org](https://github.com/neohiro?tab=repositories).
+**2** — **Security vulnerability?** Use the repo's *Security* tab (private disclosure) — not the public issue tracker. [Open neohiro org](https://github.com/neohiro?tab=repositories).
 :::
 :::step
-**3** â€” **Regular bug?** Open the repo's *Issues* tab, click *New issue*, choose the *Bug report* template, and include: OS, version, steps to reproduce, expected vs actual.
+**3** — **Regular bug?** Open the repo's *Issues* tab, click *New issue*, choose the *Bug report* template, and include: OS, version, steps to reproduce, expected vs actual.
 :::
 :::step
-**4** â€” **Need a discussion instead?** Use the repo's *Discussions* tab â€” great for questions, ideas, and showcases.
+**4** — **Need a discussion instead?** Use the repo's *Discussions* tab — great for questions, ideas, and showcases.
 :::
     `.trim();
   }
 
   function stepsForRepo() {
     return `
-**Repo discovery** â€” 15+ projects across security, privacy, networking, developer tools, and games.
+**Repo discovery** — 15+ projects across security, privacy, networking, developer tools, and games.
 
 :::step
-**1** â€” Open the [All Repositories](https://neohiro.github.io/repositories/) page.
+**1** — Open the [All Repositories](https://neohiro.github.io/repositories/) page.
 :::
 :::step
-**2** â€” Use the filter chips (Security & Privacy, Network, Developer, Games, â€¦) and the search box.
+**2** — Use the filter chips (Security & Privacy, Network, Developer, Games, …) and the search box.
 :::
 :::step
-**3** â€” Sort by stars, recent activity, or year. Each card has Bug / Sec / Discuss quick-links.
+**3** — Sort by stars, recent activity, or year. Each card has Bug / Sec / Discuss quick-links.
 :::
     `.trim();
   }
@@ -1094,34 +1035,34 @@ Got it â€” I can help you with that. To give you the most useful answer, te
     const linux = /(linux|ubuntu|debian|arch|fedora|rhel|suse|manjaro)/.test(t);
     return linux
       ? `
-**Linux hardening** â€” automated post-install path:
+**Linux hardening** — automated post-install path:
 
 :::step
-**1** â€” Run the [neohiro/linux](https://github.com/neohiro/linux) script (UFW + DNSCrypt + Tor + auditd + AppArmor + sysctl + SSH).
+**1** — Run the [neohiro/linux](https://github.com/neohiro/linux) script (UFW + DNSCrypt + Tor + auditd + AppArmor + sysctl + SSH).
 :::
 :::step
-**2** â€” For Ubuntu: [neohiro/ubuntu](https://github.com/neohiro/ubuntu) with snap/flatpak control + GNOME privacy.
+**2** — For Ubuntu: [neohiro/ubuntu](https://github.com/neohiro/ubuntu) with snap/flatpak control + GNOME privacy.
 :::
 :::step
-**3** â€” Network layer: [Cripple-NetStrip](https://github.com/neohiro/Cripple-NetStrip) (DNS sinkhole + encrypted DNS + firewall).
+**3** — Network layer: [Cripple-NetStrip](https://github.com/neohiro/Cripple-NetStrip) (DNS sinkhole + encrypted DNS + firewall).
 :::
       `.trim()
       : `
-**Windows hardening** â€” pick a depth:
+**Windows hardening** — pick a depth:
 
 :::step
-**1** â€” One-command STIG-style: [Harden-Windows](https://github.com/neohiro/windows) (18 modules, 4 profiles, rollback, dry-run).
+**1** — One-command STIG-style: [Harden-Windows](https://github.com/neohiro/windows) (18 modules, 4 profiles, rollback, dry-run).
 :::
 :::step
-**2** â€” GUI exploit-mitigation catalog: [ExploitProtection](https://github.com/neohiro/ExploitProtection) (ASR + CFG + DEP + SEHOP).
+**2** — GUI exploit-mitigation catalog: [ExploitProtection](https://github.com/neohiro/ExploitProtection) (ASR + CFG + DEP + SEHOP).
 :::
 :::step
-**3** â€” Network + DNS: [Cripple-NetStrip](https://github.com/neohiro/Cripple-NetStrip) and [dnscrypt-proxy-gui](https://github.com/neohiro/dnscrypt-proxy-gui).
+**3** — Network + DNS: [Cripple-NetStrip](https://github.com/neohiro/Cripple-NetStrip) and [dnscrypt-proxy-gui](https://github.com/neohiro/dnscrypt-proxy-gui).
 :::
       `.trim();
   }
 
-  /* â”€â”€ Universal top-nav auth tabs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── Universal top-nav auth tabs ──────────────────────────────── */
   function injectNavAuth() {
     const nav = document.querySelector('.site-nav') || document.querySelector('header nav') || document.querySelector('nav');
     if (!nav) return;
@@ -1238,7 +1179,7 @@ Got it â€” I can help you with that. To give you the most useful answer, te
     window.dispatchEvent(new CustomEvent('neohiro:nav-auth', { detail: { session: s } }));
   }
 
-  // â”€â”€ Cross-script hook: allow auth-bar to trigger nav update â”€â”€
+  // ── Cross-script hook: allow auth-bar to trigger nav update ──
   // Guard against feedback: showUserNav/showLoggedOutNav dispatch this same
   // event after mutating DOM, so the listener must suppress self-dispatches.
   var _navAuthSuppress = 0;
@@ -1270,7 +1211,7 @@ Got it â€” I can help you with that. To give you the most useful answer, te
     window.dispatchEvent(new CustomEvent('neohiro:nav-auth', { detail: { session: null } }));
   }
 
-  // â”€â”€ Diagnostics probe â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Diagnostics probe ─────────────────────────────────────────
   // Fires once on boot, logs a structured health block to the console,
   // and exposes NEohiro.diagnose() so godadmins can call it from the
   // devtools console without inspecting network tab.
@@ -1354,5 +1295,3 @@ Got it â€” I can help you with that. To give you the most useful answer, te
   // Expose
   window.NEohiro = NEohiro;
 })();
-
-

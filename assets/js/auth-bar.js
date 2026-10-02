@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Shared auth bar — cross-site GitHub OAuth + private assistant contact.
  *
  * Flow (simplest possible, matches the user's "gh auth only" spec):
@@ -53,14 +53,12 @@
       t.setAttribute('aria-selected', 'false');
       t.classList.remove('active');
     });
-    hide($('auth-bar__backdrop'));
+    hide($('auth-bar__overlay'));
     state.activeTab = null;
   }
 
   function selectTab(tabId) {
     if (!tabId) { closeAll(); return; }
-    const bar = $('auth-bar');
-    if (bar) bar.classList.remove('hidden');
     qa('.auth-bar__panel').forEach(hide);
     qa('.auth-bar__tab').forEach(t => {
       t.setAttribute('aria-selected', 'false');
@@ -73,8 +71,8 @@
     tab.classList.add('active');
     show(panel);
     state.activeTab = tabId;
-    const backdrop = $('auth-bar__backdrop');
-    if (tabId === 'contact' || tabId === 'login') show(backdrop); else hide(backdrop);
+    const overlay = $('auth-bar__overlay');
+    if (tabId === 'contact' || tabId === 'login') show(overlay); else hide(overlay);
     if (tabId === 'contact') {
       setTimeout(() => { const input = $('auth-bar__contact-input'); if (input) input.focus(); }, 350);
     }
@@ -228,7 +226,6 @@
     const submitBtn = form ? form.querySelector('[type=submit]') : null;
 
     if (!input || !input.value.trim()) return;
-    if (input.value.length > 1000) return;
     if (submitBtn) submitBtn.disabled = true;
     hide(success); hide(error);
 
@@ -276,8 +273,8 @@
   }
 
   function initOverlay() {
-    const backdrop = $('auth-bar__backdrop');
-    if (backdrop) backdrop.addEventListener('click', () => selectTab(null));
+    const overlay = $('auth-bar__overlay');
+    if (overlay) overlay.addEventListener('click', () => selectTab(null));
   }
 
   async function init() {
@@ -292,16 +289,6 @@
 
     const ghBtn = $('auth-bar__gh-btn');
     if (ghBtn) ghBtn.addEventListener('click', startOAuth);
-
-    const closeBtn = $('auth-bar__close');
-    if (closeBtn) closeBtn.addEventListener('click', () => selectTab(null));
-
-    const triggerBtn = $('auth-bar__trigger');
-    if (triggerBtn) triggerBtn.addEventListener('click', () => {
-      const bar = $('auth-bar');
-      if (bar) bar.classList.remove('hidden');
-      selectTab(state.activeTab ? null : 'login');
-    });
 
     const logoutDashboard = $('auth-bar__logout-btn');
     const logoutUser = $('auth-bar__user-logout');
@@ -322,4 +309,3 @@
 
   window.AuthBar = { selectTab };
 })();
-
