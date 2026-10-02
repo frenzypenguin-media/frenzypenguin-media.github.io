@@ -39,6 +39,11 @@ exclude:
   - "*.ps1"
   - "*.sh"
   - "github-social/"
+  # heartbeat.yml commits a Facebook feed mirror under data/feeds/. Nothing in
+  # the site reads it, and Jekyll would otherwise copy ~500KB of third-party
+  # HTML into _site and list it in sitemap.xml - republishing Facebook's markup
+  # on our own domain. Kept in the repo, kept out of the published site.
+  - data
   # index.md and index.html both render to /index.html. Jekyll emits them in
   # an unspecified order, so one silently shadows the other and the sitemap
   # lists https://frenzypenguin.media/ twice. index.html is the one that has
