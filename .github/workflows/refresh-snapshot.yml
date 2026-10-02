@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Regenerate snapshot
         shell: pwsh
@@ -26,6 +26,7 @@ jobs:
         run: ./tools/update-snapshot.ps1 -NoDeploy -OutFile ./repos.json
 
       - name: Commit snapshot if changed
+        id: commit
         shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}
@@ -34,16 +35,31 @@ jobs:
           . ./tools/gh-commit.ps1
           $generated = [IO.File]::ReadAllText("./repos.json", [Text.Encoding]::UTF8)
           $existing = ""
-          try {
-            # gh --jq emits one array element per output LINE; must join before decoding
-            $b64Lines = @(gh api "/repos/frenzypenguin-media/frenzypenguin-media.github.io/contents/repos.json" --jq ".content")
-            $clean = ($b64Lines -join '') -replace '\s', ''
-            $existing = [Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($clean))
-          } catch { Write-Host "no existing snapshot - will create" }
+          # gh is a native command: a non-zero exit does NOT raise, so without
+          # this check a failed read silently compared against "" and committed
+          # a duplicate of the current snapshot.
+          $b64Lines = @(gh api "/repos/frenzypenguin-media/frenzypenguin-media.github.io/contents/repos.json" --jq ".content")
+          if ($LASTEXITCODE -ne 0) { throw "could not read existing repos.json (gh exit $LASTEXITCODE)" }
+          # gh --jq emits one array element per output LINE; must join before decoding
+          $clean = ($b64Lines -join '') -replace '\s', ''
+          $existing = [Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($clean))
           if ($generated.Trim() -eq $existing.Trim()) {
             Write-Host "Snapshot unchanged - skipping commit"
-            exit 0
+            "changed=false" >> $env:GITHUB_OUTPUT
+          } else {
+            Commit-Files -Repo "frenzypenguin-media.github.io" -Owner "frenzypenguin-media" `
+              -Message "chore: weekly repos.json refresh" `
+              -Changes @(@{ path = "repos.json"; content = $generated })
+            "changed=true" >> $env:GITHUB_OUTPUT
           }
-          Commit-Files -Repo "frenzypenguin-media.github.io" -Owner "frenzypenguin-media" `
-            -Message "chore: weekly repos.json refresh" `
-            -Changes @(@{ path = "repos.json"; content = $generated })
+
+      # GitHub does not raise a push event for commits authored with
+      # GITHUB_TOKEN, so committing repos.json never rebuilds the site and the
+      # homepage kept serving a months-old snapshot even on successful runs.
+      # Explicitly dispatch the Pages build to publish it.
+      - name: Rebuild Pages to publish the new snapshot
+        if: steps.commit.outputs.changed == 'true'
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run pages.yml --ref ${{ github.ref_name }}
