@@ -39,3 +39,12 @@ exclude:
   - "*.ps1"
   - "*.sh"
   - "github-social/"
+  # index.md and index.html both render to /index.html. Jekyll emits them in
+  # an unspecified order, so one silently shadows the other and the sitemap
+  # lists https://frenzypenguin.media/ twice. index.html is the one that has
+  # been winning, so it keeps the homepage and this file is held back rather
+  # than deleted - it carries 13 content sections (and a Liquid loop over the
+  # featured tools collection) that may be the better homepage once someone
+  # decides which design wins. Flip by removing this line and deleting
+  # index.html.
+  - index.md
