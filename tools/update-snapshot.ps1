@@ -1,12 +1,13 @@
 <#
 .SYNOPSIS
-    Regenerate frenzypenguin-media-site\repos.json (filtered, star-ranked repo
-    snapshot). Optionally commit it to the Pages repo (default when run locally).
+    Regenerate repos.json (filtered, star-ranked repo snapshot) for the Pages
+    site. Optionally commit it to the Pages repo (default when run locally).
 .USAGE
-    powershell -ExecutionPolicy Bypass -File update-snapshot.ps1 [-NoDeploy] [-OutFile <path>]
+    powershell -ExecutionPolicy Bypass -File tools/update-snapshot.ps1 [-NoDeploy] [-OutFile <path>]
 .NOTES
-    CI copy lives at tools/update-snapshot.ps1 in the frenzypenguin-media.github.io
-    repo - keep the two in sync (this file is canonical).
+    This is the only copy - refresh-snapshot.yml invokes it with -NoDeploy and
+    commits the result itself. Deploying is the default for local runs and goes
+    through Commit-Files in gh-commit.ps1.
 #>
 [CmdletBinding()]
 param(
@@ -30,15 +31,21 @@ $usr = Invoke-GhJson "/users/neohiro/repos?per_page=100&sort=pushed"
 
 $all = @($org) + @($usr) |
     Where-Object { -not $_.fork -and $_.name -notmatch 'github\.io$' -and $_.name -ne '.github' } |
-    # Note: PowerShell's Sort-Object places $null keys at the end (PS 5.1) or start (PS 7+).
-    # We only run this on the Windows host where PS 5.1 is the runtime, so the order is
-    # stable. If PS version diversity ever matters, pre-filter repos with $null pushed_at.
-    Sort-Object @{e = 'stargazers_count'; Descending = $true }, @{e = 'pushed_at'; Descending = $true } |
+    # full_name is a total-order tiebreaker on purpose. Two repos can share a
+    # name across the org and the user (frenzypenguin-media/frenzypenguin-media
+    # and neohiro/frenzypenguin-media both exist), and Sort-Object is not stable
+    # on PS 5.1, so a name tiebreak still leaves the order arbitrary there.
+    # full_name is unique across both sources, which makes the ordering total
+    # and therefore byte-stable on any runtime.
+    Sort-Object @{e = 'stargazers_count'; Descending = $true }, @{e = 'pushed_at'; Descending = $true }, @{e = 'full_name'; Descending = $false} |
     ForEach-Object {
         # never-pushed repos return $null for pushed_at; preserve null rather than blowing up
         $pushed = if ($_.pushed_at) { ($_.pushed_at -replace 'T.*$', '') } else { $null }
         [ordered]@{
             name             = $_.name
+            # Additive: the site ignores unknown keys today, but without an owner
+            # two repos sharing a name are indistinguishable in the payload.
+            full_name        = $_.full_name
             html_url         = $_.html_url
             description      = $_.description
             stargazers_count = $_.stargazers_count
@@ -51,16 +58,44 @@ $all = @($org) + @($usr) |
         }
     }
 
+# Two owners can hold repos with the same name - org/frenzypenguin-media and
+# neohiro/frenzypenguin-media both exist right now. index.html keys its repo map
+# by lowercased name, so a duplicate name overwrites the earlier entry and that
+# repo silently stops resolving. Keep one per name. $all is already sorted by
+# stars desc, so the first occurrence is the highest-starred and the choice is
+# deterministic; the loser is reported rather than dropped silently.
+$seenNames = @{}
+$droppedNames = @()
+$deduped = @(
+    foreach ($r in $all) {
+        if ($seenNames.ContainsKey($r.name)) { $droppedNames += $r.full_name; continue }
+        $seenNames[$r.name] = $true
+        $r
+    }
+)
+foreach ($d in $droppedNames) {
+    Write-Warning "duplicate repo name - omitted from snapshot (keyed by name in index.html): $d"
+}
+$all = $deduped
+
 $json = ConvertTo-Json @($all) -Depth 4
 if ($all.Count -eq 0 -or [string]::IsNullOrWhiteSpace($json)) {
     throw "no repos matched the snapshot filters - refusing to write an empty snapshot"
 }
-if (-not $OutFile) { $OutFile = Join-Path $PSScriptRoot "frenzypenguin-media-site\repos.json" }
+# Repo root, not $PSScriptRoot: repos.json is published from the site root.
+if (-not $OutFile) { $OutFile = Join-Path $PSScriptRoot "..\repos.json" }
+$outDir = Split-Path -Parent $OutFile
+if (-not (Test-Path -LiteralPath $outDir)) { New-Item -ItemType Directory -Force -Path $outDir | Out-Null }
 [IO.File]::WriteAllText($OutFile, $json, (New-Object Text.UTF8Encoding($false)))
-Write-Host "SNAPSHOT $($all.Count) repos -> $($OutFile)"
+Write-Host "SNAPSHOT $($all.Count) repos -> $((Resolve-Path -LiteralPath $OutFile).Path)"
 
 if (-not $NoDeploy) {
-    . (Join-Path $PSScriptRoot "deploy-site.ps1")
-    Deploy-Site -Path $OutFile -Repo "frenzypenguin-media.github.io" -Owner "frenzypenguin-media" `
-        -Message "Refresh repos.json snapshot" -DestPath "repos.json"
+    # gh-commit.ps1 is the module that actually talks to the API and owns the
+    # retry/transaction handling. The previous Deploy-Site call referenced a
+    # deploy-site.ps1 that does not exist in this repo, so the local deploy
+    # path could never have run.
+    . (Join-Path $PSScriptRoot "gh-commit.ps1")
+    Commit-Files -Repo "frenzypenguin-media.github.io" -Owner "frenzypenguin-media" `
+        -Message "chore: refresh repos.json snapshot" `
+        -Changes @(@{ path = "repos.json"; content = $json })
 }
