@@ -6,6 +6,17 @@
   <meta name="description" content="{{ page.description | default: site.description }}">
   <meta name="color-scheme" content="light dark">
   <title>{{ page.title | default: site.title }}</title>
+
+  <!-- GitHub Pages cannot send custom response headers, so CSP is declared
+       here (meta) because that is the only mechanism it honours.
+       Each origin below is actually used by this layout:
+         fonts.googleapis.com / fonts.gstatic.com - preconnect + webfont <link>
+         www.freevisitorcounters.com               - counter script (line ~65)
+         img-src https:                             - remote avatars/badges
+       auth-bar.js only fetches same-origin /auth/state and /api/contact.
+       frame-ancestors is intentionally absent: it is ignored in meta CSP and
+       would misrepresent the clickjacking posture. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.freevisitorcounters.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; object-src 'none'; frame-src 'none'; base-uri 'self'; form-action 'self'">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">

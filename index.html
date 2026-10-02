@@ -15,9 +15,14 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="FrenzyPenguin Media — Defense is the best defense">
 <meta name="twitter:description" content="FrenzyPenguin Media — open-source security hardening, privacy tooling and media by neohiro / METAPOD.">
-<!-- CSP is delivered as a real header from _headers (see _config.yml `include:`).
-     A second policy here would intersect with it and silently break the
-     visitor-counter image and any cross-origin fetch. -->
+<!-- GitHub Pages cannot send custom response headers (it has no _headers
+     support), so CSP must be declared here to have any effect. Kept in sync
+     with _layouts/default.html.
+     The previous policy granted api.github.com and raw.githubusercontent.com:
+     nothing on this page called them, fetchJson() only loads same-origin
+     repos.json, so those grants are gone. www.freevisitorcounters.com is the
+     counter image further down and is still required. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.freevisitorcounters.com; font-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
 <style>
 :root{
   --bg:#030710; --card:rgba(15,21,32,.85);

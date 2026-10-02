@@ -39,9 +39,3 @@ exclude:
   - "*.ps1"
   - "*.sh"
   - "github-social/"
-
-# Jekyll silently drops any file whose name starts with "_", so _headers was
-# never reaching _site and none of the security headers below were actually
-# being served. This is what puts them on the wire.
-include:
-  - _headers
