@@ -1,0 +1,35 @@
+# Response headers for frenzypenguin.media (GitHub Pages custom domain).
+#
+# Transport security
+# ------------------
+# Enforce HTTPS is enabled in repo Settings -> Pages, so http:// is already
+# 301-redirected. HSTS is what stops a browser from being downgraded on the
+# *first* request, before the redirect happens (SSL-stripping).
+#
+# `includeSubDomains` and `preload` are deliberately NOT set:
+#   - www.frenzypenguin.media still resolves to Namecheap's parking IP
+#     (192.64.119.143) over plain HTTP, so `includeSubDomains` would hard-fail
+#     www for anyone who typed it.
+#   - `preload` additionally requires includeSubDomains, a >=2 year max-age,
+#     and registration at hstspreload.org.
+# Both should be added in the same change that repairs the www DNS record.
+Strict-Transport-Security: max-age=31536000
+
+# Stop MIME-type sniffing turning a user-supplied file into script.
+X-Content-Type-Options: nosniff
+
+# Don't leak full paths to third parties (visitor badge, GitHub API); send
+# only the origin on cross-origin requests.
+Referrer-Policy: strict-origin-when-cross-origin
+
+# The site is not meant to be framed. Network sites link to each other rather
+# than embedding each other, so this costs nothing.
+X-Frame-Options: DENY
+
+# The assistant bar is text-only (verified: no getUserMedia/SpeechRecognition/
+# geolocation in assets/), so no browser capabilities are needed at all.
+Permissions-Policy: accelerometer=(), autoplay=(), camera=(), display-capture=(), encrypted-media=(), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), usb=()
+
+# Content-Security-Policy is intentionally absent here: it is already declared
+# as a <meta http-equiv> in _layouts/default.html. Duplicating it as a real
+# header would risk silently breaking pages the meta tag was tuned for.
