@@ -83,7 +83,9 @@ if ($all.Count -eq 0 -or [string]::IsNullOrWhiteSpace($json)) {
     throw "no repos matched the snapshot filters - refusing to write an empty snapshot"
 }
 # Repo root, not $PSScriptRoot: repos.json is published from the site root.
-if (-not $OutFile) { $OutFile = Join-Path $PSScriptRoot "..\repos.json" }
+    # Walk with Split-Path rather than embedding "..\" - a backslash separator is
+    # a literal character in a Linux path, which is where CI runs this.
+    if (-not $OutFile) { $OutFile = Join-Path (Split-Path -Parent $PSScriptRoot) "repos.json" }
 $outDir = Split-Path -Parent $OutFile
 if (-not (Test-Path -LiteralPath $outDir)) { New-Item -ItemType Directory -Force -Path $outDir | Out-Null }
 [IO.File]::WriteAllText($OutFile, $json, (New-Object Text.UTF8Encoding($false)))

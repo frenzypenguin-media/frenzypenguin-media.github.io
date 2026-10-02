@@ -10,7 +10,12 @@ function Commit-Files {
         [switch]$NoOcTag,
         [switch]$NoAgentIdentity
     )
-    $tmpDir = Join-Path $env:TEMP "opencode"
+    # $env:TEMP only exists on Windows. On the Linux runner it is unset, and
+    # Join-Path $null threw "Cannot bind argument to parameter 'Path'", which
+    # failed refresh-snapshot.yml on every scheduled run. Fall back through
+    # TMPDIR (what GitHub Actions sets) and then the runtime's own answer.
+    $tmpRoot = if ($env:TEMP) { $env:TEMP } elseif ($env:TMPDIR) { $env:TMPDIR } else { [IO.Path]::GetTempPath() }
+    $tmpDir = Join-Path $tmpRoot "opencode"
     if (-not (Test-Path -LiteralPath $tmpDir)) { New-Item -ItemType Directory -Force -Path $tmpDir | Out-Null }
     $tmp = Join-Path $tmpDir ("ghapi-$PID-" + [guid]::NewGuid().ToString("N") + ".json")
 
