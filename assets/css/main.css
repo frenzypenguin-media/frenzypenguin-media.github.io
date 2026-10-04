@@ -1092,3 +1092,69 @@ p { color: var(--fg-muted); }
   .site-nav { gap: 4px; }
   .site-nav .nav-link { padding: 7px 10px; font-size: 0.8125rem; }
 }
+
+/* ── Hosts dropdown ────────────────────────────────────────────────────────
+   Rules for the opt-in Hosts menu in _includes/nav.html. They live in the
+   site's own stylesheet rather than in assets/css/network-ux.css, which is the
+   shared contract file and is regenerated wholesale by `site_forge.py sync` -
+   anything a single site adds there gets reverted on the next sync. They cannot
+   live in assets/css/hosts.css either: that one is pulled in per page through
+   extra_css, so it is absent from the homepage, which also renders the header
+   and would show an unstyled 34-item menu.
+
+   The dot is the probe result. ok and guarded deliberately share the "live"
+   colour: a bot wall (403/429/400/999) is not a broken link, and colouring it
+   red would be a lie. broken and down are the only two that get a warning
+   colour, and broken-dns maps to `broken` in nav.html before it becomes a
+   class name. */
+.nav-dropdown--wide .nav-dropdown-menu {
+  min-width: 260px;
+  max-height: min(70vh, 560px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.nav-hosts-all {
+  font-weight: 600;
+  color: var(--fg);
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  margin-bottom: 4px;
+  padding-bottom: 10px;
+}
+.nav-hosts-group {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg-subtle);
+  padding: 10px 12px 4px;
+  margin: 0;
+}
+.nav-hosts-item { padding-top: 5px; padding-bottom: 5px; }
+.nav-host-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.nav-host-dot {
+  flex: 0 0 auto;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--fg-subtle);
+}
+.nav-host-dot--ok      { background: var(--green); }
+.nav-host-dot--guarded { background: var(--cyan); }
+.nav-host-dot--down    { background: var(--orange); }
+.nav-host-dot--broken  { background: var(--red); }
+.nav-host-dot--dir     { background: var(--accent); }
+
+/* Defensive alias. nav.html maps broken-dns -> broken before it becomes a class,
+   so this should be unreachable. It exists so that editing a status in the data
+   file without updating nav.html degrades to a visible red dot rather than an
+   invisible one - which is how eight broken records once rendered as healthy. */
+.nav-host-dot--broken-dns { background: var(--red); }
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-dropdown--wide .nav-dropdown-menu { scroll-behavior: auto; }
+}
