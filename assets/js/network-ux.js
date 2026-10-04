@@ -391,9 +391,9 @@
           <a class="ai-conv__privacy" href="https://neohiro.github.io/privacy/" rel="noopener" target="_blank">Privacy</a>
         </div>
 
-        {# Voicemail triage. Two questions decide where a message ends up, so
+        /* Voicemail triage. Two questions decide where a message ends up, so
            they are asked before the message itself. Hidden until requested, and
-           it never blocks reading the conversation above it. #}
+           it never blocks reading the conversation above it. */
         <form class="ai-conv__triage hidden" id="ai-conv__triage" novalidate>
           <p class="ai-conv__triage-lede">
             This goes to a person, not the assistant. Two quick answers so it lands

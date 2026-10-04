@@ -1,4 +1,4 @@
-{# badges.html — shields.io + custom badges for any repo/org.
+{% comment %} badges.html — shields.io + custom badges for any repo/org.
 
    Usage:
      include badges.html org="neohiro" %}
@@ -10,7 +10,7 @@
       Liquid parses tags inside a brace-comment and inside an HTML comment, so a
       self-referential include in this header is a live infinite recursion. It only
       looks dormant because no built page currently reaches this partial.
-   get richer badges (latest release, build status). #}
+   get richer badges (latest release, build status). {% endcomment %}
 
 
 {%- if include.repo -%}
