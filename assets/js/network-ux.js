@@ -221,9 +221,30 @@
   }
   function hostOf(url) { try { return new URL(url).hostname; } catch (_) { return ''; } }
   function labelFor(host) {
-    if (host.startsWith('transhumanists')) return 'transhumanists';
-    if (host.startsWith('frenzypenguin'))   return 'FrenzyPenguin Media';
-    if (host.startsWith('openstageisland')) return 'Open Stage Island';
+    // Strip one leading "www." and lower-case before matching.
+    //
+    // The apex of this site is served both as frenzypenguin.media and as
+    // www.frenzypenguin.media. Without this the www form matched none of the
+    // prefixes below and fell through to the default, so the cross-site
+    // "Back to ..." control labelled this site "neohiro" -- the wrong name,
+    // on the one host a visitor is most likely to have typed or been sent to.
+    //
+    // Exactly one "www." is removed, so www.www.example.com cannot be made
+    // to look like www.example.com.
+    //
+    // Known limitation, pre-existing and deliberately not changed here: the
+    // prefixes below are substring matches, so a lookalike host such as
+    // "frenzypenguin-attacker.com" also resolves to this site's label. That is
+    // cosmetic rather than a spoofing hole -- this function only chooses which
+    // name to *display*; the link it labels is built elsewhere. Tightening it
+    // is not a one-liner, because the legitimate hostnames here are two
+    // different shapes ("frenzypenguin.media" and
+    // "frenzypenguin-media.github.io") and a plain hostname-boundary match
+    // would reject the second. Left for whoever owns the site list.
+    var h = String(host || '').toLowerCase().replace(/^www\./, '');
+    if (h.startsWith('transhumanists')) return 'transhumanists';
+    if (h.startsWith('frenzypenguin'))   return 'FrenzyPenguin Media';
+    if (h.startsWith('openstageisland')) return 'Open Stage Island';
     return 'neohiro';
   }
   function escapeHtml(s) {
