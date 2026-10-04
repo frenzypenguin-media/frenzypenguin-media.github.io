@@ -23,6 +23,7 @@
   <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
   <link rel="stylesheet" href="{{ '/assets/css/network-ux.css' | relative_url }}">
   <link rel="stylesheet" href="{{ '/assets/css/auth-bar.css' | relative_url }}">
+  <link rel="stylesheet" href="{{ '/assets/css/ecosystem-network.css' | relative_url }}">
   <link rel="icon" type="image/svg+xml" href="{{ '/assets/favicon.svg' | relative_url }}">
   {% seo %}
   {% feed_meta %}
@@ -76,6 +77,13 @@
           <script src="https://www.freevisitorcounters.com/en/home/counter/1631174/t/1" defer></script>
         </div>
         {% include footer-button-row.html org="fpm" %}
+        {%- comment -%}
+        Ecosystem Network frame: the unified cross-site footer block. Included
+        once here so every page on this site carries the same four-card
+        directory of the network, below the button row with clear space
+        between them. `current` marks this site's own card.
+        {%- endcomment -%}
+        {% include ecosystem-network.html current="fpm" %}
       </div>
     </footer>
   </div>
