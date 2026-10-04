@@ -1,3 +1,17 @@
-
+# Nested clone of this same repo (the workspace keeps a sibling checkout)
 frenzypenguin-media.github.io/
 
+# Jekyll / GitHub Pages build artifacts
+_site/
+.jekyll-cache/
+.jekyll-metadata
+.sass-cache/
+vendor/
+Gemfile.lock
+
+# Stray files created by PowerShell output-redirection bugs.
+# `2>&1 > file` and `> $null` misparse under PowerShell and create a real file
+# named `$null` (or `=<n>`) holding captured stderr instead of discarding it.
+# A 7.7 KB `$null` full of git CRLF warnings was committed here by accident.
+$null
+=*
