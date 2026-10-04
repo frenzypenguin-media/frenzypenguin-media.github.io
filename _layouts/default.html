@@ -16,7 +16,7 @@
        auth-bar.js only fetches same-origin /auth/state and /api/contact.
        frame-ancestors is intentionally absent: it is ignored in meta CSP and
        would misrepresent the clickjacking posture. -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.freevisitorcounters.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; object-src 'none'; frame-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.freevisitorcounters.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://mainframe.taild879f3.ts.net; object-src 'none'; frame-src 'none'; base-uri 'self'; form-action 'self'">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -42,7 +42,7 @@
     <header class="site-header" role="banner">
       <div class="container">
         <a class="site-brand" href="{{ '/' | relative_url }}" aria-label="neohiro - Home">
-          <span class="logo-mark" aria-hidden="true">👽</span>
+          <span class="logo-mark" aria-hidden="true">ðŸ‘½</span>
           <span class="logo-text">neohiro</span>
         </a>
         <nav class="site-nav" aria-label="Main navigation">
@@ -52,7 +52,7 @@
           <a href="{{ '/media/' | relative_url }}" class="nav-link">Media</a>
           <div class="nav-dropdown">
             <button class="nav-link nav-dropdown-btn" aria-haspopup="true" aria-expanded="false">
-              Community <span aria-hidden="true">▾</span>
+              Community <span aria-hidden="true">â–¾</span>
             </button>
             <div class="nav-dropdown-menu">
               <a href="https://github.com/neohiro" class="nav-dropdown-item">Org Overview</a>
@@ -85,6 +85,8 @@
         {%- endcomment -%}
         {% include ecosystem-network.html current="fpm" %}
       </div>
+        {% include heartbeat-status.html %}
+
     </footer>
   </div>
 
