@@ -32,7 +32,7 @@ jobs:
       # regression here breaks every one of them. Fully offline: it reads the
       # checked-out sources only, so it is safe to gate the deploy on.
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: '20'
 
