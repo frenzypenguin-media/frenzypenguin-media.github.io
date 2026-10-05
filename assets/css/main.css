@@ -97,6 +97,21 @@ p { color: var(--fg-muted); }
   background: linear-gradient(180deg, var(--bg) 0%, var(--bg) 70%, transparent 100%);
   border-bottom: 1px solid var(--border);
   backdrop-filter: saturate(180%) blur(12px);
+  /* Clip horizontally only.
+     .nav-dropdown-menu is absolutely positioned at left:50% with
+     translateX(-50%). It is `visibility: hidden` when closed, which hides it
+     but still leaves it in the layout box tree — so a dropdown belonging to a
+     nav item near the right edge pushed the document wider than the viewport
+     and gave the whole site a horizontal scrollbar (74px of overflow on a
+     500px viewport, 35px at 768). Clipping the header's x-axis contains it.
+
+     `clip` rather than `hidden` on purpose: overflow-x:hidden would force
+     overflow-y to compute to `auto` and turn the header into a scroll
+     container, clipping the open dropdown vertically. `overflow-x: clip`
+     combined with `overflow-y: visible` is honoured per-axis, so the menu can
+     still hang below the bar. */
+  overflow-x: clip;
+  overflow-y: visible;
 }
 
 .site-header .container {

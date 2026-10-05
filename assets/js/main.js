@@ -227,126 +227,45 @@
   // ============================================
   // YOUTUBE VIDEO EMBED MANAGER
   // ============================================
+  // DEPRECATED — no longer builds a video wall. Kept as a no-op shim so that a
+  // stale `new VideoEmbedManager()` elsewhere cannot resurrect the old
+  // behaviour, and so the removal is greppable.
+  //
+  // What it used to do, and why it is gone: init() built #video-grid from a
+  // hard-coded array in which all six entries shared the id dQw4w9WgXcQ —
+  // which YouTube's oEmbed resolves to "Rick Astley – Never Gonna Give You Up".
+  // Each card paired that placeholder with an invented title, an invented
+  // duration and an invented view count, so the page presented six convincing
+  // "Windows Hardening Deep Dive · 124K views" cards that were entirely
+  // fictional. It also meant the media wall was invisible to search engines and
+  // to any visitor without JavaScript, since the markup only ever existed at
+  // runtime.
+  //
+  // The wall is now rendered at build time by _includes/video-facade.html from
+  // _data/videos.yml, where every id is a real upload verified through YouTube's
+  // oEmbed API, and assets/js/video-facade.js only swaps an iframe in on click.
+  // That is server-rendered (indexable, works without JS), ships no YouTube
+  // JavaScript until the visitor presses play, and cannot invent a title.
   class VideoEmbedManager {
     constructor() {
-      this.embeds = new Map();
+      this.retired = true;
+      // init() is called from the constructor on purpose. The shim exists so a
+      // stale `new VideoEmbedManager()` elsewhere cannot resurrect the old
+      // behaviour, and a deprecation notice only earns its keep if it actually
+      // reaches the console. Leaving init() uncalled made the shim dead code
+      // that still looked live, which is the same failure this class was written
+      // to remove.
       this.init();
     }
 
     init() {
-      // Create video cards from data
-      this.videoData = [
-        { id: 'dQw4w9WgXcQ', title: 'Windows Hardening Deep Dive', duration: '45:32', views: '124K', thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg' },
-        { id: 'dQw4w9WgXcQ', title: 'Network Hardening with Cripple-NetStrip', duration: '38:15', views: '89K', thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg' },
-        { id: 'dQw4w9WgXcQ', title: 'Linux Post-Install Security', duration: '52:47', views: '67K', thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg' },
-        { id: 'dQw4w9WgXcQ', title: 'Supply Chain Security for PowerShell', duration: '31:22', views: '54K', thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg' },
-        { id: 'dQw4w9WgXcQ', title: 'Building Secure Bootstraps', duration: '28:55', views: '43K', thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg' },
-        { id: 'dQw4w9WgXcQ', title: 'Advanced Windows Exploit Mitigation', duration: '1:02:18', views: '78K', thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg' }
-      ];
-      
-      this.renderVideoGrid();
-    }
-
-    renderVideoGrid() {
-      const container = document.getElementById('video-grid');
-      if (!container) return;
-      
-      container.innerHTML = this.videoData.map((video, i) => `
-        <article class="video-card" data-video-id="${video.id}" style="--delay: ${i * 100}ms">
-          <div class="video-thumbnail">
-            <img src="${video.thumbnail}" alt="${video.title}" loading="lazy">
-            <div class="video-overlay">
-              <button class="play-btn" aria-label="Play ${video.title}">
-                <svg viewBox="0 0 24 24" fill="currentColor" width="48" height="48"><path d="M8 5v14l11-7z"/></svg>
-              </button>
-              <span class="duration">${video.duration}</span>
-            </div>
-          </div>
-          <div class="video-info">
-            <h4>${video.title}</h4>
-            <span class="video-meta">${video.views} views</span>
-          </div>
-        </article>
-      `).join('');
-      
-      this.bindVideoEvents(container);
-    }
-
-    bindVideoEvents(container) {
-      container.querySelectorAll('.video-card').forEach(card => {
-        const videoId = card.dataset.videoId;
-        let iframe = null;
-        let isOpen = false;
-        
-        card.addEventListener('click', (e) => {
-          if (e.target.closest('.play-btn') || e.target === card || e.target.closest('.video-thumbnail')) {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            if (!isOpen) {
-              this.openVideo(card, videoId);
-              isOpen = true;
-            }
-          }
-        });
-        
-        // Close on outside click
-        document.addEventListener('click', (e) => {
-          if (isOpen && !card.contains(e.target) && !e.target.closest('.video-modal')) {
-            this.closeVideo(card);
-            isOpen = false;
-          }
-        });
-        
-        // Close on Escape
-        document.addEventListener('keydown', (e) => {
-          if (e.key === 'Escape' && isOpen) {
-            this.closeVideo(card);
-            isOpen = false;
-          }
-        });
-      });
-    }
-
-    openVideo(card, videoId) {
-      // Create modal overlay
-      const modal = document.createElement('div');
-      modal.className = 'video-modal';
-      modal.innerHTML = `
-        <div class="video-modal-content">
-          <button class="video-close" aria-label="Close video">&times;</button>
-          <div class="video-wrapper">
-            <iframe 
-              src="https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0" 
-              title="YouTube video" 
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-              allowfullscreen>
-            </iframe>
-          </div>
-        </div>
-      `;
-      
-      document.body.appendChild(modal);
-      document.body.style.overflow = 'hidden';
-      
-      // Animate in
-      requestAnimationFrame(() => {
-        modal.classList.add('active');
-      });
-      
-      // Close handlers
-      modal.querySelector('.video-close').addEventListener('click', () => this.closeVideo(card, modal));
-      modal.addEventListener('click', (e) => {
-        if (e.target === modal) this.closeVideo(card, modal);
-      });
-    }
-
-    closeVideo(card, modal) {
-      modal.classList.remove('active');
-      setTimeout(() => {
-        modal.remove();
-        document.body.style.overflow = '';
-      }, 300);
+      if (window.console && window.console.info) {
+        window.console.info(
+          '[fpm] VideoEmbedManager is retired and does nothing. The video wall ' +
+          'is server-rendered by _includes/video-facade.html from _data/videos.yml; ' +
+          'click-to-play lives in assets/js/video-facade.js.'
+        );
+      }
     }
   }
 
@@ -920,8 +839,17 @@
       
       @keyframes neon-pulse { 0%,100% { box-shadow: 0 20px 60px rgba(124,77,255,0.25), 0 0 40px rgba(124,77,255,0.1); } 50% { box-shadow: 0 20px 80px rgba(124,77,255,0.4), 0 0 80px rgba(124,77,255,0.2); } }
       
-      .glitch-overlay { position: fixed; inset: 0; background: var(--bg); z-index: 9999; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.2s, visibility 0.2s; }
-      .glitch-overlay.active { opacity: 1; visibility: visible; }
+      /* pointer-events is the load-bearing part of the idle state.
+         This overlay is position:fixed; inset:0 at z-index 9999, above the back-to-top
+         control (z-index 940) and the bottom dock (900). Relying on
+         "visibility: hidden already removes it from hit-testing" was not enough:
+         elementFromPoint at the arrow's centre returned this div, so every click on
+         the arrow was swallowed and the control looked permanently dead. This CSS is
+         also injected at runtime, so for the moment before injection the element is an
+         unstyled div with no positioning and no pointer-events rule at all.
+         pointer-events:none closes both gaps; the .active state turns it back on. */
+      .glitch-overlay { position: fixed; inset: 0; background: var(--bg); z-index: 9999; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.2s, visibility 0.2s; }
+      .glitch-overlay.active { opacity: 1; visibility: visible; pointer-events: auto; }
       .glitch-text { font-family: var(--font-ui); font-size: clamp(3rem, 10vw, 8rem); font-weight: 700; color: var(--fg); letter-spacing: 0.1em; text-transform: uppercase; }
     `;
     document.head.appendChild(style);

@@ -5,6 +5,27 @@ baseurl: ""
 github_username: neohiro
 github_repo: frenzypenguin-media
 
+# Chrome identity for the shared chrome includes (_includes/bottom-bar.html).
+#
+# `github_username` cannot identify a site here: FPM and neohiro deliberately
+# share the handle "neohiro", so keying the bottom bar's branding and section
+# chips off it silently rendered neohiro's "GitHub" CTA and neohiro's chip list
+# on this site. `github_repo` does differ, but it encodes an org/repo layout
+# detail rather than an intent, and FPM's value ("frenzypenguin-media") does not
+# even carry the .github.io suffix the other three have. An explicit key states
+# the intent and is greppable.
+#
+# One of: fpm | neohiro | osi | transhumanists
+shell: fpm
+
+# Visitor counter. Rendered via _includes/counter-widget.html, which
+# _layouts/default.html includes exactly once (in the footer) so a page view
+# counts once. The badge is a static SVG from visitor-badge rather than the
+# retired freevisitorcounters JS embed, because GitHub Pages will not run that
+# third-party script reliably. See links-secret/counter-surfaces.spec.yaml (SSOT)
+# for the slot mapping; display_id 1631174 is this site's legacy surface.
+counter_path: "github.com/frenzypenguin-media.github.io"
+
 plugins:
   - jekyll-feed
   - jekyll-seo-tag

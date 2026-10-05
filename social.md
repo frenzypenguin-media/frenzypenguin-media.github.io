@@ -5,6 +5,15 @@ description: "GitHub Social — the decentralized social layer for the neohiro e
 permalink: /social/
 ---
 
+<section class="section" id="social">
+  <div class="container">
+    <header class="section-header">
+      <h1>Social</h1>
+      <p class="section-subtitle">Everywhere the network is reachable, and what each one is for.</p>
+    </header>
+  </div>
+</section>
+
 <section class="section" id="github-social">
   <div class="container">
     <header class="section-header">

@@ -4,9 +4,9 @@
 
 | Branch  | Supported        |
 | ------- | ---------------- |
-| `main`  | âœ… Active         |
-| `v1.x`  | âš ï¸ Critical fixes only |
-| `<v1`   | âŒ End of life    |
+| `main`  | ✅ Active         |
+| `v1.x`  | ⚠️ Critical fixes only |
+| `<v1`   | ❌ End of life    |
 
 Only the latest release on the **Releases** page receives security updates.
 Please upgrade before reporting an issue.
@@ -16,7 +16,7 @@ Please upgrade before reporting an issue.
 **Please do not file a public issue.** Use one of the following private
 channels:
 
-1. **Preferred**: GitHub Security Advisories â€” open a *private* advisory from
+1. **Preferred**: GitHub Security Advisories — open a *private* advisory from
    the **Security** tab of this repository.
 2. **Email**: `security@neohiro.io` (PGP key on request).
 3. **Signal / WhatsApp** (godadmin only, last resort): see

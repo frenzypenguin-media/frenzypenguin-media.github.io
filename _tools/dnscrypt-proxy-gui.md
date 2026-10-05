@@ -28,9 +28,17 @@ icon: |
 
 ## Screenshots
 
-| Main Window | Server Selection | Query Log |
-|-------------|------------------|-----------|
-| ![main](assets/dnscrypt-proxy-gui-main.png) | ![servers](assets/dnscrypt-proxy-gui-servers.png) | ![log](assets/dnscrypt-proxy-gui-log.png) |
+**Not published yet.** The three screenshots this page used to show
+(`dnscrypt-proxy-gui-main.png`, `-servers.png`, `-log.png`) were referenced but
+never committed, so every visitor got three broken images. Rather than ship that,
+or invent a stand-in that would look finished, the section says so.
+
+If you are the maintainer: drop the three PNGs into
+`_tools/assets/dnscrypt-proxy-gui/` and restore the table with paths relative to
+the rendered page (`../../assets/dnscrypt-proxy-gui/main.png` and siblings, or
+absolute `/assets/...` if you move them to the site-wide `assets/` tree).
+Verify with the link checker in
+`template-shared/tests/` before calling it done.
 
 ## Installation
 

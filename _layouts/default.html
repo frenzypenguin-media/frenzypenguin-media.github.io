@@ -11,12 +11,11 @@
        here (meta) because that is the only mechanism it honours.
        Each origin below is actually used by this layout:
          fonts.googleapis.com / fonts.gstatic.com - preconnect + webfont <link>
-         www.freevisitorcounters.com               - counter script (line ~65)
-         img-src https:                             - remote avatars/badges
+                  img-src https:                             - remote avatars/badges
        auth-bar.js only fetches same-origin /auth/state and /api/contact.
        frame-ancestors is intentionally absent: it is ignored in meta CSP and
        would misrepresent the clickjacking posture. -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.freevisitorcounters.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://mainframe.taild879f3.ts.net; object-src 'none'; frame-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://mainframe.taild879f3.ts.net; object-src 'none'; frame-src https://www.youtube-nocookie.com; base-uri 'self'; form-action 'self'">
   <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
   <link rel="stylesheet" href="{{ '/assets/css/network-ux.css' | relative_url }}">
   <link rel="stylesheet" href="{{ '/assets/css/auth-bar.css' | relative_url }}">
@@ -27,6 +26,12 @@
   <link rel="stylesheet" href="{{ "/assets/css/site-tokens.css" | relative_url }}">
   <link rel="stylesheet" href="{{ "/assets/css/site-forge.css" | relative_url }}">
 {% comment %} fonts: managed by template-shared/site_forge.py from sites.yaml {% endcomment %}
+  <!-- fpm-hero.css: the 2080 hero + scroll-narrative design system. Scoped under
+     .fpm-hero / .fpm-scroll-* so it cannot collide with main.css or the shared
+     network-ux layer. Only the homepage opts in, via page.extra_css. -->
+  {%- for sheet in page.extra_css %}
+  <link rel="stylesheet" href="{{ sheet | relative_url }}">
+  {%- endfor %}
 {%- if site.font_google %}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,6 +39,10 @@
 {%- endif %}
   <link rel="stylesheet" href="{{ "/assets/css/ai-seal.css" | relative_url }}">
 </head>
+  <!-- Persistent curved dock + central AI button. Owned by bottom-bar.css across
+       all four sites; extracting it out of site-chrome.css is what stopped the other
+       three rendering the dock unstyled. -->
+  <link rel="stylesheet" href="{{ '/assets/css/bottom-bar.css' | relative_url }}">
 {% comment %} decor: managed by template-shared/site_forge.py from sites.yaml {% endcomment %}
 <body class="{{ page.decor_class | default: site.decor_class | default: 'decor-aurora' }}">
   <a class="skip-link" href="#main">Skip to main content</a>
@@ -67,6 +76,7 @@
     site_forge.py keeps in step. One nav across four sites, no per-site copy.
   {%- endcomment -%}
   {% include nav.html %}
+  {%- unless page.hero_counter -%}{% include counter-widget.html %}{%- endunless -%}
       </div>
     </header>
 
@@ -76,9 +86,6 @@
 
     <footer class="site-footer" role="contentinfo">
       <div class="container">
-        <div style="text-align: center;">
-          <script src="https://www.freevisitorcounters.com/en/home/counter/1631174/t/1" defer></script>
-        </div>
         {% include footer-button-row.html org="fpm" %}
         {%- comment -%}
         Ecosystem Network frame: the unified cross-site footer block. Included
@@ -87,12 +94,12 @@
         between them. `current` marks this site's own card.
         {%- endcomment -%}
         {% include ecosystem-network.html current="fpm" %}
-      </div>
         {% include heartbeat-status.html %}
 
     </footer>
   </div>
 
+  {% include bottom-bar.html %}
   {% include auth-bar.html %}
 
   <!-- Scripts: load order matters. fpm-typing.js MUST load before main.js
@@ -104,5 +111,7 @@
   <script src="{{ '/assets/js/auth-bar.js' | relative_url }}" defer></script>
   {% include ai-disclosure.html %}
   <script src="{{ "/assets/js/ai-seal.js" | relative_url }}" defer></script>
+
+  <script src="{{ '/assets/js/bottom-bar.js' | relative_url }}" defer></script>
 </body>
 </html>
