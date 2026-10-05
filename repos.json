@@ -29,7 +29,7 @@
       "windows-defender",
       "xml"
     ],
-    "pushed_at": "10/02/2026 03:04:19"
+    "pushed_at": "10/04/2026 06:12:29"
   },
   {
     "name": "dnscrypt-proxy-gui",
@@ -48,7 +48,7 @@
       "gui",
       "proxy"
     ],
-    "pushed_at": "10/02/2026 03:04:24"
+    "pushed_at": "10/04/2026 06:57:19"
   },
   {
     "name": "BlackGlass",
@@ -67,7 +67,7 @@
       "second-life",
       "virtual-worlds"
     ],
-    "pushed_at": "09/18/2026 05:04:17"
+    "pushed_at": "10/02/2026 05:56:51"
   },
   {
     "name": "Cripple-NetStrip",
@@ -93,7 +93,7 @@
       "python",
       "windows"
     ],
-    "pushed_at": "10/02/2026 03:03:39"
+    "pushed_at": "10/04/2026 10:39:32"
   },
   {
     "name": "linux",
@@ -125,7 +125,7 @@
       "ubuntu",
       "ufw"
     ],
-    "pushed_at": "10/02/2026 04:51:14"
+    "pushed_at": "10/04/2026 12:55:50"
   },
   {
     "name": "HoneyScan",
@@ -148,36 +148,6 @@
     "pushed_at": "09/18/2026 05:05:18"
   },
   {
-    "name": "ubuntu",
-    "full_name": "neohiro/ubuntu",
-    "html_url": "https://github.com/neohiro/ubuntu",
-    "description": "Linux install commands (Dnscrypt, Tor, ShadowSocks...) - manual hardening (STIG)",
-    "stargazers_count": 1,
-    "forks_count": 0,
-    "language": "Shell",
-    "topics": [
-      "linux",
-      "terminal",
-      "ubuntu"
-    ],
-    "pushed_at": "10/02/2026 03:51:47"
-  },
-  {
-    "name": "windows",
-    "full_name": "neohiro/windows",
-    "html_url": "https://github.com/neohiro/windows",
-    "description": "Windows new install - manual hardening (STIG)",
-    "stargazers_count": 1,
-    "forks_count": 0,
-    "language": "PowerShell",
-    "topics": [
-      "install",
-      "security",
-      "windows"
-    ],
-    "pushed_at": "10/02/2026 03:04:49"
-  },
-  {
     "name": "SecondLife",
     "full_name": "neohiro/SecondLife",
     "html_url": "https://github.com/neohiro/SecondLife",
@@ -189,7 +159,7 @@
       "lsl-scripts",
       "secondlife"
     ],
-    "pushed_at": "09/18/2026 05:06:35"
+    "pushed_at": "10/02/2026 05:58:02"
   },
   {
     "name": "DNSLookup",
@@ -208,18 +178,193 @@
       "python",
       "reconnaissance"
     ],
-    "pushed_at": "09/18/2026 05:04:40"
+    "pushed_at": "10/02/2026 05:57:09"
   },
   {
-    "name": "frenzypenguin-media",
-    "full_name": "neohiro/frenzypenguin-media",
-    "html_url": "https://github.com/neohiro/frenzypenguin-media",
-    "description": "FrenzyPenguin Media — Security hardening & privacy tools",
+    "name": "windows",
+    "full_name": "neohiro/windows",
+    "html_url": "https://github.com/neohiro/windows",
+    "description": "Windows new install - manual hardening (STIG)",
+    "stargazers_count": 1,
+    "forks_count": 0,
+    "language": "PowerShell",
+    "topics": [
+      "install",
+      "security",
+      "windows"
+    ],
+    "pushed_at": "10/02/2026 05:23:34"
+  },
+  {
+    "name": "ubuntu",
+    "full_name": "neohiro/ubuntu",
+    "html_url": "https://github.com/neohiro/ubuntu",
+    "description": "Linux install commands (Dnscrypt, Tor, ShadowSocks...) - manual hardening (STIG)",
+    "stargazers_count": 1,
+    "forks_count": 0,
+    "language": "Shell",
+    "topics": [
+      "linux",
+      "terminal",
+      "ubuntu"
+    ],
+    "pushed_at": "10/02/2026 03:51:47"
+  },
+  {
+    "name": "neohiro",
+    "full_name": "neohiro/neohiro",
+    "html_url": "https://github.com/neohiro/neohiro",
+    "description": "Security hardening & privacy tools for Windows and Linux",
     "stargazers_count": 0,
     "forks_count": 0,
     "language": "JavaScript",
     "topics": [],
-    "pushed_at": "10/02/2026 04:37:24"
+    "pushed_at": "10/05/2026 11:16:29"
+  },
+  {
+    "name": "github-social",
+    "full_name": "frenzypenguin-media/github-social",
+    "html_url": "https://github.com/frenzypenguin-media/github-social",
+    "description": "GitHub Social — decentralized social layer for GitHub. Browser extension, PWA, embed widget, Tauri desktop app.",
+    "stargazers_count": 0,
+    "forks_count": 0,
+    "language": "JavaScript",
+    "topics": [],
+    "pushed_at": "10/05/2026 06:20:34"
+  },
+  {
+    "name": "worldmap",
+    "full_name": "neohiro/worldmap",
+    "html_url": "https://github.com/neohiro/worldmap",
+    "description": "Dynamic global data layers for the neohiro dashboard",
+    "stargazers_count": 0,
+    "forks_count": 0,
+    "language": "JavaScript",
+    "topics": [],
+    "pushed_at": "10/05/2026 06:20:10"
+  },
+  {
+    "name": "lora-multiboot",
+    "full_name": "neohiro/lora-multiboot",
+    "html_url": "https://github.com/neohiro/lora-multiboot",
+    "description": "Role-aware multi-slot firmware platform for single-radio LoRa devices: progressive provisioning, non-destructive system updates, and one SX1262 serving Meshtastic and MeshCore together.",
+    "stargazers_count": 0,
+    "forks_count": 0,
+    "language": "C++",
+    "topics": [
+      "bootloader",
+      "esp32",
+      "firmware",
+      "firmware-update",
+      "ham-radio",
+      "heltec",
+      "iot",
+      "lora",
+      "lorawan",
+      "mesh-networking",
+      "meshcore",
+      "meshtastic",
+      "meshtastic-firmware",
+      "multiboot",
+      "off-grid",
+      "repeater",
+      "reticulum",
+      "sx1262"
+    ],
+    "pushed_at": "10/05/2026 03:11:59"
+  },
+  {
+    "name": "frenzypenguin-media",
+    "full_name": "frenzypenguin-media/frenzypenguin-media",
+    "html_url": "https://github.com/frenzypenguin-media/frenzypenguin-media",
+    "description": "FrenzyPenguin Media — brand hub",
+    "stargazers_count": 0,
+    "forks_count": 0,
+    "language": "HTML",
+    "topics": [],
+    "pushed_at": "10/04/2026 14:04:19"
+  },
+  {
+    "name": "achievement-hacks",
+    "full_name": "neohiro/achievement-hacks",
+    "html_url": "https://github.com/neohiro/achievement-hacks",
+    "description": "Agentic documentation, recipes, and automation for every GitHub Achievement",
+    "stargazers_count": 0,
+    "forks_count": 0,
+    "language": "Python",
+    "topics": [],
+    "pushed_at": "10/04/2026 10:58:13"
+  },
+  {
+    "name": "meshcore-waveshare-usb-lora",
+    "full_name": "neohiro/meshcore-waveshare-usb-lora",
+    "html_url": "https://github.com/neohiro/meshcore-waveshare-usb-lora",
+    "description": "Turn a Waveshare USB-TO-LoRa-HF into a MeshCore KISS modem: firmware, SWD flashing, and a one-command setup.",
+    "stargazers_count": 0,
+    "forks_count": 0,
+    "language": "C",
+    "topics": [
+      "embedded",
+      "firmware",
+      "gd32",
+      "home-assistant",
+      "kiss-modem",
+      "lora",
+      "meshcore",
+      "meshcore-kiss",
+      "meshradio",
+      "meshtastic",
+      "radio",
+      "rtos",
+      "sx1262",
+      "waveshare"
+    ],
+    "pushed_at": "10/04/2026 10:47:51"
+  },
+  {
+    "name": "meshcore-meshtastic-vanity-key",
+    "full_name": "neohiro/meshcore-meshtastic-vanity-key",
+    "html_url": "https://github.com/neohiro/meshcore-meshtastic-vanity-key",
+    "description": "MeshCore-compatible Ed25519 vanity public-key generator with scalar-walk optimization",
+    "stargazers_count": 0,
+    "forks_count": 0,
+    "language": "Python",
+    "topics": [],
+    "pushed_at": "10/04/2026 10:37:03"
+  },
+  {
+    "name": "lora-sniffer",
+    "full_name": "neohiro/lora-sniffer",
+    "html_url": "https://github.com/neohiro/lora-sniffer",
+    "description": "Passive LoRa sniffer firmware for the Heltec WiFi LoRa 32 V4, built to run as its own slot alongside MeshCore and Meshtastic. Records the evidence behind each attribution instead of assuming it, and cannot transmit by default.",
+    "stargazers_count": 0,
+    "forks_count": 0,
+    "language": "C++",
+    "topics": [
+      "esp32",
+      "firmware",
+      "heltec",
+      "loralora",
+      "lorawan",
+      "meshcore",
+      "meshtastic",
+      "meshtastic-node",
+      "platformio",
+      "sniffer",
+      "sx1262"
+    ],
+    "pushed_at": "10/04/2026 10:25:09"
+  },
+  {
+    "name": "repo-audit",
+    "full_name": "neohiro/repo-audit",
+    "html_url": "https://github.com/neohiro/repo-audit",
+    "description": "Repository migration audit + runbook + manifest for neohiro org",
+    "stargazers_count": 0,
+    "forks_count": 0,
+    "language": null,
+    "topics": [],
+    "pushed_at": "10/02/2026 05:59:16"
   },
   {
     "name": "mobile-sync",
@@ -244,51 +389,36 @@
       "tui",
       "windows"
     ],
-    "pushed_at": "10/02/2026 04:04:02"
+    "pushed_at": "10/02/2026 05:58:53"
   },
   {
-    "name": "meshcore-vanity-key",
-    "full_name": "neohiro/meshcore-vanity-key",
-    "html_url": "https://github.com/neohiro/meshcore-vanity-key",
-    "description": "MeshCore-compatible Ed25519 vanity public-key generator with scalar-walk optimization",
+    "name": "llm-action",
+    "full_name": "neohiro/llm-action",
+    "html_url": "https://github.com/neohiro/llm-action",
+    "description": "Free LLM router GitHub Action for AI-powered milestone scoring",
     "stargazers_count": 0,
     "forks_count": 0,
     "language": "Python",
     "topics": [],
-    "pushed_at": "10/02/2026 04:00:59"
+    "pushed_at": "10/02/2026 05:58:42"
   },
   {
-    "name": "worldmap",
-    "full_name": "neohiro/worldmap",
-    "html_url": "https://github.com/neohiro/worldmap",
-    "description": "Dynamic global data layers for the neohiro dashboard",
+    "name": "htmlinfo",
+    "full_name": "neohiro/htmlinfo",
+    "html_url": "https://github.com/neohiro/htmlinfo",
+    "description": "HTML Info Scraper",
     "stargazers_count": 0,
     "forks_count": 0,
-    "language": "JavaScript",
-    "topics": [],
-    "pushed_at": "10/02/2026 03:04:02"
-  },
-  {
-    "name": "transhumanists",
-    "full_name": "neohiro/transhumanists",
-    "html_url": "https://github.com/neohiro/transhumanists",
-    "description": "Transhumanism & human enhancement — biohacking, longevity, cognitive augmentation, AI integration.",
-    "stargazers_count": 0,
-    "forks_count": 0,
-    "language": "CSS",
-    "topics": [],
-    "pushed_at": "10/02/2026 03:03:48"
-  },
-  {
-    "name": "neohiro",
-    "full_name": "neohiro/neohiro",
-    "html_url": "https://github.com/neohiro/neohiro",
-    "description": "Security hardening & privacy tools for Windows and Linux",
-    "stargazers_count": 0,
-    "forks_count": 0,
-    "language": "JavaScript",
-    "topics": [],
-    "pushed_at": "10/02/2026 03:03:15"
+    "language": "HTML",
+    "topics": [
+      "browser-fingerprinting",
+      "html",
+      "http-headers",
+      "privacy",
+      "scraper",
+      "web"
+    ],
+    "pushed_at": "10/02/2026 05:58:37"
   },
   {
     "name": "auto-resume",
@@ -306,29 +436,260 @@
       "resilience",
       "retry"
     ],
-    "pushed_at": "10/01/2026 03:49:37"
+    "pushed_at": "10/02/2026 05:58:31"
   },
   {
-    "name": "achievement-hacks",
-    "full_name": "neohiro/achievement-hacks",
-    "html_url": "https://github.com/neohiro/achievement-hacks",
-    "description": "DEPRECATED: moved to https://github.com/neohiro/achievement-hacks",
+    "name": "ZombieShoot",
+    "full_name": "neohiro/ZombieShoot",
+    "html_url": "https://github.com/neohiro/ZombieShoot",
+    "description": "Zombie Shooter for Linux/Windows",
     "stargazers_count": 0,
     "forks_count": 0,
     "language": "Python",
-    "topics": [],
-    "pushed_at": "09/28/2026 17:31:55"
+    "topics": [
+      "game",
+      "linux",
+      "pygame",
+      "shooter",
+      "windows",
+      "zombie"
+    ],
+    "pushed_at": "10/02/2026 05:58:25"
   },
   {
-    "name": "github-social",
-    "full_name": "frenzypenguin-media/github-social",
-    "html_url": "https://github.com/frenzypenguin-media/github-social",
-    "description": "GitHub Social — decentralized social layer for GitHub. Browser extension, PWA, embed widget, Tauri desktop app.",
+    "name": "Tetris",
+    "full_name": "neohiro/Tetris",
+    "html_url": "https://github.com/neohiro/Tetris",
+    "description": "A small retro game for Windows & Linux",
+    "stargazers_count": 0,
+    "forks_count": 1,
+    "language": "Python",
+    "topics": [
+      "arcade",
+      "game",
+      "pygame",
+      "python",
+      "retro-games",
+      "tetris"
+    ],
+    "pushed_at": "10/02/2026 05:58:19"
+  },
+  {
+    "name": "SystemMonitor",
+    "full_name": "neohiro/SystemMonitor",
+    "html_url": "https://github.com/neohiro/SystemMonitor",
+    "description": "System Health Monitor",
     "stargazers_count": 0,
     "forks_count": 0,
-    "language": "JavaScript",
-    "topics": [],
-    "pushed_at": "09/28/2026 06:21:28"
+    "language": "Python",
+    "topics": [
+      "cpu-usage",
+      "dashboard",
+      "psutil",
+      "python",
+      "sensors",
+      "system-monitor"
+    ],
+    "pushed_at": "10/02/2026 05:58:14"
+  },
+  {
+    "name": "ShadowSocks",
+    "full_name": "neohiro/ShadowSocks",
+    "html_url": "https://github.com/neohiro/ShadowSocks",
+    "description": "Simple Python ShadowSocks client for Windows & Linux",
+    "stargazers_count": 0,
+    "forks_count": 0,
+    "language": "Python",
+    "topics": [
+      "censorship-circumvention",
+      "privacy",
+      "proxy",
+      "python",
+      "shadowsocks",
+      "socks5"
+    ],
+    "pushed_at": "10/02/2026 05:58:08"
+  },
+  {
+    "name": "NewsAggregator",
+    "full_name": "neohiro/NewsAggregator",
+    "html_url": "https://github.com/neohiro/NewsAggregator",
+    "description": "Global News Feed with search (Windows/Linux)",
+    "stargazers_count": 0,
+    "forks_count": 0,
+    "language": "Python",
+    "topics": [
+      "feed-reader",
+      "news",
+      "news-aggregator",
+      "python",
+      "rss",
+      "search"
+    ],
+    "pushed_at": "10/02/2026 05:57:56"
+  },
+  {
+    "name": "NetMatrix",
+    "full_name": "neohiro/NetMatrix",
+    "html_url": "https://github.com/neohiro/NetMatrix",
+    "description": "Connections monitor",
+    "stargazers_count": 0,
+    "forks_count": 0,
+    "language": "Python",
+    "topics": [
+      "connections-monitor",
+      "netstat",
+      "network-monitor",
+      "python",
+      "security",
+      "tcp"
+    ],
+    "pushed_at": "10/02/2026 05:57:50"
+  },
+  {
+    "name": "MusicPlay",
+    "full_name": "neohiro/MusicPlay",
+    "html_url": "https://github.com/neohiro/MusicPlay",
+    "description": "Simple cross-platform audio player (Windows/Linux)",
+    "stargazers_count": 0,
+    "forks_count": 0,
+    "language": "Python",
+    "topics": [
+      "audio-player",
+      "media-player",
+      "music-player",
+      "mutagen",
+      "pygame",
+      "python",
+      "tkinter"
+    ],
+    "pushed_at": "10/02/2026 05:57:45"
+  },
+  {
+    "name": "MoodTracker",
+    "full_name": "neohiro/MoodTracker",
+    "html_url": "https://github.com/neohiro/MoodTracker",
+    "description": "A diary for your wellbeing",
+    "stargazers_count": 0,
+    "forks_count": 0,
+    "language": "Python",
+    "topics": [
+      "diary",
+      "journal",
+      "mental-health",
+      "mood-tracker",
+      "python",
+      "tkinter",
+      "wellbeing"
+    ],
+    "pushed_at": "10/02/2026 05:57:39"
+  },
+  {
+    "name": "GoogleCommand",
+    "full_name": "neohiro/GoogleCommand",
+    "html_url": "https://github.com/neohiro/GoogleCommand",
+    "description": "TTS Google Assistant Commands (Windows)",
+    "stargazers_count": 0,
+    "forks_count": 0,
+    "language": "Python",
+    "topics": [
+      "automation",
+      "google-assistant",
+      "google-nest",
+      "python",
+      "smart-home",
+      "text-to-speech",
+      "tts",
+      "windows"
+    ],
+    "pushed_at": "10/02/2026 05:57:32"
+  },
+  {
+    "name": "Godmode",
+    "full_name": "neohiro/Godmode",
+    "html_url": "https://github.com/neohiro/Godmode",
+    "description": "One-click Windows God Mode folder activator",
+    "stargazers_count": 0,
+    "forks_count": 0,
+    "language": "Python",
+    "topics": [
+      "control-panel",
+      "god-mode",
+      "python",
+      "tweaks",
+      "utilities",
+      "windows"
+    ],
+    "pushed_at": "10/02/2026 05:57:26"
+  },
+  {
+    "name": "GhostMaze",
+    "full_name": "neohiro/GhostMaze",
+    "html_url": "https://github.com/neohiro/GhostMaze",
+    "description": "Ghost Maze - a small 2D RPG (Windows/Linux)",
+    "stargazers_count": 0,
+    "forks_count": 0,
+    "language": "Python",
+    "topics": [
+      "game",
+      "linux",
+      "pygame",
+      "rpg",
+      "windows"
+    ],
+    "pushed_at": "10/02/2026 05:57:21"
+  },
+  {
+    "name": "FileManager",
+    "full_name": "neohiro/FileManager",
+    "html_url": "https://github.com/neohiro/FileManager",
+    "description": "File Manager in Python",
+    "stargazers_count": 0,
+    "forks_count": 0,
+    "language": "Python",
+    "topics": [
+      "file-explorer",
+      "file-manager",
+      "gui",
+      "python",
+      "tkinter"
+    ],
+    "pushed_at": "10/02/2026 05:57:15"
+  },
+  {
+    "name": "ClockWidget",
+    "full_name": "neohiro/ClockWidget",
+    "html_url": "https://github.com/neohiro/ClockWidget",
+    "description": "A desktop clock widget",
+    "stargazers_count": 0,
+    "forks_count": 0,
+    "language": "Python",
+    "topics": [
+      "clock",
+      "desktop-widget",
+      "python",
+      "system-tray",
+      "tkinter",
+      "widget"
+    ],
+    "pushed_at": "10/02/2026 05:57:03"
+  },
+  {
+    "name": "Calculator",
+    "full_name": "neohiro/Calculator",
+    "html_url": "https://github.com/neohiro/Calculator",
+    "description": "Advanced Python Calculator",
+    "stargazers_count": 0,
+    "forks_count": 0,
+    "language": "Python",
+    "topics": [
+      "calculator",
+      "gui",
+      "mathematics",
+      "python",
+      "tkinter"
+    ],
+    "pushed_at": "10/02/2026 05:56:57"
   },
   {
     "name": "meteo-ics",
@@ -353,174 +714,6 @@
       "webcal"
     ],
     "pushed_at": "09/27/2026 20:31:31"
-  },
-  {
-    "name": "llm-action",
-    "full_name": "neohiro/llm-action",
-    "html_url": "https://github.com/neohiro/llm-action",
-    "description": "Free LLM router GitHub Action for AI-powered milestone scoring",
-    "stargazers_count": 0,
-    "forks_count": 0,
-    "language": "Python",
-    "topics": [],
-    "pushed_at": "09/22/2026 20:17:01"
-  },
-  {
-    "name": "profile",
-    "full_name": "neohiro/profile",
-    "html_url": "https://github.com/neohiro/profile",
-    "description": "👽 neohiro — public profile README (displayed on github.com/neohiro)",
-    "stargazers_count": 0,
-    "forks_count": 0,
-    "language": null,
-    "topics": [],
-    "pushed_at": "09/18/2026 06:06:05"
-  },
-  {
-    "name": "ZombieShoot",
-    "full_name": "neohiro/ZombieShoot",
-    "html_url": "https://github.com/neohiro/ZombieShoot",
-    "description": "Zombie Shooter for Linux/Windows",
-    "stargazers_count": 0,
-    "forks_count": 0,
-    "language": "Python",
-    "topics": [
-      "game",
-      "linux",
-      "pygame",
-      "shooter",
-      "windows",
-      "zombie"
-    ],
-    "pushed_at": "09/18/2026 05:07:30"
-  },
-  {
-    "name": "Tetris",
-    "full_name": "neohiro/Tetris",
-    "html_url": "https://github.com/neohiro/Tetris",
-    "description": "A small retro game for Windows & Linux",
-    "stargazers_count": 0,
-    "forks_count": 1,
-    "language": "Python",
-    "topics": [
-      "arcade",
-      "game",
-      "pygame",
-      "python",
-      "retro-games",
-      "tetris"
-    ],
-    "pushed_at": "09/18/2026 05:06:58"
-  },
-  {
-    "name": "SystemMonitor",
-    "full_name": "neohiro/SystemMonitor",
-    "html_url": "https://github.com/neohiro/SystemMonitor",
-    "description": "System Health Monitor",
-    "stargazers_count": 0,
-    "forks_count": 0,
-    "language": "Python",
-    "topics": [
-      "cpu-usage",
-      "dashboard",
-      "psutil",
-      "python",
-      "sensors",
-      "system-monitor"
-    ],
-    "pushed_at": "09/18/2026 05:06:50"
-  },
-  {
-    "name": "ShadowSocks",
-    "full_name": "neohiro/ShadowSocks",
-    "html_url": "https://github.com/neohiro/ShadowSocks",
-    "description": "Simple Python ShadowSocks client for Windows & Linux",
-    "stargazers_count": 0,
-    "forks_count": 0,
-    "language": "Python",
-    "topics": [
-      "censorship-circumvention",
-      "privacy",
-      "proxy",
-      "python",
-      "shadowsocks",
-      "socks5"
-    ],
-    "pushed_at": "09/18/2026 05:06:42"
-  },
-  {
-    "name": "NewsAggregator",
-    "full_name": "neohiro/NewsAggregator",
-    "html_url": "https://github.com/neohiro/NewsAggregator",
-    "description": "Global News Feed with search (Windows/Linux)",
-    "stargazers_count": 0,
-    "forks_count": 0,
-    "language": "Python",
-    "topics": [
-      "feed-reader",
-      "news",
-      "news-aggregator",
-      "python",
-      "rss",
-      "search"
-    ],
-    "pushed_at": "09/18/2026 05:06:20"
-  },
-  {
-    "name": "NetMatrix",
-    "full_name": "neohiro/NetMatrix",
-    "html_url": "https://github.com/neohiro/NetMatrix",
-    "description": "Connections monitor",
-    "stargazers_count": 0,
-    "forks_count": 0,
-    "language": "Python",
-    "topics": [
-      "connections-monitor",
-      "netstat",
-      "network-monitor",
-      "python",
-      "security",
-      "tcp"
-    ],
-    "pushed_at": "09/18/2026 05:06:12"
-  },
-  {
-    "name": "MusicPlay",
-    "full_name": "neohiro/MusicPlay",
-    "html_url": "https://github.com/neohiro/MusicPlay",
-    "description": "Simple cross-platform audio player (Windows/Linux)",
-    "stargazers_count": 0,
-    "forks_count": 0,
-    "language": "Python",
-    "topics": [
-      "audio-player",
-      "media-player",
-      "music-player",
-      "mutagen",
-      "pygame",
-      "python",
-      "tkinter"
-    ],
-    "pushed_at": "09/18/2026 05:06:04"
-  },
-  {
-    "name": "MoodTracker",
-    "full_name": "neohiro/MoodTracker",
-    "html_url": "https://github.com/neohiro/MoodTracker",
-    "description": "A diary for your wellbeing",
-    "stargazers_count": 0,
-    "forks_count": 0,
-    "language": "Python",
-    "topics": [
-      "diary",
-      "journal",
-      "mental-health",
-      "mood-tracker",
-      "python",
-      "tkinter",
-      "wellbeing"
-    ],
-    "pushed_at": "09/18/2026 05:05:56"
   },
   {
     "name": "metapod",
@@ -563,131 +756,6 @@
     "pushed_at": "09/18/2026 05:05:33"
   },
   {
-    "name": "htmlinfo",
-    "full_name": "neohiro/htmlinfo",
-    "html_url": "https://github.com/neohiro/htmlinfo",
-    "description": "HTML Info Scraper",
-    "stargazers_count": 0,
-    "forks_count": 0,
-    "language": "HTML",
-    "topics": [
-      "browser-fingerprinting",
-      "html",
-      "http-headers",
-      "privacy",
-      "scraper",
-      "web"
-    ],
-    "pushed_at": "09/18/2026 05:05:26"
-  },
-  {
-    "name": "GoogleCommand",
-    "full_name": "neohiro/GoogleCommand",
-    "html_url": "https://github.com/neohiro/GoogleCommand",
-    "description": "TTS Google Assistant Commands (Windows)",
-    "stargazers_count": 0,
-    "forks_count": 0,
-    "language": "Python",
-    "topics": [
-      "automation",
-      "google-assistant",
-      "google-nest",
-      "python",
-      "smart-home",
-      "text-to-speech",
-      "tts",
-      "windows"
-    ],
-    "pushed_at": "09/18/2026 05:05:10"
-  },
-  {
-    "name": "Godmode",
-    "full_name": "neohiro/Godmode",
-    "html_url": "https://github.com/neohiro/Godmode",
-    "description": "One-click Windows God Mode folder activator",
-    "stargazers_count": 0,
-    "forks_count": 0,
-    "language": "Python",
-    "topics": [
-      "control-panel",
-      "god-mode",
-      "python",
-      "tweaks",
-      "utilities",
-      "windows"
-    ],
-    "pushed_at": "09/18/2026 05:05:03"
-  },
-  {
-    "name": "GhostMaze",
-    "full_name": "neohiro/GhostMaze",
-    "html_url": "https://github.com/neohiro/GhostMaze",
-    "description": "Ghost Maze - a small 2D RPG (Windows/Linux)",
-    "stargazers_count": 0,
-    "forks_count": 0,
-    "language": "Python",
-    "topics": [
-      "game",
-      "linux",
-      "pygame",
-      "rpg",
-      "windows"
-    ],
-    "pushed_at": "09/18/2026 05:04:55"
-  },
-  {
-    "name": "FileManager",
-    "full_name": "neohiro/FileManager",
-    "html_url": "https://github.com/neohiro/FileManager",
-    "description": "File Manager in Python",
-    "stargazers_count": 0,
-    "forks_count": 0,
-    "language": "Python",
-    "topics": [
-      "file-explorer",
-      "file-manager",
-      "gui",
-      "python",
-      "tkinter"
-    ],
-    "pushed_at": "09/18/2026 05:04:47"
-  },
-  {
-    "name": "ClockWidget",
-    "full_name": "neohiro/ClockWidget",
-    "html_url": "https://github.com/neohiro/ClockWidget",
-    "description": "A desktop clock widget",
-    "stargazers_count": 0,
-    "forks_count": 0,
-    "language": "Python",
-    "topics": [
-      "clock",
-      "desktop-widget",
-      "python",
-      "system-tray",
-      "tkinter",
-      "widget"
-    ],
-    "pushed_at": "09/18/2026 05:04:32"
-  },
-  {
-    "name": "Calculator",
-    "full_name": "neohiro/Calculator",
-    "html_url": "https://github.com/neohiro/Calculator",
-    "description": "Advanced Python Calculator",
-    "stargazers_count": 0,
-    "forks_count": 0,
-    "language": "Python",
-    "topics": [
-      "calculator",
-      "gui",
-      "mathematics",
-      "python",
-      "tkinter"
-    ],
-    "pushed_at": "09/18/2026 05:04:25"
-  },
-  {
     "name": "tristar-mania",
     "full_name": "frenzypenguin-media/tristar-mania",
     "html_url": "https://github.com/frenzypenguin-media/tristar-mania",
@@ -704,67 +772,5 @@
       "tristar-mania"
     ],
     "pushed_at": "09/18/2026 05:02:53"
-  },
-  {
-    "name": "repo-audit",
-    "full_name": "neohiro/repo-audit",
-    "html_url": "https://github.com/neohiro/repo-audit",
-    "description": "Repository migration audit + runbook + manifest for neohiro org",
-    "stargazers_count": 0,
-    "forks_count": 0,
-    "language": null,
-    "topics": [],
-    "pushed_at": "09/18/2026 05:02:03"
-  },
-  {
-    "name": "links-secret",
-    "full_name": "neohiro/links-secret",
-    "html_url": "https://github.com/neohiro/links-secret",
-    "description": "Whitelisted redirect service for promotional deep-links",
-    "stargazers_count": 0,
-    "forks_count": 0,
-    "language": "HTML",
-    "topics": [],
-    "pushed_at": "09/02/2026 11:27:11"
-  },
-  {
-    "name": "news",
-    "full_name": "neohiro/news",
-    "html_url": "https://github.com/neohiro/news",
-    "description": "Public global news aggregator — RSS, HackerNews, GitHub Status, platform status. Zero user data. All private intel routes to neohiro/Brain.",
-    "stargazers_count": 0,
-    "forks_count": 0,
-    "language": "Python",
-    "topics": [],
-    "pushed_at": "09/02/2026 11:27:06"
-  },
-  {
-    "name": "Heart",
-    "full_name": "neohiro/Heart",
-    "html_url": "https://github.com/neohiro/Heart",
-    "description": "Heart cadence engine for neohiro",
-    "stargazers_count": 0,
-    "forks_count": 0,
-    "language": "Python",
-    "topics": [],
-    "pushed_at": "09/02/2026 11:27:01"
-  },
-  {
-    "name": "TristarMania",
-    "full_name": "neohiro/TristarMania",
-    "html_url": "https://github.com/neohiro/TristarMania",
-    "description": "An addictive space shooter",
-    "stargazers_count": 0,
-    "forks_count": 0,
-    "language": "Python",
-    "topics": [
-      "game",
-      "linux",
-      "pygame",
-      "shooter",
-      "space",
-      "windows"
-    ],
-    "pushed_at": "08/22/2026 20:29:56"
   }
 ]
