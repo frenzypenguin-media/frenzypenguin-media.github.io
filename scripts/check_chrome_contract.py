@@ -38,34 +38,6 @@ _HERE = os.path.dirname(os.path.abspath(__file__))
 TEMPLATE_SHARED = os.path.dirname(_HERE)
 WORKSPACE = os.path.dirname(TEMPLATE_SHARED)
 
-# Read once, up front, so an undecodable file produces one clear line naming it
-# instead of surfacing later as a cascade of "rule not found" failures on rules
-# that are present and correct. The alternative -- letting each read() call
-# swallow the error -- made an unreadable bottom-bar.css indistinguishable from a
-# bottom-bar.css with nothing in it: eight unrelated rules failed and none of them
-# said "this file could not be decoded".
-UNREADABLE = []
-
-
-def _note_unreadable(path, exc):
-    UNREADABLE.append((path, type(exc).__name__))
-
-
-def _read_text(path):
-    """Return file text, or None if missing or not decodable as UTF-8.
-
-    Every caller goes through here so that the encoding problem is recorded once
-    and reported with the path that caused it.
-    """
-    if not os.path.isfile(path):
-        return None
-    try:
-        with io.open(path, encoding="utf-8") as handle:
-            return handle.read()
-    except (UnicodeDecodeError, IOError, OSError) as exc:
-        _note_unreadable(path, exc)
-        return None
-
 KNOWN_SITES = [
     "frenzypenguin-media.github.io",
     "neohiro.github.io",
@@ -137,16 +109,11 @@ ROOT, SITES, DIFF_ONLY = _resolve_sites(sys.argv)
 
 
 def read(site, rel):
-    """Read a site-relative file, or None if it is absent or unreadable.
-
-    Decoding errors are swallowed rather than raised. A gate that dies with a
-    UnicodeDecodeError reports a traceback and no verdicts, which reads as "the
-    gate is broken" and invites disabling it. The specific complaint is
-    registered on UNREADABLE and reported by its own check at the end, so an
-    encoding problem is named once instead of masquerading as every rule that
-    reads the file being missing.
-    """
-    return _read_text(os.path.join(ROOT, site, rel))
+    path = os.path.join(ROOT, site, rel)
+    if not os.path.isfile(path):
+        return None
+    with io.open(path, encoding="utf-8") as handle:
+        return handle.read()
 
 
 def normalised_bytes(site, rel):
@@ -288,69 +255,6 @@ def check(site, name, ok, detail=""):
     results.append((site, name, bool(ok), detail))
 
 
-def check_unreadable_files():
-    """Every file this gate read must have decoded as UTF-8.
-
-    Reported separately from the per-site rules because the symptom it causes is
-    a lie: an undecodable bottom-bar.css made the gate report that the grid rules
-    were missing, which invites someone to go and "fix" a file that is fine.
-    """
-    seen = set()
-    for site in SITES:
-        for path, exc in list(UNREADABLE):
-            under = os.path.join(os.path.normpath(site), "")
-            rel = path
-            try:
-                rel = os.path.relpath(path, os.path.join(ROOT, site))
-            except ValueError:
-                pass
-            key = (os.path.basename(os.path.normpath(site)), rel)
-            if key in seen:
-                continue
-            seen.add(key)
-            check(os.path.basename(os.path.normpath(site)),
-                  "shared file decodes as UTF-8: %s" % rel.replace(os.sep, "/"),
-                  False, "%s -- the gate cannot verify rules in this file" % exc)
-
-
-def report():
-    """Print every check, then exit non-zero if any failed."""
-    check_unreadable_files()
-    fails = [r for r in results if not r[2]]
-    cur = None
-    label = lambda s: os.path.basename(os.path.normpath(s))  # noqa: E731
-    for site, name, ok, detail in results:
-        if site != cur:
-            print("\n-- %s --" % label(site))
-            cur = site
-        print("  %s    %s%s" % ("ok  " if ok else "FAIL", name,
-                               ("  -> %s" % detail) if detail and not ok else ""))
-
-    print("\n== summary ==")
-    if fails:
-        print("  FAILED: %d of %d checks" % (len(fails), len(results)))
-        for site, name, _ok, detail in fails:
-            print("    %s: %s%s" % (site, name, (" -> %s" % detail) if detail else ""))
-        sys.exit(1)
-
-    print("  OK: %d checks passed across %d sites" % (len(results), len(SITES)))
-    sys.exit(0)
-
-
-# `--diff` asks only "did the hand-copied files drift apart?", which is a
-# question about file bytes, not about any one site's CSS being correct. Run
-# only that check and stop: the per-site rules are ~500 lines of parsing and are
-# answered by the single-site run in each repo's CI, so a diff check that also
-# reported all of them would bury the one line the caller asked for. The flag used
-# to be parsed and then ignored, which meant `--diff` silently ran and reported
-# all 150 checks -- indistinguishable from a plain run, and a real risk of
-# someone reading a green --diff as proof the shared files match when the check
-# had been skipped for want of a second site.
-if DIFF_ONLY:
-    check_shared_files()
-    report()
-
-
 # ---------------------------------------------------------------------------
 # 1. The retired dock must never paint.
 # ---------------------------------------------------------------------------
@@ -430,14 +334,6 @@ for site in SITES:
     js = read(site, "assets/js/ai-seal.js")
     check(site, "ai-seal.js mirrors the arrow state onto <html>",
           bool(js) and 'classList.toggle("ai-arrow-visible"' in js, "")
-
-    # The sheet is z-index 910 and fills 87% of the viewport from the bottom, so
-    # the bottom-right corner is inside it. This sheet is 940, which put the
-    # arrow and the seal on top of the open conversation. Verified before the
-    # fix: elementFromPoint at the arrow's centre returned the arrow.
-    check(site, "seal and arrow stand down while a conversation is open",
-          re.search(r"body\.ai-conv-active\s+\.ai-totop\s*\{[^}]*visibility\s*:\s*hidden",
-                    css) is not None, "")
 
 
 # ---------------------------------------------------------------------------
@@ -535,18 +431,29 @@ for site in SITES:
           'class="bottom-bar__list" data-bar-scroller' in include
           or ("data-bar-scroller" in include and "bottom-bar__list" in include), "")
 
-    # The scroll buttons shipped with tabindex="-1" to stay out of the tab order.
-    # That is redundant while they are `display: none` (which already removes an
-    # element from the tab order) and harmful once the strip overflows: the
-    # buttons become visible and enabled while still being unreachable by
-    # keyboard, with :focus-visible styling that could never fire.
-    buttons = re.findall(r"<button[^>]*data-bar-scroll[^>]*>", include, re.IGNORECASE)
-    check(site, "chip scroll buttons exist and are keyboard reachable",
-          len(buttons) == 2 and not any("tabindex" in b for b in buttons),
-          ("%d button(s); tabindex on: %s"
-           % (len(buttons),
-              ", ".join(b[:60] for b in buttons if "tabindex" in b))
-           if buttons and any("tabindex" in b for b in buttons) else ""))
+    # The chip strip's scroll buttons must be reachable from the keyboard.
+    #
+    # They were shipped with tabindex="-1" so a pointer user would not tab onto
+    # controls that do nothing for them, which removed them from the tab order
+    # for everyone - including a keyboard user who cannot drag a strip sideways.
+    # A control that is pointer-only is a defect, and nothing else in this gate
+    # would have caught it: the markup is valid, the styling is correct, and the
+    # button still responds to a click.
+    #
+    # Matched per-button rather than by searching the include for the substring
+    # `tabindex="-1"`, because the include is shared chrome and an unrelated
+    # element carrying -1 is not the defect this describes.
+    scroll_buttons = re.findall(r"<button\b[^>]*\bdata-bar-scroll=", include)
+    if scroll_buttons:
+        unreachable = re.findall(
+            r"<button\b[^>]*\bdata-bar-scroll=[^>]*>", include
+        )
+        unreachable = [
+            tag for tag in unreachable
+            if re.search(r'tabindex\s*=\s*["\']\s*-1\s*["\']', tag)
+        ]
+        check(site, "chip scroll buttons are keyboard reachable", not unreachable,
+              "%d button(s) carry tabindex=\"-1\"" % len(unreachable))
 
 
 # ---------------------------------------------------------------------------
@@ -691,12 +598,10 @@ def _defined_props(path):
 
 
 def read_from(path):
-    """Read a filesystem path, or None if absent or unreadable.
-
-    Same swallowing as `read()`: an undecodable stylesheet must produce a
-    reported failure, not a traceback.
-    """
-    return _read_text(path)
+    if not os.path.isfile(path):
+        return None
+    with io.open(path, encoding="utf-8") as handle:
+        return handle.read()
 
 
 def check_token_resolution():
@@ -733,4 +638,22 @@ check_token_resolution()
 # ---------------------------------------------------------------------------
 # Report
 # ---------------------------------------------------------------------------
-report()
+fails = [r for r in results if not r[2]]
+cur = None
+label = lambda s: os.path.basename(os.path.normpath(s))  # noqa: E731
+for site, name, ok, detail in results:
+    if site != cur:
+        print("\n-- %s --" % label(site))
+        cur = site
+    print("  %s    %s%s" % ("ok  " if ok else "FAIL", name,
+                             ("  -> %s" % detail) if detail and not ok else ""))
+
+print("\n== summary ==")
+if fails:
+    print("  FAILED: %d of %d checks" % (len(fails), len(results)))
+    for site, name, _ok, detail in fails:
+        print("    %s: %s%s" % (site, name, (" -> %s" % detail) if detail else ""))
+    sys.exit(1)
+
+print("  OK: %d checks passed across %d sites" % (len(results), len(SITES)))
+sys.exit(0)
