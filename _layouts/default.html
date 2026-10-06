@@ -15,7 +15,7 @@
        auth-bar.js only fetches same-origin /auth/state and /api/contact.
        frame-ancestors is intentionally absent: it is ignored in meta CSP and
        would misrepresent the clickjacking posture. -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://mainframe.taild879f3.ts.net; object-src 'none'; frame-src https://www.youtube-nocookie.com; base-uri 'self'; form-action 'self'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://mainframe.taild879f3.ts.net https://www.google-analytics.com https://region1.google-analytics.com; object-src 'none'; frame-src https://www.youtube-nocookie.com; base-uri 'self'; form-action 'self'">
   <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
   <link rel="stylesheet" href="{{ '/assets/css/network-ux.css' | relative_url }}">
   <link rel="stylesheet" href="{{ '/assets/css/auth-bar.css' | relative_url }}">
@@ -38,6 +38,15 @@
   <link href="https://fonts.googleapis.com/css2?family={{ site.font_google }}&display=swap" rel="stylesheet">
 {%- endif %}
   <link rel="stylesheet" href="{{ "/assets/css/ai-seal.css" | relative_url }}">
+
+  <!-- Google Analytics (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WLW4MRLS39"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-WLW4MRLS39');
+  </script>
 </head>
   <!-- Persistent curved dock + central AI button. Owned by bottom-bar.css across
        all four sites; extracting it out of site-chrome.css is what stopped the other
