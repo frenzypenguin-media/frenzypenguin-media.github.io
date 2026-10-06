@@ -7,6 +7,12 @@ on:
 
 permissions:
   contents: write
+  # Required by the "Rebuild Pages" step below. `gh workflow run` is a call to
+  # the Actions API, not a git push, so `contents: write` does not cover it -
+  # without `actions: write` the dispatch is rejected with
+  # "HTTP 403: Resource not accessible by integration" and the job fails after
+  # the snapshot commit has already been made.
+  actions: write
 
 concurrency:
   group: refresh-snapshot

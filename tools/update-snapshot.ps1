@@ -30,13 +30,22 @@ $org = Invoke-GhJson "/orgs/frenzypenguin-media/repos?per_page=100"
 $usr = Invoke-GhJson "/users/neohiro/repos?per_page=100&sort=pushed"
 
 $all = @($org) + @($usr) |
-    Where-Object { -not $_.fork -and $_.name -notmatch 'github\.io$' -and $_.name -ne '.github' } |
-    # full_name is a total-order tiebreaker on purpose. Two repos can share a
-    # name across the org and the user (frenzypenguin-media/frenzypenguin-media
-    # and neohiro/frenzypenguin-media both exist), and Sort-Object is not stable
-    # on PS 5.1, so a name tiebreak still leaves the order arbitrary there.
-    # full_name is unique across both sources, which makes the ordering total
-    # and therefore byte-stable on any runtime.
+    # -not $_.private is a hard requirement, not a tidiness filter. repos.json is
+    # published on the Pages site, so any private repo that reaches this pipeline
+    # publishes its description, topics and URL to every visitor. The filter used
+    # to pass private repos through and stayed harmless only because whoever last
+    # ran it had no access to them; run it with an owner-scoped token and the
+    # entire private catalogue goes live. See tools/tests/update-snapshot.Tests.ps1.
+    Where-Object { -not $_.private -and -not $_.fork -and $_.name -notmatch 'github\.io$' -and $_.name -ne '.github' } |
+    # full_name is a total-order tiebreaker on purpose. The org and the user can
+    # hold repos with the same name, and Sort-Object is not stable on PS 5.1, so
+    # a name tiebreak still leaves the order arbitrary there. full_name is unique
+    # across both sources, which makes the ordering total and therefore
+    # byte-stable on any runtime.
+    #
+    # The cross-owner name collision this guards against is no longer present -
+    # the org-named repo and its neohiro twin have both been deleted - but the
+    # tiebreaker is load-bearing the moment either reappears, so it stays.
     Sort-Object @{e = 'stargazers_count'; Descending = $true }, @{e = 'pushed_at'; Descending = $true }, @{e = 'full_name'; Descending = $false} |
     ForEach-Object {
         # never-pushed repos return $null for pushed_at; preserve null rather than blowing up
@@ -58,12 +67,15 @@ $all = @($org) + @($usr) |
         }
     }
 
-# Two owners can hold repos with the same name - org/frenzypenguin-media and
-# neohiro/frenzypenguin-media both exist right now. index.html keys its repo map
-# by lowercased name, so a duplicate name overwrites the earlier entry and that
-# repo silently stops resolving. Keep one per name. $all is already sorted by
-# stars desc, so the first occurrence is the highest-starred and the choice is
+# Two owners can hold repos with the same name. index.html keys its repo map by
+# lowercased name, so a duplicate name overwrites the earlier entry and that repo
+# silently stops resolving. Keep one per name. $all is already sorted by stars
+# desc, so the first occurrence is the highest-starred and the choice is
 # deterministic; the loser is reported rather than dropped silently.
+#
+# No cross-owner collision exists at present, so this is a no-op today. It stays
+# because the failure it prevents is silent: a merged pair produces a site where
+# one of the two repos 404s on click with nothing in CI reporting an error.
 $seenNames = @{}
 $droppedNames = @()
 $deduped = @(
