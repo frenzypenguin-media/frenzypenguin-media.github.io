@@ -1,5 +1,5 @@
 /* ==========================================================================
-   home.css â€” FrenzyPenguin Media homepage
+   home.css — FrenzyPenguin Media homepage
    --------------------------------------------------------------------------
    Scoped to the classes this page uses (.mhero, .split, .band, .vfacade,
    .tools, .stages, .colophon). Loaded after main.css, and it reads main.css's
@@ -235,7 +235,7 @@ summary:focus-visible {
 
 .mhero__title-line { display: block; }
 
-/* The second line is the reveal. One accent, italic, offset â€” enough to read as
+/* The second line is the reveal. One accent, italic, offset — enough to read as
    a second idea rather than a repeat. */
 .mhero__title-line--alt {
   color: var(--accent);
@@ -276,7 +276,7 @@ summary:focus-visible {
 }
 
 /* --------------------------------------------------------------------------
-   SPLIT â€” the two houses
+   SPLIT — the two houses
    -------------------------------------------------------------------------- */
 
 .split {
@@ -414,7 +414,7 @@ summary:focus-visible {
 .vfacade__hit:hover .vfacade__thumb { transform: scale(1.04); filter: saturate(1) contrast(1.05); }
 
 /* The play affordance is the thumbnail's real link target, so it must not be
-   announced or focusable on its own â€” the whole card is one control. */
+   announced or focusable on its own — the whole card is one control. */
 .vfacade__play {
   position: absolute;
   inset: 0;
@@ -547,7 +547,7 @@ summary:focus-visible {
 }
 
 /* --------------------------------------------------------------------------
-   "Show the other N" â€” a <details>, so it works with no JavaScript
+   "Show the other N" — a <details>, so it works with no JavaScript
    -------------------------------------------------------------------------- */
 
 .more { margin-top: 2.5rem; }
