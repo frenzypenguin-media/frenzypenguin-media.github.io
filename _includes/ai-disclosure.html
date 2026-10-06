@@ -5,25 +5,21 @@
 
   Two elements, one style:
 
-    .ai-seal   a fixed white/cloudy watermark in the bottom-right corner, raised
-               clear of the fixed AI/contact dock so it never sits on top of the
-               footer. It is a link to the disclosure page, because a seal a
-               visitor cannot read is decoration rather than disclosure.
+    .ai-seal   a fixed white/cloudy watermark at 25% from top (right edge), raised
+               clear of the fixed AI/contact dock. It is a button that scrolls
+               to the top of the page, providing the same affordance as the
+               ai-totop arrow. The two crossfade in the same slot.
 
-    .ai-totop  a fixed "back up" arrow on the same right-hand edge, vertically
-               centred so it shares the horizontal plane with the seal without
-               ever colliding with it. Hidden until assets/js/ai-seal.js has
-               scrolled past the trigger, then persistent.
+    .ai-totop  a fixed "back up" arrow on the same right-hand edge at 25% from top,
+               sharing the slot with ai-seal. Hidden until assets/js/ai-seal.js has
+               scrolled past the trigger, then crossfades with the seal.
 
   Both assets are white-on-transparent SVGs from template-shared/assets/img/.
   Everything positional lives in assets/css/ai-seal.css; nothing here is styled
   inline.
 
-  Parameters:
-    href    where the seal links. Defaults to site.ai_disclosure_path, then to
-            /ai-disclosure/. A site that publishes the statement somewhere else
-            sets `ai_disclosure_path` in _config.yml rather than editing this
-            file, so the four copies stay byte-identical.
+Parameters:
+     (none — the seal is now a scroll-to-top button; href parameter is unused)
 {%- endcomment -%}
 {%- assign ai_seal_href = include.href | default: site.ai_disclosure_path | default: '/ai-disclosure/' -%}
 <div class="ai-seal-dock">
