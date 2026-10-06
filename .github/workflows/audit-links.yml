@@ -40,15 +40,22 @@ jobs:
 
           if ($exitCode -ne 0) {
             $issueTitle = "🔗 Broken links detected in org profile READMEs ($(Get-Date -Format 'yyyy-MM-dd'))"
-            $issueBody = @"
-Automated link audit found broken URLs or missing metadata.
 
-\`\`\`
-$result
-\`\`\`
+            # Built as an array rather than a @"..."@ here-string: a here-string's
+            # closing delimiter has to sit in column 0, which a YAML block scalar
+            # cannot represent, so the body sat at column 0 and ended the run: |
+            # block early. GitHub rejected the whole file for that reason and the
+            # job never started.
+            $issueBody = @(
+              "Automated link audit found broken URLs or missing metadata."
+              ""
+              "```"
+              "$result"
+              "```"
+              ""
+              "Run `powershell -NoProfile -ExecutionPolicy Bypass -File tools/verify-network.ps1` locally for details."
+            ) -join "`n"
 
-Run \`powershell -NoProfile -ExecutionPolicy Bypass -File tools/verify-network.ps1\` locally for details.
-"@
             gh issue create --repo frenzypenguin-media/frenzypenguin-media.github.io --title "$issueTitle" --body "$issueBody" --label "link-audit,automated" 2>&1 | Write-Host
           }
 
