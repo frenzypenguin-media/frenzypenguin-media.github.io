@@ -55,8 +55,26 @@
   }
 
   ready(function () {
+    var seal = document.querySelector(".ai-seal");
     var button = document.querySelector("[data-ai-totop]");
     if (!button) return;
+
+    // Make the seal scroll to top when clicked
+    if (seal) {
+      seal.addEventListener("click", function (e) {
+        e.preventDefault();
+        var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        var top = document.getElementById("main") || document.body;
+        try {
+          window.scrollTo({ top: 0, left: 0, behavior: reduced ? "auto" : "smooth" });
+        } catch (err) {
+          window.scrollTo(0, 0);
+        }
+        if (top && typeof top.focus === "function") {
+          top.focus({ preventScroll: true });
+        }
+      });
+    }
 
     var label = button.getAttribute("data-ai-totop-label");
     var span = button.querySelector(".ai-visually-hidden");

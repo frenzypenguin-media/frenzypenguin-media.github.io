@@ -638,6 +638,8 @@ for (var w = 0; w < SITES.length; w++) {
   // onAsk clears input.value = '' then resets counter via getElementById('ai-bar__counter')
   ok(/input\.value\s*=\s*'';[\s\S]{0,200}getElementById\('ai-bar__counter'\)/.test(wsrc), ws + ' -- onAsk resets char counter after clearing input');
   ok(/getElementById\('ai-bar__counter'\)[\s\S]{0,200}textContent\s*=\s*'0\s*\/\s*600'/.test(wsrc), ws + ' -- counter shows 0/600 after clear');
+  ok(/className\s*=\s*'ai-bar__counter'/.test(wsrc), ws + ' -- resets counter className');
+  ok(/classList\.remove\(/.test(wsrc), ws + ' -- removes counter state classes');
 }
 
 // --- Char counter CSS (all sites) ---
@@ -648,6 +650,7 @@ for (var x = 0; x < SITES.length; x++) {
   if (!FS.existsSync(xcssFile)) continue;
   var xcss = FS.readFileSync(xcssFile, 'utf8');
   ok(/\.ai-bar__counter\s*\{/.test(xcss), xs + ' -- has .ai-bar__counter style');
+  ok(/\.ai-bar__counter--visible/.test(xcss), xs + ' has --visible state');
   ok(/\.ai-bar__counter--near/.test(xcss), xs + ' -- has --near (amber) state');
   ok(/\.ai-bar__counter--over/.test(xcss), xs + ' -- has --over (red) state');
   ok(/var\(--font-mono/.test(xcss), xs + ' -- counter uses monospace font');

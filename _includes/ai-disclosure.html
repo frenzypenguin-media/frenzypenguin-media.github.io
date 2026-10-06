@@ -27,14 +27,14 @@
 {%- endcomment -%}
 {%- assign ai_seal_href = include.href | default: site.ai_disclosure_path | default: '/ai-disclosure/' -%}
 <div class="ai-seal-dock">
-  <a class="ai-seal" href="{{ ai_seal_href | relative_url }}" title="AI-assisted content: how these sites are built">
+  <button class="ai-seal" type="button" title="Back to top" aria-label="Scroll to top">
     <img class="ai-seal__img"
          src="{{ '/assets/img/ai-seal.svg' | relative_url }}"
          alt="AI-assisted content seal"
          width="120" height="120"
          decoding="async">
     <span class="ai-seal__label">AI&#8209;assisted</span>
-  </a>
+  </button>
 </div>
 
 <button class="ai-totop" type="button" data-ai-totop data-ai-totop-label="Back up">

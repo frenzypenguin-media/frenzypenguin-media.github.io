@@ -29,19 +29,11 @@ extra_js:
 
 <!-- ==========================================================================
      HERO — a stage light, not a billboard.
-     The reel's own thumbnail is the hero image. It is the only footage that
-     represents the whole studio, and using it here means the first thing on the
-     page is a real frame from real work rather than an abstract plate.
+     The reel is shown below the catalogue, not here. The hero is pure copy.
      ========================================================================== -->
 <section class="mhero" aria-labelledby="hero-h">
   <div class="mhero__plate" aria-hidden="true"></div>
   <div class="mhero__vignette" aria-hidden="true"></div>
-
-  {%- if reel %}
-  <div class="mhero__reel">
-    {% include video-facade.html video=reel lead=true %}
-  </div>
-  {%- endif %}
 
   <div class="mhero__copy">
     <p class="mhero__eyebrow">
@@ -124,26 +116,6 @@ extra_js:
 </section>
 
 <!-- ==========================================================================
-     THE REEL
-     ========================================================================== -->
-<section id="reel" class="band" aria-labelledby="reel-h">
-  <div class="band__head">
-    <h2 id="reel-h" class="band__h">Start here</h2>
-    <p class="band__lede">
-      Seventy-six seconds of the studio, cut in 2019. If it does not make you
-      curious about the rest, the rest is not for you, and that is a reasonable
-      outcome.
-    </p>
-  </div>
-
-  {%- if reel %}
-  <ul class="vfacade-grid vfacade-grid--hero">
-    {% include video-facade.html video=reel lead=true %}
-  </ul>
-  {%- endif %}
-</section>
-
-<!-- ==========================================================================
      CATALOGUE
      Server-rendered from _data/videos.yml. Search engines see these titles; a
      visitor without JavaScript sees working links; nobody pays for YouTube's
@@ -189,6 +161,28 @@ extra_js:
       {%- endfor -%}
     </ul>
   </details>
+</section>
+
+<!-- ==========================================================================
+     THE REEL
+     Moved below the catalogue so it doesn't appear twice. The reel is the
+     shortest honest answer to "what is this studio?" — 76 seconds cut in 2019.
+     ========================================================================== -->
+<section id="reel" class="band" aria-labelledby="reel-h">
+  <div class="band__head">
+    <h2 id="reel-h" class="band__h">Start here</h2>
+    <p class="band__lede">
+      Seventy-six seconds of the studio, cut in 2019. If it does not make you
+      curious about the rest, the rest is not for you, and that is a reasonable
+      outcome.
+    </p>
+  </div>
+
+  {%- if reel %}
+  <ul class="vfacade-grid vfacade-grid--hero">
+    {% include video-facade.html video=reel lead=true %}
+  </ul>
+  {%- endif %}
 </section>
 
 <!-- ==========================================================================
