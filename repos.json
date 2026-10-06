@@ -125,7 +125,7 @@
       "ubuntu",
       "ufw"
     ],
-    "pushed_at": "10/04/2026 12:55:50"
+    "pushed_at": "10/05/2026 21:56:01"
   },
   {
     "name": "HoneyScan",
@@ -211,6 +211,28 @@
     "pushed_at": "10/02/2026 03:51:47"
   },
   {
+    "name": "achievement-hacks",
+    "full_name": "neohiro/achievement-hacks",
+    "html_url": "https://github.com/neohiro/achievement-hacks",
+    "description": "Agentic documentation, recipes, and automation for every GitHub Achievement",
+    "stargazers_count": 0,
+    "forks_count": 0,
+    "language": "Python",
+    "topics": [],
+    "pushed_at": "10/06/2026 00:04:38"
+  },
+  {
+    "name": "repo-audit",
+    "full_name": "neohiro/repo-audit",
+    "html_url": "https://github.com/neohiro/repo-audit",
+    "description": "Repository migration audit + runbook + manifest for neohiro org",
+    "stargazers_count": 0,
+    "forks_count": 0,
+    "language": null,
+    "topics": [],
+    "pushed_at": "10/05/2026 23:14:06"
+  },
+  {
     "name": "neohiro",
     "full_name": "neohiro/neohiro",
     "html_url": "https://github.com/neohiro/neohiro",
@@ -219,7 +241,18 @@
     "forks_count": 0,
     "language": "JavaScript",
     "topics": [],
-    "pushed_at": "10/05/2026 11:16:29"
+    "pushed_at": "10/05/2026 23:00:00"
+  },
+  {
+    "name": "mesh-vanity-key",
+    "full_name": "neohiro/mesh-vanity-key",
+    "html_url": "https://github.com/neohiro/mesh-vanity-key",
+    "description": "Vanity key mining for mesh networks — MeshCore device keys, Meshtastic channel PSKs and !node IDs. Ed25519, scalar-walk optimized, in-browser PWA + CLI",
+    "stargazers_count": 0,
+    "forks_count": 0,
+    "language": "Python",
+    "topics": [],
+    "pushed_at": "10/05/2026 21:47:17"
   },
   {
     "name": "github-social",
@@ -230,7 +263,7 @@
     "forks_count": 0,
     "language": "JavaScript",
     "topics": [],
-    "pushed_at": "10/05/2026 06:20:34"
+    "pushed_at": "10/05/2026 20:29:31"
   },
   {
     "name": "worldmap",
@@ -274,28 +307,6 @@
     "pushed_at": "10/05/2026 03:11:59"
   },
   {
-    "name": "frenzypenguin-media",
-    "full_name": "frenzypenguin-media/frenzypenguin-media",
-    "html_url": "https://github.com/frenzypenguin-media/frenzypenguin-media",
-    "description": "FrenzyPenguin Media — brand hub",
-    "stargazers_count": 0,
-    "forks_count": 0,
-    "language": "HTML",
-    "topics": [],
-    "pushed_at": "10/04/2026 14:04:19"
-  },
-  {
-    "name": "achievement-hacks",
-    "full_name": "neohiro/achievement-hacks",
-    "html_url": "https://github.com/neohiro/achievement-hacks",
-    "description": "Agentic documentation, recipes, and automation for every GitHub Achievement",
-    "stargazers_count": 0,
-    "forks_count": 0,
-    "language": "Python",
-    "topics": [],
-    "pushed_at": "10/04/2026 10:58:13"
-  },
-  {
     "name": "meshcore-waveshare-usb-lora",
     "full_name": "neohiro/meshcore-waveshare-usb-lora",
     "html_url": "https://github.com/neohiro/meshcore-waveshare-usb-lora",
@@ -322,17 +333,6 @@
     "pushed_at": "10/04/2026 10:47:51"
   },
   {
-    "name": "meshcore-meshtastic-vanity-key",
-    "full_name": "neohiro/meshcore-meshtastic-vanity-key",
-    "html_url": "https://github.com/neohiro/meshcore-meshtastic-vanity-key",
-    "description": "MeshCore-compatible Ed25519 vanity public-key generator with scalar-walk optimization",
-    "stargazers_count": 0,
-    "forks_count": 0,
-    "language": "Python",
-    "topics": [],
-    "pushed_at": "10/04/2026 10:37:03"
-  },
-  {
     "name": "lora-sniffer",
     "full_name": "neohiro/lora-sniffer",
     "html_url": "https://github.com/neohiro/lora-sniffer",
@@ -354,17 +354,6 @@
       "sx1262"
     ],
     "pushed_at": "10/04/2026 10:25:09"
-  },
-  {
-    "name": "repo-audit",
-    "full_name": "neohiro/repo-audit",
-    "html_url": "https://github.com/neohiro/repo-audit",
-    "description": "Repository migration audit + runbook + manifest for neohiro org",
-    "stargazers_count": 0,
-    "forks_count": 0,
-    "language": null,
-    "topics": [],
-    "pushed_at": "10/02/2026 05:59:16"
   },
   {
     "name": "mobile-sync",
