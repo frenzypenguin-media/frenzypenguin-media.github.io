@@ -39,6 +39,20 @@ jobs:
       - name: Test shared network-ux.js
         run: node assets/js/test-network-ux.js
 
+      # The shared chrome has a history of shipping broken while the build stayed
+      # green: a `display: flex` left behind after a `display: none` fix (so the
+      # retired dock kept painting over the live bar), hardcoded #fff on text that
+      # sits on the page background (white-on-white in light mode), and a
+      # conversation frame that was a content-sized flex column, so it measured
+      # 29% of the viewport instead of being a usable panel. None of those fail a
+      # Jekyll build. This gate is offline and reads only the checked-out sources.
+      #
+      # It runs in single-site mode here because a per-site checkout has no
+      # siblings to diff against, so it checks this site's own copy of each shared
+      # file. The cross-site byte-identity comparison runs in the workspace.
+      - name: Check shared chrome contract
+        run: python scripts/check_chrome_contract.py
+
       - name: Build Jekyll Site
         run: bundle exec jekyll build
         env:
