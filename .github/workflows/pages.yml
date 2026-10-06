@@ -53,6 +53,13 @@ jobs:
       - name: Check shared chrome contract
         run: python scripts/check_chrome_contract.py
 
+      - name: Test the chrome gate itself
+        # A checker that silently stops detecting things reports green, which is
+        # how this gate could pass while the bottom bar was invisible. The
+        # self-test pins a real defect for every rule and fails loudly if the
+        # gate stops catching it.
+        run: python scripts/test_check_chrome_contract.py
+
       - name: Build Jekyll Site
         run: bundle exec jekyll build
         env:
