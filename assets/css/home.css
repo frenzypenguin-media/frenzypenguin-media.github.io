@@ -401,6 +401,7 @@ summary:focus-visible {
 .vfacade-grid--hero { grid-template-columns: 1fr; }
 .vfacade-grid--lead { grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); }
 .vfacade-grid--featured { grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); }
+.vfacade-grid--catalogue { grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap: clamp(0.75rem, 1.8vw, 1.25rem); }
 
 .vfacade { min-width: 0; }
 
