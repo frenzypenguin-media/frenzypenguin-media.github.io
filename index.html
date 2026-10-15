@@ -144,9 +144,13 @@ extra_js:
 
   {%- comment -%}
     Show a diverse variety of videos right from the start without requiring clicks.
+    Fallback: if sample filter unavailable, use first 9 videos.
   {%- endcomment -%}
   <ul class="vfacade-grid vfacade-grid--featured">
     {%- assign mixed_vids = vids | sample: 9 -%}
+    {%- if mixed_vids.size == 0 -%}
+      {%- assign mixed_vids = vids | slice: 0, 9 -%}
+    {%- endif -%}
     {%- for v in mixed_vids -%}
       {% include video-facade.html video=v %}
     {%- endfor -%}
