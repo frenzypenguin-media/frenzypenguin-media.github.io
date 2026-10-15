@@ -54,6 +54,7 @@
   <link rel="stylesheet" href="{{ '/assets/css/bottom-bar.css' | relative_url }}">
 {% comment %} decor: managed by template-shared/site_forge.py from sites.yaml {% endcomment %}
 <body class="{{ page.decor_class | default: site.decor_class | default: 'decor-aurora' }}">
+  {% include music-player.html %}
   <a class="skip-link" href="#main">Skip to main content</a>
   <!-- Matrix rain canvas for background ambience -->
   <canvas id="matrix-canvas" aria-hidden="true"></canvas>
