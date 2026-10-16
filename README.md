@@ -193,7 +193,7 @@ For security vulnerabilities, see [SECURITY.md](SECURITY.md) for private disclos
 
 - [neohiro](https://neohiro.github.io) — Security hardening & privacy tools
 - [transhumanists](https://transhumanists.github.io) — Transhumanism & human enhancement
-- [openstageisland](https://openstageisland.github.io) — Second Life music venue
+- [openstageisland](https://openstageis.land) — Second Life music venue
 
 ---
 

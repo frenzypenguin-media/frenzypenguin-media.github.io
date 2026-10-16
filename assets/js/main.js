@@ -4,6 +4,12 @@
 (function() {
   'use strict';
 
+  // Module-scoped reference to the GlitchTransition instance, so the
+  // visibility-reset helper (registered before DOMContentLoaded) can clear its
+  // internal `active` latch after a bfcache restore. Without this, the restored
+  // page keeps active === true and silently stops animating page transitions.
+  let glitchInstance = null;
+
   // ============================================
   // MATRIX RAIN BACKGROUND
   // ============================================
@@ -97,9 +103,11 @@
         text.style.textShadow = '';
         
         if (isInternal) {
-          // Smooth transition for internal links
-          document.body.style.opacity = '0';
-          document.body.style.transition = 'opacity 300ms ease';
+          // Navigate behind the opaque overlay. We deliberately do NOT fade
+          // document.body here: that inline `opacity: 0` is captured by the
+          // bfcache entry for this page and is exactly what left the page blank
+          // on Back/Forward until a manual refresh. The full-screen overlay is
+          // the transition, so the body fade added nothing but the bug.
           setTimeout(() => {
             window.location.href = targetUrl;
           }, 150);
@@ -769,6 +777,7 @@
     // Initialize all components
     new MatrixRain();
     const glitchTx = new GlitchTransition();
+    glitchInstance = glitchTx;
     new ParallaxBackground();
     new CardEffects();
     new ScrollAnimations();
@@ -928,6 +937,27 @@
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initPromptField);
   } else { initPromptField(); }
+
+  // Defensive visibility reset. Registered at module scope so it is guaranteed
+  // to exist even if init() throws, and wired to both 'pageshow' (covers bfcache
+  // restores, where event.persisted === true) and 'visibilitychange'. Clears any
+  // stale inline opacity/transition a previous navigation may have left on
+  // <body> and deactivates the full-screen glitch overlay. Idempotent.
+  function resetVisibility() {
+    try {
+      if (document.body) {
+        document.body.style.opacity = '1';
+        document.body.style.transition = '';
+      }
+      const overlay = document.getElementById('glitch-overlay');
+      if (overlay) overlay.classList.remove('active');
+      if (glitchInstance) glitchInstance.active = false;
+    } catch (e) {}
+  }
+  window.addEventListener('pageshow', resetVisibility);
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') resetVisibility();
+  });
 
   // Start when DOM is ready
   if (document.readyState === 'loading') {

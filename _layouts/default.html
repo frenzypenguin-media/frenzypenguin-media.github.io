@@ -15,7 +15,7 @@
        auth-bar.js only fetches same-origin /auth/state and /api/contact.
        frame-ancestors is intentionally absent: it is ignored in meta CSP and
        would misrepresent the clickjacking posture. -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://mainframe.taild879f3.ts.net https://www.google-analytics.com https://region1.google-analytics.com; object-src 'none'; frame-src https://www.youtube-nocookie.com; base-uri 'self'; form-action 'self'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://mainframe.taild879f3.ts.net https://www.google-analytics.com https://region1.google-analytics.com https://api-v2.hearthis.at; media-src 'self' https://hearthis.app https://*.hearthis.at; object-src 'none'; frame-src https://www.youtube-nocookie.com; base-uri 'self'; form-action 'self'">
   <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
   <link rel="stylesheet" href="{{ '/assets/css/network-ux.css' | relative_url }}">
   <link rel="stylesheet" href="{{ '/assets/css/auth-bar.css' | relative_url }}">
