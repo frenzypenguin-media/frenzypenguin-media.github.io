@@ -179,6 +179,7 @@
     isPlaying = false;
     playBtn.textContent = '▶';
     playBtn.setAttribute('aria-label', 'Play music');
+    playBtn.setAttribute('title', 'Play / Pause (Space or Enter)');
     statusDot.classList.remove('playing');
     if(typeof animationId !== 'undefined' && animationId) cancelAnimationFrame(animationId);
     if(typeof clearCanvas === 'function') clearCanvas();
