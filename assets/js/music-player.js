@@ -117,7 +117,7 @@
       a = document.createElement('audio');
       a.id = 'ul-hack-audio';
       a.crossOrigin = 'anonymous';
-      a.preload = 'metadata';
+      a.preload = 'auto'; a.title = 'Neohiro DJ Mix';
       a.style.display = 'none';
       a.src = 'https://github.com/neohiro/dj/releases/download/v1.0/Whats%20in%20the%20box%20%5BBurn2%5D%20-%20rec_20230920-141543%20(hearthis.at).mp3';
       document.body.appendChild(a);
