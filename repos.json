@@ -286,31 +286,6 @@
     "pushed_at": "10/09/2026 20:18:36"
   },
   {
-    "name": "mobile-sync",
-    "full_name": "neohiro/mobile-sync",
-    "html_url": "https://github.com/neohiro/mobile-sync",
-    "description": "Cross-platform OpenCode plugin — mobile sync via Tailscale Funnel with native TUI toast (client.tui.showToast) + OS fallback; works on Windows, macOS, Linux with every OpenCode client",
-    "stargazers_count": 0,
-    "forks_count": 0,
-    "language": "JavaScript",
-    "topics": [
-      "android",
-      "cross-platform",
-      "linux",
-      "macos",
-      "mobile",
-      "opencode",
-      "opencode-plugin",
-      "sync",
-      "tailscale",
-      "tailscale-funnel",
-      "toast",
-      "tui",
-      "windows"
-    ],
-    "pushed_at": "10/07/2026 18:44:33"
-  },
-  {
     "name": "repo-audit",
     "full_name": "neohiro/repo-audit",
     "html_url": "https://github.com/neohiro/repo-audit",
