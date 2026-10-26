@@ -48,7 +48,7 @@
       "gui",
       "proxy"
     ],
-    "pushed_at": "10/17/2026 14:52:45"
+    "pushed_at": "10/24/2026 14:53:00"
   },
   {
     "name": "BlackGlass",
@@ -93,7 +93,7 @@
       "python",
       "windows"
     ],
-    "pushed_at": "10/19/2026 00:25:19"
+    "pushed_at": "10/24/2026 08:53:12"
   },
   {
     "name": "linux",
@@ -125,7 +125,7 @@
       "ubuntu",
       "ufw"
     ],
-    "pushed_at": "10/15/2026 18:11:51"
+    "pushed_at": "10/20/2026 17:40:00"
   },
   {
     "name": "HoneyScan",
@@ -146,6 +146,54 @@
       "security-tools"
     ],
     "pushed_at": "09/18/2026 05:05:18"
+  },
+  {
+    "name": "auto-resume",
+    "full_name": "neohiro/auto-resume",
+    "html_url": "https://github.com/neohiro/auto-resume",
+    "description": "Self-healing OpenCode sessions: automatic retries, model rotation on quota/outages, permission autopilot & walk-away task autonomy",
+    "stargazers_count": 1,
+    "forks_count": 0,
+    "language": "JavaScript",
+    "topics": [
+      "ai-agents",
+      "autopilot",
+      "opencode",
+      "plugin",
+      "resilience",
+      "retry"
+    ],
+    "pushed_at": "10/25/2026 21:51:16"
+  },
+  {
+    "name": "lora-multiboot",
+    "full_name": "neohiro/lora-multiboot",
+    "html_url": "https://github.com/neohiro/lora-multiboot",
+    "description": "Role-aware multi-slot firmware platform for single-radio LoRa devices: progressive provisioning, non-destructive system updates, and one SX1262 serving Meshtastic and MeshCore together.",
+    "stargazers_count": 1,
+    "forks_count": 0,
+    "language": "C++",
+    "topics": [
+      "bootloader",
+      "esp32",
+      "firmware",
+      "firmware-update",
+      "ham-radio",
+      "heltec",
+      "iot",
+      "lora",
+      "lorawan",
+      "mesh-networking",
+      "meshcore",
+      "meshtastic",
+      "meshtastic-firmware",
+      "multiboot",
+      "off-grid",
+      "repeater",
+      "reticulum",
+      "sx1262"
+    ],
+    "pushed_at": "10/17/2026 20:41:33"
   },
   {
     "name": "ubuntu",
@@ -211,17 +259,6 @@
     "pushed_at": "10/02/2026 05:23:34"
   },
   {
-    "name": "neohiro",
-    "full_name": "neohiro/neohiro",
-    "html_url": "https://github.com/neohiro/neohiro",
-    "description": "Security hardening & privacy tools for Windows and Linux",
-    "stargazers_count": 0,
-    "forks_count": 0,
-    "language": "Python",
-    "topics": [],
-    "pushed_at": "10/19/2026 07:11:13"
-  },
-  {
     "name": "github-social",
     "full_name": "frenzypenguin-media/github-social",
     "html_url": "https://github.com/frenzypenguin-media/github-social",
@@ -230,25 +267,58 @@
     "forks_count": 0,
     "language": "JavaScript",
     "topics": [],
-    "pushed_at": "10/19/2026 06:19:06"
+    "pushed_at": "10/26/2026 06:24:13"
   },
   {
-    "name": "auto-resume",
-    "full_name": "neohiro/auto-resume",
-    "html_url": "https://github.com/neohiro/auto-resume",
-    "description": "Self-healing OpenCode sessions: automatic retries, model rotation on quota/outages, permission autopilot & walk-away task autonomy",
+    "name": "local-opencode",
+    "full_name": "neohiro/local-opencode",
+    "html_url": "https://github.com/neohiro/local-opencode",
+    "description": "Easy install mod for local LM Studio / OpenAI-compatible LLM provider in opencode desktop and serve",
+    "stargazers_count": 0,
+    "forks_count": 0,
+    "language": null,
+    "topics": [],
+    "pushed_at": "10/26/2026 01:26:15"
+  },
+  {
+    "name": "newsaggregator",
+    "full_name": "neohiro/newsaggregator",
+    "html_url": "https://github.com/neohiro/newsaggregator",
+    "description": "Global News Feed with search (Windows/Linux)",
+    "stargazers_count": 0,
+    "forks_count": 0,
+    "language": "HTML",
+    "topics": [
+      "feed-reader",
+      "news",
+      "news-aggregator",
+      "python",
+      "rss",
+      "search"
+    ],
+    "pushed_at": "10/22/2026 21:45:27"
+  },
+  {
+    "name": "neohiro",
+    "full_name": "neohiro/neohiro",
+    "html_url": "https://github.com/neohiro/neohiro",
+    "description": "Security hardening & privacy tools for Windows and Linux",
+    "stargazers_count": 0,
+    "forks_count": 0,
+    "language": "Python",
+    "topics": [],
+    "pushed_at": "10/21/2026 01:14:34"
+  },
+  {
+    "name": "domail",
+    "full_name": "neohiro/domail",
+    "html_url": "https://github.com/neohiro/domail",
+    "description": "A local mail engine that runs entirely in your browser tab",
     "stargazers_count": 0,
     "forks_count": 0,
     "language": "JavaScript",
-    "topics": [
-      "ai-agents",
-      "autopilot",
-      "opencode",
-      "plugin",
-      "resilience",
-      "retry"
-    ],
-    "pushed_at": "10/18/2026 17:35:52"
+    "topics": [],
+    "pushed_at": "10/20/2026 19:41:01"
   },
   {
     "name": "dj",
@@ -262,36 +332,6 @@
     "pushed_at": "10/18/2026 13:37:54"
   },
   {
-    "name": "lora-multiboot",
-    "full_name": "neohiro/lora-multiboot",
-    "html_url": "https://github.com/neohiro/lora-multiboot",
-    "description": "Role-aware multi-slot firmware platform for single-radio LoRa devices: progressive provisioning, non-destructive system updates, and one SX1262 serving Meshtastic and MeshCore together.",
-    "stargazers_count": 0,
-    "forks_count": 0,
-    "language": "C++",
-    "topics": [
-      "bootloader",
-      "esp32",
-      "firmware",
-      "firmware-update",
-      "ham-radio",
-      "heltec",
-      "iot",
-      "lora",
-      "lorawan",
-      "mesh-networking",
-      "meshcore",
-      "meshtastic",
-      "meshtastic-firmware",
-      "multiboot",
-      "off-grid",
-      "repeater",
-      "reticulum",
-      "sx1262"
-    ],
-    "pushed_at": "10/17/2026 20:41:33"
-  },
-  {
     "name": "mesh-vanity-key",
     "full_name": "neohiro/mesh-vanity-key",
     "html_url": "https://github.com/neohiro/mesh-vanity-key",
@@ -301,17 +341,6 @@
     "language": "Python",
     "topics": [],
     "pushed_at": "10/16/2026 18:12:08"
-  },
-  {
-    "name": "domail",
-    "full_name": "neohiro/domail",
-    "html_url": "https://github.com/neohiro/domail",
-    "description": "A local mail engine that runs entirely in your browser tab",
-    "stargazers_count": 0,
-    "forks_count": 0,
-    "language": "JavaScript",
-    "topics": [],
-    "pushed_at": "10/16/2026 18:06:32"
   },
   {
     "name": "meteo-ics",
@@ -538,24 +567,6 @@
       "socks5"
     ],
     "pushed_at": "10/02/2026 05:58:08"
-  },
-  {
-    "name": "NewsAggregator",
-    "full_name": "neohiro/NewsAggregator",
-    "html_url": "https://github.com/neohiro/NewsAggregator",
-    "description": "Global News Feed with search (Windows/Linux)",
-    "stargazers_count": 0,
-    "forks_count": 0,
-    "language": "Python",
-    "topics": [
-      "feed-reader",
-      "news",
-      "news-aggregator",
-      "python",
-      "rss",
-      "search"
-    ],
-    "pushed_at": "10/02/2026 05:57:56"
   },
   {
     "name": "NetMatrix",
