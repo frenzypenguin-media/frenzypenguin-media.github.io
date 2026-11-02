@@ -36,8 +36,8 @@
     "full_name": "neohiro/dnscrypt-proxy-gui",
     "html_url": "https://github.com/neohiro/dnscrypt-proxy-gui",
     "description": "Graphical user interface for dnscrypt-proxy",
-    "stargazers_count": 30,
-    "forks_count": 1,
+    "stargazers_count": 29,
+    "forks_count": 2,
     "language": "Python",
     "topics": [
       "anonymized-dns",
@@ -76,7 +76,7 @@
     "description": "Next-gen Network Hardening & Debloater / DNS Sinkhole / Firewall / Domain filter",
     "stargazers_count": 4,
     "forks_count": 0,
-    "language": "Python",
+    "language": "HTML",
     "topics": [
       "android",
       "cybersecurity",
@@ -93,7 +93,7 @@
       "python",
       "windows"
     ],
-    "pushed_at": "10/24/2026 08:53:12"
+    "pushed_at": "10/27/2026 19:29:22"
   },
   {
     "name": "linux",
@@ -101,7 +101,7 @@
     "html_url": "https://github.com/neohiro/linux",
     "description": "Cross-distro Linux hardening guide: UFW firewall, DNSCrypt, Tor routing, fail2ban, AppArmor/SELinux, sysctl, SSH hardening - auto-detects Debian/Ubuntu/RHEL/Fedora/SUSE/Arch/Manjaro",
     "stargazers_count": 2,
-    "forks_count": 0,
+    "forks_count": 1,
     "language": "Shell",
     "topics": [
       "apparmor",
@@ -267,7 +267,18 @@
     "forks_count": 0,
     "language": "JavaScript",
     "topics": [],
-    "pushed_at": "10/26/2026 06:24:13"
+    "pushed_at": "11/02/2026 06:25:17"
+  },
+  {
+    "name": "neohiro",
+    "full_name": "neohiro/neohiro",
+    "html_url": "https://github.com/neohiro/neohiro",
+    "description": "Security hardening & privacy tools for Windows and Linux",
+    "stargazers_count": 0,
+    "forks_count": 0,
+    "language": "Python",
+    "topics": [],
+    "pushed_at": "10/27/2026 19:28:06"
   },
   {
     "name": "local-opencode",
@@ -278,7 +289,7 @@
     "forks_count": 0,
     "language": null,
     "topics": [],
-    "pushed_at": "10/26/2026 01:26:15"
+    "pushed_at": "10/26/2026 14:43:06"
   },
   {
     "name": "newsaggregator",
@@ -297,17 +308,6 @@
       "search"
     ],
     "pushed_at": "10/22/2026 21:45:27"
-  },
-  {
-    "name": "neohiro",
-    "full_name": "neohiro/neohiro",
-    "html_url": "https://github.com/neohiro/neohiro",
-    "description": "Security hardening & privacy tools for Windows and Linux",
-    "stargazers_count": 0,
-    "forks_count": 0,
-    "language": "Python",
-    "topics": [],
-    "pushed_at": "10/21/2026 01:14:34"
   },
   {
     "name": "domail",
