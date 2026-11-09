@@ -36,7 +36,7 @@
     "full_name": "neohiro/dnscrypt-proxy-gui",
     "html_url": "https://github.com/neohiro/dnscrypt-proxy-gui",
     "description": "Graphical user interface for dnscrypt-proxy",
-    "stargazers_count": 29,
+    "stargazers_count": 30,
     "forks_count": 2,
     "language": "Python",
     "topics": [
@@ -48,7 +48,7 @@
       "gui",
       "proxy"
     ],
-    "pushed_at": "10/24/2026 14:53:00"
+    "pushed_at": "11/03/2026 05:03:46"
   },
   {
     "name": "BlackGlass",
@@ -56,7 +56,7 @@
     "html_url": "https://github.com/neohiro/BlackGlass",
     "description": "Multi-client chat viewer for Second Life",
     "stargazers_count": 9,
-    "forks_count": 3,
+    "forks_count": 2,
     "language": "Python",
     "topics": [
       "chat-viewer",
@@ -93,7 +93,7 @@
       "python",
       "windows"
     ],
-    "pushed_at": "10/27/2026 19:29:22"
+    "pushed_at": "11/07/2026 08:53:02"
   },
   {
     "name": "linux",
@@ -125,7 +125,60 @@
       "ubuntu",
       "ufw"
     ],
-    "pushed_at": "10/20/2026 17:40:00"
+    "pushed_at": "11/02/2026 23:53:57"
+  },
+  {
+    "name": "lora-multiboot",
+    "full_name": "neohiro/lora-multiboot",
+    "html_url": "https://github.com/neohiro/lora-multiboot",
+    "description": "Role-aware multi-slot firmware platform for single-radio LoRa devices: progressive provisioning, non-destructive system updates, and one SX1262 serving Meshtastic and MeshCore together.",
+    "stargazers_count": 2,
+    "forks_count": 0,
+    "language": "C++",
+    "topics": [
+      "bootloader",
+      "esp32",
+      "firmware",
+      "firmware-update",
+      "ham-radio",
+      "heltec",
+      "iot",
+      "lora",
+      "lorawan",
+      "mesh-networking",
+      "meshcore",
+      "meshtastic",
+      "meshtastic-firmware",
+      "multiboot",
+      "off-grid",
+      "repeater",
+      "reticulum",
+      "sx1262"
+    ],
+    "pushed_at": "10/17/2026 20:41:33"
+  },
+  {
+    "name": "lora-sniffer",
+    "full_name": "neohiro/lora-sniffer",
+    "html_url": "https://github.com/neohiro/lora-sniffer",
+    "description": "Passive LoRa sniffer firmware for the Heltec WiFi LoRa 32 V4, built to run as its own slot alongside MeshCore and Meshtastic. Records the evidence behind each attribution instead of assuming it, and cannot transmit by default.",
+    "stargazers_count": 2,
+    "forks_count": 0,
+    "language": "C++",
+    "topics": [
+      "esp32",
+      "firmware",
+      "heltec",
+      "loralora",
+      "lorawan",
+      "meshcore",
+      "meshtastic",
+      "meshtastic-node",
+      "platformio",
+      "sniffer",
+      "sx1262"
+    ],
+    "pushed_at": "10/04/2026 10:25:09"
   },
   {
     "name": "HoneyScan",
@@ -166,36 +219,6 @@
     "pushed_at": "10/25/2026 21:51:16"
   },
   {
-    "name": "lora-multiboot",
-    "full_name": "neohiro/lora-multiboot",
-    "html_url": "https://github.com/neohiro/lora-multiboot",
-    "description": "Role-aware multi-slot firmware platform for single-radio LoRa devices: progressive provisioning, non-destructive system updates, and one SX1262 serving Meshtastic and MeshCore together.",
-    "stargazers_count": 1,
-    "forks_count": 0,
-    "language": "C++",
-    "topics": [
-      "bootloader",
-      "esp32",
-      "firmware",
-      "firmware-update",
-      "ham-radio",
-      "heltec",
-      "iot",
-      "lora",
-      "lorawan",
-      "mesh-networking",
-      "meshcore",
-      "meshtastic",
-      "meshtastic-firmware",
-      "multiboot",
-      "off-grid",
-      "repeater",
-      "reticulum",
-      "sx1262"
-    ],
-    "pushed_at": "10/17/2026 20:41:33"
-  },
-  {
     "name": "ubuntu",
     "full_name": "neohiro/ubuntu",
     "html_url": "https://github.com/neohiro/ubuntu",
@@ -209,6 +232,32 @@
       "ubuntu"
     ],
     "pushed_at": "10/06/2026 01:08:01"
+  },
+  {
+    "name": "meshcore-waveshare-usb-lora",
+    "full_name": "neohiro/meshcore-waveshare-usb-lora",
+    "html_url": "https://github.com/neohiro/meshcore-waveshare-usb-lora",
+    "description": "Turn a Waveshare USB-TO-LoRa-HF into a MeshCore KISS modem: firmware, SWD flashing, and a one-command setup.",
+    "stargazers_count": 1,
+    "forks_count": 0,
+    "language": "C",
+    "topics": [
+      "embedded",
+      "firmware",
+      "gd32",
+      "home-assistant",
+      "kiss-modem",
+      "lora",
+      "meshcore",
+      "meshcore-kiss",
+      "meshradio",
+      "meshtastic",
+      "radio",
+      "rtos",
+      "sx1262",
+      "waveshare"
+    ],
+    "pushed_at": "10/04/2026 10:47:51"
   },
   {
     "name": "SecondLife",
@@ -267,7 +316,7 @@
     "forks_count": 0,
     "language": "JavaScript",
     "topics": [],
-    "pushed_at": "11/02/2026 06:25:17"
+    "pushed_at": "11/09/2026 06:25:59"
   },
   {
     "name": "neohiro",
@@ -417,55 +466,6 @@
       "python"
     ],
     "pushed_at": "10/06/2026 02:12:47"
-  },
-  {
-    "name": "meshcore-waveshare-usb-lora",
-    "full_name": "neohiro/meshcore-waveshare-usb-lora",
-    "html_url": "https://github.com/neohiro/meshcore-waveshare-usb-lora",
-    "description": "Turn a Waveshare USB-TO-LoRa-HF into a MeshCore KISS modem: firmware, SWD flashing, and a one-command setup.",
-    "stargazers_count": 0,
-    "forks_count": 0,
-    "language": "C",
-    "topics": [
-      "embedded",
-      "firmware",
-      "gd32",
-      "home-assistant",
-      "kiss-modem",
-      "lora",
-      "meshcore",
-      "meshcore-kiss",
-      "meshradio",
-      "meshtastic",
-      "radio",
-      "rtos",
-      "sx1262",
-      "waveshare"
-    ],
-    "pushed_at": "10/04/2026 10:47:51"
-  },
-  {
-    "name": "lora-sniffer",
-    "full_name": "neohiro/lora-sniffer",
-    "html_url": "https://github.com/neohiro/lora-sniffer",
-    "description": "Passive LoRa sniffer firmware for the Heltec WiFi LoRa 32 V4, built to run as its own slot alongside MeshCore and Meshtastic. Records the evidence behind each attribution instead of assuming it, and cannot transmit by default.",
-    "stargazers_count": 0,
-    "forks_count": 0,
-    "language": "C++",
-    "topics": [
-      "esp32",
-      "firmware",
-      "heltec",
-      "loralora",
-      "lorawan",
-      "meshcore",
-      "meshtastic",
-      "meshtastic-node",
-      "platformio",
-      "sniffer",
-      "sx1262"
-    ],
-    "pushed_at": "10/04/2026 10:25:09"
   },
   {
     "name": "llm-action",
