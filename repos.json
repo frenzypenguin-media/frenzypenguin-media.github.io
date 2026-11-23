@@ -96,6 +96,36 @@
     "pushed_at": "11/07/2026 08:53:02"
   },
   {
+    "name": "lora-multiboot",
+    "full_name": "neohiro/lora-multiboot",
+    "html_url": "https://github.com/neohiro/lora-multiboot",
+    "description": "Role-aware multi-slot firmware platform for single-radio LoRa devices: progressive provisioning, non-destructive system updates, and one SX1262 serving Meshtastic and MeshCore together.",
+    "stargazers_count": 3,
+    "forks_count": 0,
+    "language": "C++",
+    "topics": [
+      "bootloader",
+      "esp32",
+      "firmware",
+      "firmware-update",
+      "ham-radio",
+      "heltec",
+      "iot",
+      "lora",
+      "lorawan",
+      "mesh-networking",
+      "meshcore",
+      "meshtastic",
+      "meshtastic-firmware",
+      "multiboot",
+      "off-grid",
+      "repeater",
+      "reticulum",
+      "sx1262"
+    ],
+    "pushed_at": "10/17/2026 20:41:33"
+  },
+  {
     "name": "linux",
     "full_name": "neohiro/linux",
     "html_url": "https://github.com/neohiro/linux",
@@ -126,36 +156,6 @@
       "ufw"
     ],
     "pushed_at": "11/02/2026 23:53:57"
-  },
-  {
-    "name": "lora-multiboot",
-    "full_name": "neohiro/lora-multiboot",
-    "html_url": "https://github.com/neohiro/lora-multiboot",
-    "description": "Role-aware multi-slot firmware platform for single-radio LoRa devices: progressive provisioning, non-destructive system updates, and one SX1262 serving Meshtastic and MeshCore together.",
-    "stargazers_count": 2,
-    "forks_count": 0,
-    "language": "C++",
-    "topics": [
-      "bootloader",
-      "esp32",
-      "firmware",
-      "firmware-update",
-      "ham-radio",
-      "heltec",
-      "iot",
-      "lora",
-      "lorawan",
-      "mesh-networking",
-      "meshcore",
-      "meshtastic",
-      "meshtastic-firmware",
-      "multiboot",
-      "off-grid",
-      "repeater",
-      "reticulum",
-      "sx1262"
-    ],
-    "pushed_at": "10/17/2026 20:41:33"
   },
   {
     "name": "lora-sniffer",
@@ -316,7 +316,7 @@
     "forks_count": 0,
     "language": "JavaScript",
     "topics": [],
-    "pushed_at": "11/16/2026 06:27:54"
+    "pushed_at": "11/23/2026 06:29:53"
   },
   {
     "name": "neohiro",
